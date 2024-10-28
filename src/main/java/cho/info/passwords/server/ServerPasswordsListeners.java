@@ -126,7 +126,6 @@ public class ServerPasswordsListeners implements Listener {
         ItemMeta renamePaperMeta = renamePaper.getItemMeta();
         if (renamePaperMeta != null) {
             renamePaperMeta.setDisplayName(ChatColor.GOLD + "Rename to PasswordServer Password");
-            renamePaperMeta.lore().set(0, Component.text(ChatColor.GOLD + "Click to confirm Password!"));
             renamePaper.setItemMeta(renamePaperMeta);
         }
         inventory.setItem(0, renamePaper);
@@ -138,6 +137,14 @@ public class ServerPasswordsListeners implements Listener {
             fillItem.setItemMeta(fillItemMeta);
         }
         inventory.setItem(1, fillItem);
+
+        ItemStack infoItem = new ItemStack(Material.BOOK);
+        ItemMeta infoItemMeta = infoItem.getItemMeta();
+        if (infoItemMeta != null) {
+            infoItemMeta.setDisplayName(ChatColor.GOLD + "Passwords Info");
+            infoItem.setItemMeta(infoItemMeta);
+        }
+        inventory.setItem(2, infoItem);
 
         player.openInventory(inventory);
     }
