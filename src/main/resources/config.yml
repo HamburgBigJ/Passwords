@@ -1,0 +1,32 @@
+# Passwords 1.0
+# Do only edit the config.yml
+enable: true
+
+settings:
+  # check-type: server : One password for the enter Server.
+  # check-type: player : One password for each player. (Must be configured when not they will be kickt from the server)
+  check-type: server
+  # Massage that will be displayed as the kick reason.
+  fail-massage: The password is incorrect!
+  # Welcome massage.
+  welcome-massage-bool: true
+  # Welcome massage after login
+  welcome-massage: Welcome to ExampleServer
+  # Chat: chat; ActionBar: actionbar; Titel: titel
+  welcome-massage-display-type: chat
+  # Admin Password gives player all permissions.
+  admin-password: 5678
+  # Login Gamemode enable
+  login-gamemode-bool: true
+  # Gamemode evry player will have on login. survival, creative, adventure, spectator
+  login-gamemode: survival
+
+server:
+  # Can only have 4 numbers.
+  password: 1234
+
+player:
+  # Player Example.
+  HamburgBigJ:
+    # Password for that player.
+    password: 1234
