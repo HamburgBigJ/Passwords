@@ -57,7 +57,7 @@ public class ServerPasswordsListener implements Listener {
         for (int i = 0; i < 9; i++) {
             ItemMeta itemMeta = selectItem.getItemMeta();
             if (itemMeta != null) {
-                itemMeta.setDisplayName(ChatColor.DARK_GREEN + "" + i);
+                itemMeta.setDisplayName(ChatColor.DARK_GREEN + "" + i + 1);
                 selectItem.setItemMeta(itemMeta);
                 inventory.setItem(i, selectItem);
             }
