@@ -15,7 +15,8 @@ public class PasswordServer {
     }
 
     public void listeners() {
-        passwords.getServer().getPluginManager().registerEvents(new ServerPasswordsListeners(passwords, configManager), passwords);
+        
+        passwords.getServer().getPluginManager().registerEvents(new ServerPasswordsListener(passwords, configManager), passwords);
 
 
     }

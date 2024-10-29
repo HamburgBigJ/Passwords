@@ -7,3 +7,6 @@ authors: [ HamburgBigJ ]
 commands:
   preload:
     permission: passwords.reload
+
+  setpassword:
+    permission: passwords.setpassword

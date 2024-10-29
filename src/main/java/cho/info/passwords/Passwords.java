@@ -43,6 +43,7 @@ public final class Passwords extends JavaPlugin {
 
         } else {
             getLogger().info(ChatColor.RED + "Unable to read Config.yml settings.check-type ");
+            Bukkit.getServer().getPluginManager().disablePlugin(this);
         }
 
     }

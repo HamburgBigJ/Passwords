@@ -14,6 +14,7 @@ public class PlayerCommands {
     }
 
     public void registerPlayerCommands() {
+        
         passwords.getCommand("setpassword").setExecutor(new SetPlayerPasswords(configManager));
     }
 }

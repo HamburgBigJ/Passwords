@@ -2,6 +2,10 @@ package cho.info.passwords.server;
 
 import cho.info.passwords.Passwords;
 import cho.info.passwords.utls.ConfigManager;
+import cho.info.passwords.utls.Massages;
+import net.kyori.adventure.text.Component;
+
+import org.apache.maven.model.Site;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -9,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
@@ -19,6 +24,7 @@ public class ServerPasswordsListener implements Listener {
 
     private final Passwords passwords;
     private final ConfigManager configManager;
+    
 
     public ServerPasswordsListener(Passwords passwords, ConfigManager configManager) {
         this.passwords = passwords;
@@ -37,6 +43,8 @@ public class ServerPasswordsListener implements Listener {
         }
 
         configManager.setPlayerValue(player, "charSlot", 0);
+        configManager.setPlayerValue(player, "password", null);
+        
         buildInv(player);
     }
 
@@ -80,10 +88,65 @@ public class ServerPasswordsListener implements Listener {
             int codeCharSlot = (int) configManager.getPlayerValue(player, "charSlot");
 
             if (codeCharSlot == 4) {
+                String password = (String) configManager.getPlayerValue(player, "password");
 
+                
+                String char0 = (String) configManager.getPlayerValue(player, "char0");
+                String char1 = (String) configManager.getPlayerValue(player, "char1");
+                String char2 = (String) configManager.getPlayerValue(player, "char2");
+                String char3 = (String) configManager.getPlayerValue(player, "char3");
+
+                password = char0 + char1 + char2 + char3;
+
+                configManager.setPlayerValue(player, "password", password);
+
+                if (password == passwords.getConfig().getString("server.password")) {
+                        configManager.setPlayerValue(player, "isLogIn", true);
+                        player.closeInventory();
+
+                        if (passwords.getConfig().getBoolean("settings.welcome-massage-bool")) {
+                            Massages massages = new Massages();
+                            String wlecomeMessageType = passwords.getConfig().getString("settings.welcome-massage-display-type");
+                            String welcmoeMessage = passwords.getConfig().getString("settings.welcome-massage");
+
+                            if (wlecomeMessageType == "chat") {
+                                massages.sendMessage(player, welcmoeMessage);
+                            } else if (wlecomeMessageType == "titel") {
+                                massages.sendActonBar(player, welcmoeMessage);
+
+                            } else if (wlecomeMessageType == "actionbar") {
+                                massages.sendActonBar(player, welcmoeMessage);
+
+                            } else {
+                                passwords.getLogger().info(ChatColor.RED + "[Error] cho.info.passwords.server.ServerPasswordListener.onInventoryClick : welcome-message-display-type null");
+                            }
+                        }
+
+                    
+
+                        
+                } else {
+                    player.kick(Component.text(ChatColor.RED + "" + ChatColor.BOLD + passwords.getConfig().getString("settings.fail-massage")));
+
+                }
             }
         }
 
+
+    }
+
+    @EventHandler
+    public void onInvetnoryClose(InventoryCloseEvent event) {
+
+        if (event.getView().getTitle().equals(ChatColor.BLUE + "" + ChatColor.BOLD + "Passwords")) {
+            Player player = (Player) event.getPlayer();
+            Boolean isLogIn = (Boolean) configManager.getPlayerValue(player, "isLogIn");
+    
+            if (!isLogIn) {
+                player.kick(Component.text(ChatColor.RED + "You need to enter the Password"));
+    
+            }
+        }
 
     }
 }
