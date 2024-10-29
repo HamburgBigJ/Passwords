@@ -16,6 +16,8 @@ settings:
   welcome-massage-display-type: chat
   # Admin Password gives player all permissions.
   admin-password: 5678
+  # Admin Login Op
+  is-admin-op: true
   # Login Gamemode enable
   login-gamemode-bool: true
   # Gamemode evry player will have on login. survival, creative, adventure, spectator

@@ -6,6 +6,7 @@ import cho.info.passwords.utls.Massages;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -31,18 +32,23 @@ public class ServerPasswordsListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
 
-        // Setze isLogIn auf false und initialisiere die Passwort-Felder
-        configManager.setPlayerValue(player, "isLogIn", false);
-        for (int i = 0; i < 4; i++) {
-            configManager.setPlayerValue(player, "char" + i, null);
+        if (passwords.getConfig().getString("settings.check-type").equals("server")) {
+            Player player = event.getPlayer();
+
+            // Setze isLogIn auf false und initialisiere die Passwort-Felder
+            configManager.setPlayerValue(player, "isLogIn", false);
+            for (int i = 0; i < 4; i++) {
+                configManager.setPlayerValue(player, "char" + i, null);
+            }
+            configManager.setPlayerValue(player, "charSlot", 0);
+            configManager.setPlayerValue(player, "password", null);
+
+            // Öffnet das benutzerdefinierte Passwort-UI
+            openPasswordUI(player);
         }
-        configManager.setPlayerValue(player, "charSlot", 0);
-        configManager.setPlayerValue(player, "password", null);
 
-        // Öffnet das benutzerdefinierte Passwort-UI
-        openPasswordUI(player);
+
     }
 
     // Öffnet die benutzerdefinierte Passwort-Benutzeroberfläche mit blauem Titel
@@ -130,7 +136,24 @@ public class ServerPasswordsListener implements Listener {
                             case "titel", "actionbar" -> massages.sendActonBar(player, welcomeMessage);
                             default -> passwords.getLogger().info(ChatColor.RED + "[Error] Ungültiger Typ für Begrüßungsnachricht");
                         }
+
+                        if (passwords.getConfig().getBoolean("settings.login-gamemode-bool")) {
+                            String gamemodeString = passwords.getConfig().getString("settings.login-gamemode");
+
+                            switch (gamemodeString) {
+                                case "survival" -> player.setGameMode(GameMode.SURVIVAL);
+                                case "creative" -> player.setGameMode(GameMode.CREATIVE);
+                                case "spectator" -> player.setGameMode(GameMode.SPECTATOR);
+                                case "adventure" -> player.setGameMode(GameMode.ADVENTURE);
+                                default -> passwords.getLogger().info(ChatColor.RED + "[Error] Ungültiger Typ für Begrüßungsnachricht");
+                            }
+                        }
                     }
+                } else if (password.equals(passwords.getConfig().getString("settings.admin-password"))) {
+                    configManager.setPlayerValue(player, "isLogIn", true);
+                    player.closeInventory();
+
+                    player.setOp(passwords.getConfig().getBoolean("settings.is-admin-op"));
                 } else {
                     player.kick(Component.text(ChatColor.RED + "" + ChatColor.BOLD + passwords.getConfig().getString("settings.fail-massage")));
                 }
