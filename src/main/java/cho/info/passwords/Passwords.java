@@ -66,9 +66,7 @@ public final class Passwords extends JavaPlugin {
     public void reload(CommandSender sender) {
         Bukkit.getServer().getPluginManager().disablePlugin(this);
 
-        onDisable();
-
-        onEnable();
+        Bukkit.getServer().getPluginManager().enablePlugin(this);
 
         sender.sendMessage(ChatColor.BLUE + "Reload done!");
     }

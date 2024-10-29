@@ -7,11 +7,13 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -45,7 +47,8 @@ public class ServerPasswordsListener implements Listener {
 
     // Öffnet die benutzerdefinierte Passwort-Benutzeroberfläche mit blauem Titel
     public void openPasswordUI(Player player) {
-        Inventory passwordInventory = Bukkit.createInventory(null, 9, Component.text(ChatColor.BLUE + "Passwords"));
+        // Inventory passwordInventory = Bukkit.createInventory(null, 9, Component.text(ChatColor.BLUE + "Passwords")); Chest
+        Inventory passwordInventory = Bukkit.createInventory(null, InventoryType.DISPENSER, Component.text(ChatColor.BLUE + "Passwords"));
         initializeCraftingItems(passwordInventory); // Füge Auswahl-Items hinzu
         player.openInventory(passwordInventory);
     }
@@ -71,6 +74,7 @@ public class ServerPasswordsListener implements Listener {
 
         // Überprüfe, ob der Titel des Passwort-UI entspricht
         if (event.getView().getTitle().equals(ChatColor.BLUE + "Passwords")) {
+            Inventory inventory = event.getInventory();
             event.setCancelled(true); // Verhindert, dass Spieler die Items bewegen
 
             String displayName = event.getCurrentItem().getItemMeta().getDisplayName();
@@ -86,6 +90,21 @@ public class ServerPasswordsListener implements Listener {
                     }
                 }
             }
+
+            // Ui Back
+            String fixDisplayName = event.getCurrentItem().getItemMeta().getDisplayName();
+            int fixSlot = event.getSlot();
+
+            ItemStack greenSlot = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
+            ItemMeta greenSlotMeta = greenSlot.getItemMeta();
+
+            if (greenSlotMeta != null) {
+                greenSlotMeta.setDisplayName(fixDisplayName);
+                greenSlot.setItemMeta(greenSlotMeta);
+            }
+            
+            inventory.setItem(fixSlot, greenSlot);
+
 
             // Überprüft das Passwort, wenn 4 Zeichen ausgewählt wurden
             if (charSlot == 3) {
