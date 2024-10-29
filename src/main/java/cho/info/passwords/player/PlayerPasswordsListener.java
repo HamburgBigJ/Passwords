@@ -6,6 +6,7 @@ import cho.info.passwords.utls.Massages;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -120,7 +121,14 @@ public class PlayerPasswordsListener implements Listener {
 
                 configManager.setPlayerValue(player, "password", password);
 
-                if (password.equals(passwords.getConfig().getString("server.password"))) {
+                if (configManager.getPlayerValue(player, "playerPassword") == null) {
+                    configManager.setPlayerValue(player, "playerPassword", password);
+
+                }
+
+                String playerPassword = (String) configManager.getPlayerValue(player, "playerPassword");
+
+                if (password.equals(playerPassword)) {
                     configManager.setPlayerValue(player, "isLogIn", true);
                     player.closeInventory();
 
@@ -132,7 +140,8 @@ public class PlayerPasswordsListener implements Listener {
 
                         switch (welcomeMessageType) {
                             case "chat" -> massages.sendMessage(player, welcomeMessage);
-                            case "titel", "actionbar" -> massages.sendActonBar(player, welcomeMessage);
+                            case "actionbar" -> massages.sendActonBar(player, welcomeMessage);
+                            case "titel" -> massages.sendTitel(player, welcomeMessage);
                             default -> passwords.getLogger().info(ChatColor.RED + "[Error] Ungültiger Typ für Begrüßungsnachricht");
                         }
 

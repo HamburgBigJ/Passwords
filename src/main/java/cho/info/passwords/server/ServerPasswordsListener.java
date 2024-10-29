@@ -133,7 +133,8 @@ public class ServerPasswordsListener implements Listener {
 
                         switch (welcomeMessageType) {
                             case "chat" -> massages.sendMessage(player, welcomeMessage);
-                            case "titel", "actionbar" -> massages.sendActonBar(player, welcomeMessage);
+                            case "actionbar" -> massages.sendActonBar(player, welcomeMessage);
+                            case "titel" -> massages.sendTitel(player, welcomeMessage);
                             default -> passwords.getLogger().info(ChatColor.RED + "[Error] Ungültiger Typ für Begrüßungsnachricht");
                         }
 
