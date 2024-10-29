@@ -4,7 +4,7 @@ enable: true
 
 settings:
   # check-type: server : One password for the enter Server.
-  # check-type: player : One password for each player. (Must be configured when not they will be kickt from the server)
+  # check-type: player : One password for each player. (Player crates password on Login)
   check-type: server
   # Massage that will be displayed as the kick reason.
   fail-massage: The password is incorrect!
@@ -25,8 +25,4 @@ server:
   # Can only have 4 numbers.
   password: 1234
 
-player:
-  # Player Example.
-  HamburgBigJ:
-    # Password for that player.
-    password: 1234
+

@@ -3,3 +3,7 @@ version: '1.0'
 main: cho.info.passwords.Passwords
 api-version: '1.21'
 authors: [ HamburgBigJ ]
+
+commands:
+  preload:
+    permission: passwords.reload

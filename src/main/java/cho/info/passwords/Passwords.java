@@ -1,10 +1,15 @@
 package cho.info.passwords;
 
 import cho.info.passwords.player.PasswordPlayer;
+import cho.info.passwords.player.commands.PlayerCommands;
+import cho.info.passwords.publicCommands.PublicCommands;
 import cho.info.passwords.server.PasswordServer;
-import cho.info.passwords.universal.PasswordsUniversal;
 import cho.info.passwords.utls.ConfigManager;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Server;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Passwords extends JavaPlugin {
@@ -17,8 +22,9 @@ public final class Passwords extends JavaPlugin {
 
         ConfigManager configManager = new ConfigManager(getDataFolder());
         PasswordServer passwordServer = new PasswordServer(this, configManager);
-        PasswordsUniversal passwordsUniversal = new PasswordsUniversal(this, configManager);
         PasswordPlayer passwordPlayer = new PasswordPlayer(configManager, this);
+        PublicCommands publicCommands = new PublicCommands(this);
+        PlayerCommands playerCommands = new PlayerCommands(this, configManager);
 
         getLogger().info("Passwords enabled!");
         saveDefaultConfig();
@@ -27,9 +33,17 @@ public final class Passwords extends JavaPlugin {
             getLogger().info("Passwords disabled!");
             getServer().getPluginManager().disablePlugin(this);
         } else {
-            afterCheck(passwordServer, passwordsUniversal, passwordPlayer);
+            afterCheck(passwordServer, passwordPlayer);
         }
 
+        // Mode commands
+        if (getConfig().getString("settings.check-type").equals("player") || getConfig().getString("settings.check-type").equals("server")) {
+            publicCommands.registerCommands();
+            playerCommands.registerPlayerCommands();
+
+        } else {
+            getLogger().info(ChatColor.RED + "Unable to read Config.yml settings.check-type ");
+        }
 
     }
 
@@ -39,14 +53,22 @@ public final class Passwords extends JavaPlugin {
         saveConfig();
     }
 
-    public void afterCheck(PasswordServer passwordServer, PasswordsUniversal passwordsUniversal, PasswordPlayer passwordPlayer) {
+    public void afterCheck(PasswordServer passwordServer, PasswordPlayer passwordPlayer) {
         // Plugin enable
         // Register Server Listeners
         passwordServer.listeners();
-        // Register Universal Listeners
-        passwordsUniversal.listeners();
         // Register Player Listeners
         passwordPlayer.listeners();
 
+    }
+
+    public void reload(CommandSender sender) {
+        Bukkit.getServer().getPluginManager().disablePlugin(this);
+
+        onDisable();
+
+        onEnable();
+
+        sender.sendMessage(ChatColor.BLUE + "Reload done!");
     }
 }
