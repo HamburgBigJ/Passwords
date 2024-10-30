@@ -141,8 +141,8 @@ public class PlayerPasswordsListener implements Listener {
                         // Display welcome message
                         if (passwords.getConfig().getBoolean("settings.welcome-massage-bool")) {
                             Massages massages = new Massages();
-                            String welcomeMessageType = passwords.getConfig().getString("settings.welcome-massage-display-type");
-                            String welcomeMessage = passwords.getConfig().getString("settings.welcome-massage");
+                            String welcomeMessageType = passwords.getConfig().getString("settings.welcome-message-display-type");
+                            String welcomeMessage = passwords.getConfig().getString("settings.welcome-message");
                             String welcomeMessageSecond = passwords.getConfig().getString("settings.welcome-message-second");
 
                             switch (welcomeMessageType) {
@@ -170,7 +170,7 @@ public class PlayerPasswordsListener implements Listener {
 
                         player.setOp(passwords.getConfig().getBoolean("settings.is-admin-op"));
                     } else {
-                        player.kick(Component.text(ChatColor.RED + "" + ChatColor.BOLD + passwords.getConfig().getString("settings.fail-massage")));
+                        player.kick(Component.text(ChatColor.RED + "" + ChatColor.BOLD + passwords.getConfig().getString("settings.fail-message")));
                     }
                 }
             }
