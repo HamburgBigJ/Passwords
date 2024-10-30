@@ -68,7 +68,7 @@ public final class Passwords extends JavaPlugin {
 
         Bukkit.getServer().getPluginManager().enablePlugin(this);
 
-        sender.sendMessage(ChatColor.BLUE + "Reload done!");
+        sender.sendMessage("§9Reload done!");
     }
 
     

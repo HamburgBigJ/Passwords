@@ -144,18 +144,22 @@ public class ServerPasswordsListener implements Listener {
                                 default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
                             }
 
-                            if (passwords.getConfig().getBoolean("settings.login-gamemode-bool")) {
-                                String gamemodeString = passwords.getConfig().getString("settings.login-gamemode");
 
-                                switch (gamemodeString) {
-                                    case "survival" -> player.setGameMode(GameMode.SURVIVAL);
-                                    case "creative" -> player.setGameMode(GameMode.CREATIVE);
-                                    case "spectator" -> player.setGameMode(GameMode.SPECTATOR);
-                                    case "adventure" -> player.setGameMode(GameMode.ADVENTURE);
-                                    default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
-                                }
+                        }
+
+                        // Gamemode
+                        if (passwords.getConfig().getBoolean("settings.login-gamemode-enabled")) {
+                            String gamemodeString = passwords.getConfig().getString("settings.login-gamemode");
+
+                            switch (gamemodeString) {
+                                case "survival" -> player.setGameMode(GameMode.SURVIVAL);
+                                case "creative" -> player.setGameMode(GameMode.CREATIVE);
+                                case "spectator" -> player.setGameMode(GameMode.SPECTATOR);
+                                case "adventure" -> player.setGameMode(GameMode.ADVENTURE);
+                                default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
                             }
                         }
+                        
                     } else if (password.equals(passwords.getConfig().getString("settings.admin-password"))) {
                         configManager.setPlayerValue(player, "isLogIn", true);
                         player.closeInventory();
