@@ -14,7 +14,7 @@ public class PasswordPlayer {
     }
 
     public void listeners() {
-
+        passwords.getServer().getPluginManager().registerEvents(new PlayerPasswordsListener(passwords, configManager), passwords);
     }
 
 }
