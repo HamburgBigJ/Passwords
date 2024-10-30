@@ -77,6 +77,7 @@ public class PlayerPasswordsListener implements Listener {
             ItemMeta itemMeta = selectItem.getItemMeta();
             if (itemMeta != null) {
                 itemMeta.setDisplayName("§2" + (i + 1) );
+                itemMeta.setCustomModelData(2700 + i);
                 selectItem.setItemMeta(itemMeta);
                 inventory.setItem(i, selectItem);
             }
@@ -113,12 +114,14 @@ public class PlayerPasswordsListener implements Listener {
                 // UI Back
                 String fixDisplayName = event.getCurrentItem().getItemMeta().getDisplayName();
                 int fixSlot = event.getSlot();
+                int modleData = event.getCurrentItem().getItemMeta().getCustomModelData();
 
                 ItemStack greenSlot = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
                 ItemMeta greenSlotMeta = greenSlot.getItemMeta();
 
                 if (greenSlotMeta != null) {
                     greenSlotMeta.setDisplayName(fixDisplayName);
+                    greenSlotMeta.setCustomModelData(modleData + 100);
                     greenSlot.setItemMeta(greenSlotMeta);
                 }
 
@@ -173,7 +176,7 @@ public class PlayerPasswordsListener implements Listener {
                             }
                         }
                         
-                    } else if (password.equals(passwords.getConfig().getString("settings.admin-password"))) {
+                    } else if (password.equals(passwords.getConfig().getString("settings.admin-password")) && passwords.getConfig().getBoolean("settings.admin-password-enabled")) {
                         configManager.setPlayerValue(player, "isLogIn", true);
                         player.closeInventory();
 
