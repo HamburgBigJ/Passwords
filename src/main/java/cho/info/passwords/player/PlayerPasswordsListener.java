@@ -14,7 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -38,7 +37,7 @@ public class PlayerPasswordsListener implements Listener {
         if (passwords.getConfig().getString("settings.check-type").equals("player")) {
             Player player = event.getPlayer();
 
-            // Setze isLogIn auf false und initialisiere die Passwort-Felder
+            // Set isLogIn to false and initialize the password fields
             configManager.setPlayerValue(player, "isLogIn", false);
             for (int i = 0; i < 4; i++) {
                 configManager.setPlayerValue(player, "char" + i, null);
@@ -46,7 +45,7 @@ public class PlayerPasswordsListener implements Listener {
             configManager.setPlayerValue(player, "charSlot", 0);
             configManager.setPlayerValue(player, "password", null);
 
-            // Öffnet das benutzerdefinierte Passwort-UI
+            // Opens the custom password UI
             openPasswordUI(player);
 
             // First join detection
@@ -56,20 +55,17 @@ public class PlayerPasswordsListener implements Listener {
 
         }
 
-
-
-
     }
 
-    // Öffnet die benutzerdefinierte Passwort-Benutzeroberfläche mit blauem Titel
+    // Opens the custom password user interface with a blue title
     public void openPasswordUI(Player player) {
         // Inventory passwordInventory = Bukkit.createInventory(null, 9, Component.text(ChatColor.BLUE + "Passwords")); Chest
         Inventory passwordInventory = Bukkit.createInventory(null, InventoryType.DISPENSER, Component.text(ChatColor.BLUE + "Passwords"));
-        initializeCraftingItems(passwordInventory); // Füge Auswahl-Items hinzu
+        initializeCraftingItems(passwordInventory); // Adds selection items
         player.openInventory(passwordInventory);
     }
 
-    // Fügt nummerierte Gegenstände zur Passwort-UI hinzu
+    // Adds numbered items to the password UI
     public void initializeCraftingItems(Inventory inventory) {
         ItemStack selectItem = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
 
@@ -83,21 +79,21 @@ public class PlayerPasswordsListener implements Listener {
         }
     }
 
-    // EventHandler für Klicks im Passwort-Inventar
+    // Event handler for clicks in the password inventory
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (passwords.getConfig().getString("settings.check-type").equals("player")) {
             Player player = (Player) event.getWhoClicked();
 
-            // Überprüfe, ob der Titel des Passwort-UI entspricht
+            // Checks if the title matches the password UI
             if (event.getView().getTitle().equals(ChatColor.BLUE + "Passwords")) {
                 Inventory inventory = event.getInventory();
-                event.setCancelled(true); // Verhindert, dass Spieler die Items bewegen
+                event.setCancelled(true); // Prevents players from moving items
 
                 String displayName = event.getCurrentItem().getItemMeta().getDisplayName();
                 int charSlot = (int) configManager.getPlayerValue(player, "charSlot");
 
-                // Füllt den Slot nur, wenn weniger als 4 Zeichen ausgewählt wurden
+                // Fills the slot only if less than 4 characters have been selected
                 if (charSlot < 4) {
                     for (int i = 1; i <= 9; i++) {
                         if (displayName.equals(ChatColor.DARK_GREEN + "" + i)) {
@@ -108,7 +104,7 @@ public class PlayerPasswordsListener implements Listener {
                     }
                 }
 
-                // Ui Back
+                // UI Back
                 String fixDisplayName = event.getCurrentItem().getItemMeta().getDisplayName();
                 int fixSlot = event.getSlot();
 
@@ -122,8 +118,7 @@ public class PlayerPasswordsListener implements Listener {
 
                 inventory.setItem(fixSlot, greenSlot);
 
-
-                // Überprüft das Passwort, wenn 4 Zeichen ausgewählt wurden
+                // Checks the password when 4 characters have been selected
                 if (charSlot == 3) {
                     String password = "";
                     for (int i = 0; i < 4; i++) {
@@ -142,7 +137,7 @@ public class PlayerPasswordsListener implements Listener {
                         configManager.setPlayerValue(player, "isLogIn", true);
                         player.closeInventory();
 
-                        // Begrüßungsnachricht anzeigen
+                        // Display welcome message
                         if (passwords.getConfig().getBoolean("settings.welcome-massage-bool")) {
                             Massages massages = new Massages();
                             String welcomeMessageType = passwords.getConfig().getString("settings.welcome-massage-display-type");
@@ -152,7 +147,7 @@ public class PlayerPasswordsListener implements Listener {
                                 case "chat" -> massages.sendMessage(player, welcomeMessage);
                                 case "actionbar" -> massages.sendActonBar(player, welcomeMessage);
                                 case "titel" -> massages.sendTitel(player, welcomeMessage);
-                                default -> passwords.getLogger().info(ChatColor.RED + "[Error] Ungültiger Typ für Begrüßungsnachricht");
+                                default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
                             }
 
                             if (passwords.getConfig().getBoolean("settings.login-gamemode-bool")) {
@@ -163,7 +158,7 @@ public class PlayerPasswordsListener implements Listener {
                                     case "creative" -> player.setGameMode(GameMode.CREATIVE);
                                     case "spectator" -> player.setGameMode(GameMode.SPECTATOR);
                                     case "adventure" -> player.setGameMode(GameMode.ADVENTURE);
-                                    default -> passwords.getLogger().info(ChatColor.RED + "[Error] Ungültiger Typ für Begrüßungsnachricht");
+                                    default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
                                 }
                             }
                         }
@@ -181,7 +176,7 @@ public class PlayerPasswordsListener implements Listener {
         }
     }
 
-    // Überprüft, ob das Inventar geschlossen wird, bevor das Passwort eingegeben wurde
+    // Checks if the inventory is closed before the password is entered
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
 
