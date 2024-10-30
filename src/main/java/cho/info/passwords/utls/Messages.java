@@ -3,7 +3,7 @@ package cho.info.passwords.utls;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-public class Massages {
+public class Messages {
 
     public void sendActonBar(Player player, String message) {
         player.sendActionBar(ChatColor.BLUE +  message);

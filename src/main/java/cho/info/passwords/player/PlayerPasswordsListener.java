@@ -2,7 +2,7 @@ package cho.info.passwords.player;
 
 import cho.info.passwords.Passwords;
 import cho.info.passwords.utls.ConfigManager;
-import cho.info.passwords.utls.Massages;
+import cho.info.passwords.utls.Messages;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -140,7 +140,7 @@ public class PlayerPasswordsListener implements Listener {
 
                         // Display welcome message
                         if (passwords.getConfig().getBoolean("settings.welcome-message-enabled")) {
-                            Massages massages = new Massages();
+                            Messages massages = new Messages();
                             String welcomeMessageType = passwords.getConfig().getString("settings.welcome-message-display-type");
                             String welcomeMessage = passwords.getConfig().getString("settings.welcome-message");
                             String welcomeMessageSecond = passwords.getConfig().getString("settings.welcome-message-second");

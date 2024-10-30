@@ -12,7 +12,6 @@ import java.util.UUID;
 public class ConfigManager {
 
     private final File playerDataFolder;
-    private final File publicVarsFile;
     private final Map<UUID, FileConfiguration> configCache = new HashMap<>();
     private FileConfiguration publicVarsConfig;
 
@@ -23,15 +22,7 @@ public class ConfigManager {
             playerDataFolder.mkdirs();
         }
 
-        // Initialize the public variables file
-        File serverVarsFolder = new File(pluginFolder, "ServerVars");
-        if (!serverVarsFolder.exists()) {
-            serverVarsFolder.mkdirs();
-        }
-        publicVarsFile = new File(serverVarsFolder, "PublicVars.yml");
 
-        // Load public variables
-        loadPublicVars();
     }
 
     // Loads or retrieves the config file for the player based on UUID
@@ -93,43 +84,4 @@ public class ConfigManager {
         return config.contains(path);
     }
 
-    // Loads the public variables from the PublicVars file
-    private void loadPublicVars() {
-        if (!publicVarsFile.exists()) {
-            try {
-                publicVarsFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        publicVarsConfig = YamlConfiguration.loadConfiguration(publicVarsFile);
-    }
-
-    // Retrieves a public variable value
-    public Object getPublicVar(String path) {
-        return publicVarsConfig.get(path);
-    }
-
-    // Sets a public variable value
-    public void setPublicVar(String path, Object value) {
-        publicVarsConfig.set(path, value);
-        savePublicVars();
-    }
-
-    // Saves the public variables to the PublicVars file
-    private void savePublicVars() {
-        try {
-            publicVarsConfig.save(publicVarsFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Adds a new public variable with a default value
-    public void addPublicVar(String variableName, Object defaultValue) {
-        if (!publicVarsConfig.contains(variableName)) {
-            publicVarsConfig.set(variableName, defaultValue);
-            savePublicVars();
-        }
-    }
 }
