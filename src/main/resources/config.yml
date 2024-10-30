@@ -8,6 +8,8 @@ settings:
   check-type: server
   # Message that will be displayed as the kick reason.
   fail-message: The password is incorrect!
+  # When the UI is closed without a password
+  close-ui-message: You need to enter a Password!
   # Enable welcome message.
   welcome-message-enabled: true
   # Welcome message after login.

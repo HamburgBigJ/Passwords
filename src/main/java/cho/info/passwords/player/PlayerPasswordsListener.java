@@ -139,7 +139,7 @@ public class PlayerPasswordsListener implements Listener {
                         player.closeInventory();
 
                         // Display welcome message
-                        if (passwords.getConfig().getBoolean("settings.welcome-message-bool")) {
+                        if (passwords.getConfig().getBoolean("settings.welcome-message-enabled")) {
                             Massages massages = new Massages();
                             String welcomeMessageType = passwords.getConfig().getString("settings.welcome-message-display-type");
                             String welcomeMessage = passwords.getConfig().getString("settings.welcome-message");
@@ -189,7 +189,7 @@ public class PlayerPasswordsListener implements Listener {
                 Boolean isLogIn = (Boolean) configManager.getPlayerValue(player, "isLogIn");
 
                 if (!isLogIn) {
-                    player.kick(Component.text(ChatColor.RED + "You need to enter the Password"));
+                    player.kick(Component.text(ChatColor.RED + passwords.getConfig().getString("settings.close-ui-message")));
                 }
             }
         }
