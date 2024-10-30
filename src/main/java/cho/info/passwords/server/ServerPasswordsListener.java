@@ -136,7 +136,7 @@ public class ServerPasswordsListener implements Listener {
                             switch (welcomeMessageType) {
                                 case "chat" -> massages.sendMessage(player, welcomeMessage);
                                 case "actionbar" -> massages.sendActonBar(player, welcomeMessage);
-                                case "titel" -> massages.sendTitel(player, welcomeMessage, welcomeMessageSecond);
+                                case "title" -> massages.sendTitel(player, welcomeMessage, welcomeMessageSecond);
                                 default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
                             }
 
@@ -176,7 +176,7 @@ public class ServerPasswordsListener implements Listener {
                 Boolean isLogIn = (Boolean) configManager.getPlayerValue(player, "isLogIn");
 
                 if (!isLogIn) {
-                    player.kick(Component.text(passwords.getConfig().getString("settings.close-ui-message")));
+                    player.kick(Component.text(Objects.requireNonNull(passwords.getConfig().getString("settings.close-ui-message"))));
                 }
             }
         }

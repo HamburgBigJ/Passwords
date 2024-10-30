@@ -150,7 +150,7 @@ public class PlayerPasswordsListener implements Listener {
                             switch (welcomeMessageType) {
                                 case "chat" -> massages.sendMessage(player, welcomeMessage);
                                 case "actionbar" -> massages.sendActonBar(player, welcomeMessage);
-                                case "titel" -> massages.sendTitel(player, welcomeMessage, welcomeMessageSecond);
+                                case "title" -> massages.sendTitel(player, welcomeMessage, welcomeMessageSecond);
                                 default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
                             }
 

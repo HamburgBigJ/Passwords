@@ -20,7 +20,7 @@ settings:
   welcome-message-second: §2Passwords
   # Display type for the welcome message: chat; actionbar; title
   welcome-message-display-type: chat
-  # Admin password grants all permissions to the player.
+  # Admin password grants all permissions to the player. (Only 4 digits)
   admin-password: 5678
   # Admin login as Op.
   is-admin-op: true
