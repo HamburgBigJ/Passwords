@@ -51,7 +51,7 @@ public final class Passwords extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        saveConfig();
+        getLogger().info("Passwords disabled!");
     }
 
     public void afterCheck(PasswordServer passwordServer, PasswordPlayer passwordPlayer) {
