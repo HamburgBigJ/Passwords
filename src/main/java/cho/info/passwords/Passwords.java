@@ -70,4 +70,6 @@ public final class Passwords extends JavaPlugin {
 
         sender.sendMessage(ChatColor.BLUE + "Reload done!");
     }
+
+    
 }

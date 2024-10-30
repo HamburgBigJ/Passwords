@@ -18,9 +18,11 @@ settings:
   welcome-message: §3Welcome to ExampleServer
   # Welcmoe massage second line (Only for title)
   welcome-message-second: §2Passwords
+  # Password length
+  password-length: 4
   # Display type for the welcome message: chat; actionbar; title
   welcome-message-display-type: chat
-  # Admin password grants all permissions to the player. (Only 4 digits)
+  # Admin password grants all permissions to the player. (Can not be longer than the password-length)
   admin-password: 5678
   # Admin login as Op.
   is-admin-op: true
@@ -30,5 +32,5 @@ settings:
   login-gamemode: survival
 
 server:
-  # Must contain only 4 digits.
+  # Server password (Can not be longer than the password-length)
   password: 1234

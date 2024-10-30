@@ -40,7 +40,8 @@ public class ServerPasswordsListener implements Listener {
 
             // Set isLogIn to false and initialize the password fields
             configManager.setPlayerValue(player, "isLogIn", false);
-            for (int i = 0; i < 4; i++) {
+            int passwordLenth = passwords.getConfig().getInt("settings.password-length");
+            for (int i = 0; i < passwordLenth; i++) {
                 configManager.setPlayerValue(player, "char" + i, null);
             }
             configManager.setPlayerValue(player, "charSlot", 0);
@@ -85,11 +86,13 @@ public class ServerPasswordsListener implements Listener {
                 Inventory inventory = event.getInventory();
                 event.setCancelled(true); // Prevents players from moving items
 
+                int passwordLenth = passwords.getConfig().getInt("settings.password-length");
+
                 String displayName = event.getCurrentItem().getItemMeta().getDisplayName();
                 int charSlot = (int) configManager.getPlayerValue(player, "charSlot");
 
                 // Fills the slot only if less than 4 characters have been selected
-                if (charSlot < 4) {
+                if (charSlot < passwordLenth) {
                     for (int i = 1; i <= 9; i++) {
                         if (displayName.equals("§2" + i)) {
                             configManager.setPlayerValue(player, "char" + charSlot, i);
@@ -114,9 +117,10 @@ public class ServerPasswordsListener implements Listener {
                 inventory.setItem(fixSlot, greenSlot);
 
                 // Checks the password when 4 characters have been selected
-                if (charSlot == 3) {
+
+                if (charSlot == (passwordLenth - 1)) {
                     String password = "";
-                    for (int i = 0; i < 4; i++) {
+                    for (int i = 0; i < passwordLenth; i++) {
                         password += configManager.getPlayerValue(player, "char" + i);
                     }
 
