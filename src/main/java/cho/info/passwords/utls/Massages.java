@@ -9,8 +9,8 @@ public class Massages {
         player.sendActionBar(ChatColor.BLUE +  message);
     }
 
-    public void sendTitel(Player player, String message) {
-        player.sendTitle(ChatColor.BLUE + message,ChatColor.GOLD + "Passwords");
+    public void sendTitel(Player player, String message, String second) {
+        player.sendTitle(ChatColor.BLUE + message,ChatColor.GOLD + second);
     }
 
     public void sendMessage(Player player, String message) {

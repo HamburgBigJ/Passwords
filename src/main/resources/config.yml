@@ -12,6 +12,8 @@ settings:
   welcome-message-enabled: true
   # Welcome message after login.
   welcome-message: Welcome to ExampleServer
+  # Welcmoe massage second line (Only for title)
+  welcome-message-second: Passwords
   # Display type for the welcome message: chat; actionbar; title
   welcome-message-display-type: chat
   # Admin password grants all permissions to the player.

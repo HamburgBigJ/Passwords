@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -142,11 +143,12 @@ public class PlayerPasswordsListener implements Listener {
                             Massages massages = new Massages();
                             String welcomeMessageType = passwords.getConfig().getString("settings.welcome-massage-display-type");
                             String welcomeMessage = passwords.getConfig().getString("settings.welcome-massage");
+                            String welcomeMessageSecond = passwords.getConfig().getString("settings.welcome-message-second");
 
                             switch (welcomeMessageType) {
                                 case "chat" -> massages.sendMessage(player, welcomeMessage);
                                 case "actionbar" -> massages.sendActonBar(player, welcomeMessage);
-                                case "titel" -> massages.sendTitel(player, welcomeMessage);
+                                case "titel" -> massages.sendTitel(player, welcomeMessage, welcomeMessageSecond);
                                 default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
                             }
 
