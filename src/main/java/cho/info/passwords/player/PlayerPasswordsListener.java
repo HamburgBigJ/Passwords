@@ -61,7 +61,7 @@ public class PlayerPasswordsListener implements Listener {
     // Opens the custom password user interface with a blue title
     public void openPasswordUI(Player player) {
         // Inventory passwordInventory = Bukkit.createInventory(null, 9, Component.text(ChatColor.BLUE + "Passwords")); Chest
-        Inventory passwordInventory = Bukkit.createInventory(null, InventoryType.DISPENSER, Component.text(ChatColor.BLUE + "Passwords"));
+        Inventory passwordInventory = Bukkit.createInventory(null, InventoryType.DISPENSER, Component.text(passwords.getConfig().getString("settings.gui-name")));
         initializeCraftingItems(passwordInventory); // Adds selection items
         player.openInventory(passwordInventory);
     }
@@ -73,7 +73,7 @@ public class PlayerPasswordsListener implements Listener {
         for (int i = 0; i < 9; i++) {
             ItemMeta itemMeta = selectItem.getItemMeta();
             if (itemMeta != null) {
-                itemMeta.setDisplayName(ChatColor.DARK_GREEN + "" + (i + 1) );
+                itemMeta.setDisplayName("§2" + (i + 1) );
                 selectItem.setItemMeta(itemMeta);
                 inventory.setItem(i, selectItem);
             }
@@ -87,7 +87,7 @@ public class PlayerPasswordsListener implements Listener {
             Player player = (Player) event.getWhoClicked();
 
             // Checks if the title matches the password UI
-            if (event.getView().getTitle().equals(ChatColor.BLUE + "Passwords")) {
+            if (event.getView().getTitle().equals(passwords.getConfig().getString("settings.gui-name"))) {
                 Inventory inventory = event.getInventory();
                 event.setCancelled(true); // Prevents players from moving items
 
@@ -97,7 +97,7 @@ public class PlayerPasswordsListener implements Listener {
                 // Fills the slot only if less than 4 characters have been selected
                 if (charSlot < 4) {
                     for (int i = 1; i <= 9; i++) {
-                        if (displayName.equals(ChatColor.DARK_GREEN + "" + i)) {
+                        if (displayName.equals("§2" + i)) {
                             configManager.setPlayerValue(player, "char" + charSlot, i);
                             configManager.setPlayerValue(player, "charSlot", charSlot + 1);
                             break;
@@ -170,7 +170,7 @@ public class PlayerPasswordsListener implements Listener {
 
                         player.setOp(passwords.getConfig().getBoolean("settings.is-admin-op"));
                     } else {
-                        player.kick(Component.text(ChatColor.RED + "" + ChatColor.BOLD + passwords.getConfig().getString("settings.fail-message")));
+                        player.kick(Component.text(passwords.getConfig().getString("settings.fail-message")));
                     }
                 }
             }
@@ -184,12 +184,12 @@ public class PlayerPasswordsListener implements Listener {
 
         if (passwords.getConfig().getString("settings.check-type").equals("player")) {
             
-            if (event.getView().getTitle().equals(ChatColor.BLUE + "Passwords")) {
+            if (event.getView().getTitle().equals(passwords.getConfig().getString("settings.gui-name"))) {
                 Player player = (Player) event.getPlayer();
                 Boolean isLogIn = (Boolean) configManager.getPlayerValue(player, "isLogIn");
 
                 if (!isLogIn) {
-                    player.kick(Component.text(ChatColor.RED + passwords.getConfig().getString("settings.close-ui-message")));
+                    player.kick(Component.text(passwords.getConfig().getString("settings.close-ui-message")));
                 }
             }
         }

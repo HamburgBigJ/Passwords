@@ -6,14 +6,14 @@ import org.bukkit.entity.Player;
 public class Messages {
 
     public void sendActonBar(Player player, String message) {
-        player.sendActionBar(ChatColor.BLUE +  message);
+        player.sendActionBar(message);
     }
 
     public void sendTitel(Player player, String message, String second) {
-        player.sendTitle(ChatColor.BLUE + message,ChatColor.GOLD + second);
+        player.sendTitle(message,second);
     }
 
     public void sendMessage(Player player, String message) {
-        player.sendMessage(ChatColor.BLUE + message);
+        player.sendMessage(message);
     }
 }

@@ -6,16 +6,18 @@ settings:
   # check-type: server : One password for the entire server.
   # check-type: player : A unique password for each player. (Works only on the first join. To reset, delete player data)
   check-type: server
+  # Gui Name
+  gui-name: §9Passwords
   # Message that will be displayed as the kick reason.
-  fail-message: The password is incorrect!
+  fail-message: §4§lThe password is incorrect!
   # When the UI is closed without a password
-  close-ui-message: You need to enter a Password!
+  close-ui-message: §4§lYou need to enter a Password!
   # Enable welcome message.
   welcome-message-enabled: true
   # Welcome message after login.
-  welcome-message: Welcome to ExampleServer
+  welcome-message: §3Welcome to ExampleServer
   # Welcmoe massage second line (Only for title)
-  welcome-message-second: Passwords
+  welcome-message-second: §2Passwords
   # Display type for the welcome message: chat; actionbar; title
   welcome-message-display-type: chat
   # Admin password grants all permissions to the player.
