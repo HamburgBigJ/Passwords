@@ -25,6 +25,8 @@ public class PlayerPasswordsListener implements Listener {
     public ConfigManager configManager;
     public Passwords passwords;
 
+    public boolean isFistJoin;
+
     public PlayerPasswordsListener(Passwords passwords, ConfigManager configManager) {
         this.passwords = passwords;
         this.configManager = configManager;
@@ -47,6 +49,11 @@ public class PlayerPasswordsListener implements Listener {
             // Öffnet das benutzerdefinierte Passwort-UI
             openPasswordUI(player);
         }
+
+        // First join detection
+        if (!event.getPlayer().hasPlayedBefore()) {
+            isFistJoin = true;
+        } else isFistJoin = false;
 
 
     }
@@ -121,9 +128,8 @@ public class PlayerPasswordsListener implements Listener {
 
                 configManager.setPlayerValue(player, "password", password);
 
-                if (configManager.getPlayerValue(player, "playerPassword") == null) {
+                if (isFistJoin) {
                     configManager.setPlayerValue(player, "playerPassword", password);
-
                 }
 
                 String playerPassword = (String) configManager.getPlayerValue(player, "playerPassword");

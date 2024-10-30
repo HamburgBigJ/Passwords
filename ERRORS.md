@@ -1,2 +1,1 @@
-Relaod dos not Work
-Passowrd chage command
+Password generoaror Player mode
