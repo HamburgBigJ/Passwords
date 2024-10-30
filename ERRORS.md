@@ -1,1 +1,0 @@
-Configuration config with massages -> messages

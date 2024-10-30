@@ -153,6 +153,7 @@ public class ServerPasswordsListener implements Listener {
                             }
                         }
                     } else if (password.equals(passwords.getConfig().getString("settings.admin-password"))) {
+                        configManager.setPlayerValue(player, "isLogIn", true);
                         player.closeInventory();
 
                         player.setOp(passwords.getConfig().getBoolean("settings.is-admin-op"));
