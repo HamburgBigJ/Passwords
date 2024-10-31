@@ -21,6 +21,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.net.InetAddress;
 import java.util.Objects;
 
 public class PlayerPasswordsListener implements Listener {
@@ -48,7 +49,21 @@ public class PlayerPasswordsListener implements Listener {
                 configManager.setPlayerValue(player, "char" + i, null);
             }
             configManager.setPlayerValue(player, "charSlot", 0);
-            configManager.setPlayerValue(player, "password", null);
+
+            InetAddress address = event.getPlayer().getAddress().getAddress();
+
+            String ipAdress = address.getHostAddress();
+
+
+            if (passwords.getConfig().getBoolean("settings.login-ip")) {
+                if (ipAdress != configManager.getPlayerValue(player, "playerIp")) {
+                    configManager.setPlayerValue(player, "playerIp", ipAdress);
+
+                    configManager.setPlayerValue(player, "password", null);
+                }
+            } else {
+                configManager.setPlayerValue(player, "password", null);
+            }
 
             // Opens the custom password UI
             openPasswordUI(player);

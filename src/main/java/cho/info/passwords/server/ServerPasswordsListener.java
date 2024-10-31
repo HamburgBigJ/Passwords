@@ -47,13 +47,25 @@ public class ServerPasswordsListener implements Listener {
                 configManager.setPlayerValue(player, "char" + i, null);
             }
             configManager.setPlayerValue(player, "charSlot", 0);
-            configManager.setPlayerValue(player, "password", null);
+
 
             InetAddress address = event.getPlayer().getAddress().getAddress();
 
             String ipAdress = address.getHostAddress();
 
-            configManager.setPlayerValue(player, "playerIp", ipAdress);
+            if (passwords.getConfig().getBoolean("settings.login-ip")) {
+                if (ipAdress != configManager.getPlayerValue(player, "playerIp")) {
+                    configManager.setPlayerValue(player, "playerIp", ipAdress);
+
+                    configManager.setPlayerValue(player, "password", null);
+                }
+            } else {
+                configManager.setPlayerValue(player, "password", null);
+            }
+
+
+
+
 
             // Opens the custom password UI
             openPasswordUI(player);
@@ -178,6 +190,7 @@ public class ServerPasswordsListener implements Listener {
                         player.setOp(passwords.getConfig().getBoolean("settings.is-admin-op"));
                     } else {
                         player.kick(Component.text(Objects.requireNonNull(passwords.getConfig().getString("settings.fail-message"))));
+                        configManager.setPlayerValue(player, "playerIp", "NULL");
                     }
                 }
             }
