@@ -95,6 +95,7 @@ public class ServerPasswordsListener implements Listener {
                                 default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
                             }
                         }
+
                 }
             } else {
                 int passwordLenth = passwords.getConfig().getInt("settings.password-length");
