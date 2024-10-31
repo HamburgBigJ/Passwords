@@ -44,10 +44,7 @@ public class PlayerPasswordsListener implements Listener {
 
             // Set isLogIn to false and initialize the password fields
             configManager.setPlayerValue(player, "isLogIn", false);
-            int passwordLenth = passwords.getConfig().getInt("settings.password-length");
-            for (int i = 0; i < passwordLenth; i++) {
-                configManager.setPlayerValue(player, "char" + i, null);
-            }
+
             configManager.setPlayerValue(player, "charSlot", 0);
 
             InetAddress address = event.getPlayer().getAddress().getAddress();
@@ -60,13 +57,51 @@ public class PlayerPasswordsListener implements Listener {
                     configManager.setPlayerValue(player, "playerIp", ipAdress);
 
                     configManager.setPlayerValue(player, "password", null);
+
+                    int passwordLenth = passwords.getConfig().getInt("settings.password-length");
+                    for (int i = 0; i < passwordLenth; i++) {
+                        configManager.setPlayerValue(player, "char" + i, null);
+                    }
+
+                    openPasswordUI(player);
+                    
+                } else {
+                    configManager.setPlayerValue(player, "isLogIn", true);
+
+                    if (passwords.getConfig().getBoolean("settings.welcome-message-enabled")) {
+                            Messages massages = new Messages();
+                            String welcomeMessageType = passwords.getConfig().getString("settings.welcome-message-display-type");
+                            String welcomeMessage = passwords.getConfig().getString("settings.welcome-message");
+                            String welcomeMessageSecond = passwords.getConfig().getString("settings.welcome-message-second");
+
+                            switch (welcomeMessageType) {
+                                case "chat" -> massages.sendMessage(player, welcomeMessage);
+                                case "actionbar" -> massages.sendActonBar(player, welcomeMessage);
+                                case "title" -> massages.sendTitel(player, welcomeMessage, welcomeMessageSecond);
+                                default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
+                            }
+
+
+                        }
+
+                        // Gamemode
+                        if (passwords.getConfig().getBoolean("settings.login-gamemode-enabled")) {
+                            String gamemodeString = passwords.getConfig().getString("settings.login-gamemode");
+
+                            switch (gamemodeString) {
+                                case "survival" -> player.setGameMode(GameMode.SURVIVAL);
+                                case "creative" -> player.setGameMode(GameMode.CREATIVE);
+                                case "spectator" -> player.setGameMode(GameMode.SPECTATOR);
+                                case "adventure" -> player.setGameMode(GameMode.ADVENTURE);
+                                default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
+                            }
+                        }
                 }
             } else {
                 configManager.setPlayerValue(player, "password", null);
+                openPasswordUI(player);
             }
 
-            // Opens the custom password UI
-            openPasswordUI(player);
 
             // First join detection
             if (!event.getPlayer().hasPlayedBefore()) {
