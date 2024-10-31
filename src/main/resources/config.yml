@@ -36,8 +36,8 @@ settings:
   login-gamemode: survival
   # Provent movement for non login player
   provents-movement: false
-  # Ip Login. Login with ip
-  login-ip: true
+  # Ip Login. Login with ip ( Beta - Mey not work!)
+  login-ip: false
 
 server:
   # Server password (Can not be longer than the password-length)
