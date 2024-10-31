@@ -30,6 +30,7 @@ public class PlayerPasswordsListener implements Listener {
     public Passwords passwords;
 
     public boolean isFistJoin;
+    public boolean isIpLogin = false;
 
     public PlayerPasswordsListener(Passwords passwords, ConfigManager configManager) {
         this.passwords = passwords;
@@ -84,18 +85,22 @@ public class PlayerPasswordsListener implements Listener {
 
                         }
 
-                        // Gamemode
-                        if (passwords.getConfig().getBoolean("settings.login-gamemode-enabled")) {
-                            String gamemodeString = passwords.getConfig().getString("settings.login-gamemode");
+                    // Gamemode
+                    if (passwords.getConfig().getBoolean("settings.login-gamemode-enabled")) {
+                        String gamemodeString = passwords.getConfig().getString("settings.login-gamemode");
 
-                            switch (gamemodeString) {
-                                case "survival" -> player.setGameMode(GameMode.SURVIVAL);
-                                case "creative" -> player.setGameMode(GameMode.CREATIVE);
-                                case "spectator" -> player.setGameMode(GameMode.SPECTATOR);
-                                case "adventure" -> player.setGameMode(GameMode.ADVENTURE);
-                                default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
-                            }
+                        switch (gamemodeString) {
+                            case "survival" -> player.setGameMode(GameMode.SURVIVAL);
+                            case "creative" -> player.setGameMode(GameMode.CREATIVE);
+                            case "spectator" -> player.setGameMode(GameMode.SPECTATOR);
+                            case "adventure" -> player.setGameMode(GameMode.ADVENTURE);
+                            default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
                         }
+
+
+                    }
+
+                    isIpLogin = true;
                 }
             } else {
                 configManager.setPlayerValue(player, "password", null);
@@ -181,11 +186,19 @@ public class PlayerPasswordsListener implements Listener {
                 // Checks the password when 4 characters have been selected
                 if (charSlot == (passwordLenth - 1)) {
                     String password = "";
-                    for (int i = 0; i < 4; i++) {
-                        password += configManager.getPlayerValue(player, "char" + i);
+                    if (!isIpLogin) {
+
+                        for (int i = 0; i < passwordLenth; i++) {
+                            password += configManager.getPlayerValue(player, "char" + i);
+                        }
+
+                        configManager.setPlayerValue(player, "password", password);
+                    }else {
+                        password = (String) configManager.getPlayerValue(player, "password");
+
                     }
 
-                    password = String.valueOf(password.hashCode());
+
 
                     configManager.setPlayerValue(player, "password", password);
 
@@ -195,11 +208,11 @@ public class PlayerPasswordsListener implements Listener {
 
                     String playerPassword = (String) configManager.getPlayerValue(player, "playerPassword");
 
-                    playerPassword = String.valueOf(playerPassword.hashCode());
+                    
 
                     String adminPassword = (String) passwords.getConfig().getString("settings.admin-password");
 
-                    adminPassword = String.valueOf(adminPassword.hashCode());
+
 
                     if (password.equals(playerPassword)) {
                         configManager.setPlayerValue(player, "isLogIn", true);

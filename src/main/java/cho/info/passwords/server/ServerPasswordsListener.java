@@ -29,6 +29,8 @@ public class ServerPasswordsListener implements Listener {
     private final Passwords passwords;
     private final ConfigManager configManager;
 
+    public boolean isIpLogin = false;
+
     public ServerPasswordsListener(Passwords passwords, ConfigManager configManager) {
         this.passwords = passwords;
         this.configManager = configManager;
@@ -63,6 +65,8 @@ public class ServerPasswordsListener implements Listener {
 
                     openPasswordUI(player);
 
+                    isIpLogin = false;
+
                 } else {
 
                     configManager.setPlayerValue(player, "isLogIn", true);
@@ -96,8 +100,12 @@ public class ServerPasswordsListener implements Listener {
                             }
                         }
 
+                        // Ip Login
+                        isIpLogin = true;
+
                 }
             } else {
+                isIpLogin = false;
                 int passwordLenth = passwords.getConfig().getInt("settings.password-length");
                 for (int i = 0; i < passwordLenth; i++) {
                     configManager.setPlayerValue(player, "char" + i, null);
@@ -182,13 +190,21 @@ public class ServerPasswordsListener implements Listener {
 
                 // Checks the password when 4 characters have been selected
 
+
                 if (charSlot == (passwordLenth - 1)) {
                     String password = "";
-                    for (int i = 0; i < passwordLenth; i++) {
-                        password += configManager.getPlayerValue(player, "char" + i);
+                    if (!isIpLogin) {
+
+                        for (int i = 0; i < passwordLenth; i++) {
+                            password += configManager.getPlayerValue(player, "char" + i);
+                        }
+
+                        configManager.setPlayerValue(player, "password", password);
+                    }else {
+                        password = (String) configManager.getPlayerValue(player, "password");
+
                     }
 
-                    configManager.setPlayerValue(player, "password", password);
 
                     if (password.equals(passwords.getConfig().getString("server.password"))) {
                         configManager.setPlayerValue(player, "isLogIn", true);
