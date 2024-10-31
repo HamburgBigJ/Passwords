@@ -32,6 +32,8 @@ settings:
   login-gamemode-enabled: true
   # Gamemode every player will have upon login: survival, creative, adventure, spectator
   login-gamemode: survival
+  # Provent movement for non login player
+  provents-movement: false
 
 server:
   # Server password (Can not be longer than the password-length)

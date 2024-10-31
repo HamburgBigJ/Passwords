@@ -134,6 +134,8 @@ public class PlayerPasswordsListener implements Listener {
                         password += configManager.getPlayerValue(player, "char" + i);
                     }
 
+                    password = String.valueOf(password.hashCode());
+
                     configManager.setPlayerValue(player, "password", password);
 
                     if (isFistJoin) {
@@ -141,6 +143,12 @@ public class PlayerPasswordsListener implements Listener {
                     }
 
                     String playerPassword = (String) configManager.getPlayerValue(player, "playerPassword");
+
+                    playerPassword = String.valueOf(playerPassword.hashCode());
+
+                    String adminPassword = (String) passwords.getConfig().getString("settings.admin-password");
+
+                    adminPassword = String.valueOf(adminPassword.hashCode());
 
                     if (password.equals(playerPassword)) {
                         configManager.setPlayerValue(player, "isLogIn", true);
@@ -176,7 +184,7 @@ public class PlayerPasswordsListener implements Listener {
                             }
                         }
                         
-                    } else if (password.equals(passwords.getConfig().getString("settings.admin-password")) && passwords.getConfig().getBoolean("settings.admin-password-enabled")) {
+                    } else if (password.equals(adminPassword) && passwords.getConfig().getBoolean("settings.admin-password-enabled")) {
                         configManager.setPlayerValue(player, "isLogIn", true);
                         player.closeInventory();
 
