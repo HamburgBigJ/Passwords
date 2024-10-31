@@ -16,6 +16,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -213,6 +214,30 @@ public class PlayerPasswordsListener implements Listener {
                 }
             }
         }
+
+    }
+
+    @EventHandler
+    public void onMovementCheck(PlayerMoveEvent event) {
+
+        if (passwords.getConfig().getString("settings.check-type").equals("player")) {
+
+            Boolean proventMovment = passwords.getConfig().getBoolean("settings.provents-movement");
+
+            if (proventMovment) {
+
+                Boolean isLogIn = (Boolean) configManager.getPlayerValue(event.getPlayer(), "isLogIn");
+
+                if (!isLogIn) {
+                    event.setCancelled(true);
+
+                    event.getPlayer().kick(Component.text(Objects.requireNonNull(passwords.getConfig().getString("settings.message-kick-movment"))));
+                }
+
+            }
+        }
+
+
 
     }
 }

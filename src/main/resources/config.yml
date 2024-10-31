@@ -18,6 +18,8 @@ settings:
   welcome-message: §3Welcome to ExampleServer
   # Welcmoe massage second line (Only for title)
   welcome-message-second: §2Passwords
+  # Movment event cancel
+  message-kick-movment: §4§lYou can not move withot being login!
   # Password length
   password-length: 4
   # Display type for the welcome message: chat; actionbar; title
@@ -34,6 +36,8 @@ settings:
   login-gamemode: survival
   # Provent movement for non login player
   provents-movement: false
+  # Ip Login. Login with ip
+  login-ip: true
 
 server:
   # Server password (Can not be longer than the password-length)
