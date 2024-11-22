@@ -19,6 +19,12 @@ public class SetPassword {
         this.logger = passwords.getLogger(); // Initialize logger in the constructor
     }
 
+    /**
+     * Sets player Password
+     * @param player
+     * @param password
+     */
+
     public void setPlayerPassword(Player player, int password) {
         int maxLength = passwords.getConfig().getInt("settings.password-length");
         int passwordLength = String.valueOf(password).length();
@@ -40,6 +46,12 @@ public class SetPassword {
         }
     }
 
+    /**
+     * set server password
+     * @param password
+     * @param reason
+     */
+
     public void setServerPassword(int password, String reason) {
         int maxLength = passwords.getConfig().getInt("settings.password-length");
         int passwordLength = String.valueOf(password).length();
@@ -51,6 +63,30 @@ public class SetPassword {
 
         // Set the server's password
         passwords.getConfig().set("server.password", password);
+    }
+
+    /**
+     * set admin password
+     * @param password
+     */
+
+    public void setAdminPassword (int password) {
+        int maxLength = passwords.getConfig().getInt("settings.password-length");
+        int passwordLength = String.valueOf(password).length();
+
+        // Validate password length
+        if (passwordLength > maxLength) {
+            logger.warning("Admin password is too long! Maximum allowed length: " + maxLength);
+            return; // Stop execution if the password is too long
+        }
+
+        passwords.getConfig().set("settings.admin-password", password);
+    }
+
+    public void resetConfig() {
+        logger.info("Config update");
+
+        passwords.configUpdate();
     }
 
 }

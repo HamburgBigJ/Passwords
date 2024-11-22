@@ -18,6 +18,7 @@ public class PasswordsApi {
         return passwords;
     }
 
+
     public SetPassword setPassword(){
         return new SetPassword(configManager, passwords);
     }

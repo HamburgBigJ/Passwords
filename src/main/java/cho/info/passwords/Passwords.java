@@ -5,6 +5,7 @@ import cho.info.passwords.player.PasswordPlayer;
 import cho.info.passwords.player.commands.PlayerCommands;
 import cho.info.passwords.publicCommands.PublicCommands;
 import cho.info.passwords.server.PasswordServer;
+import cho.info.passwords.tempPasswords.TempPasswordManager;
 import cho.info.passwords.utls.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -32,6 +33,8 @@ public final class Passwords extends JavaPlugin {
         PublicCommands publicCommands = new PublicCommands(this);
         PlayerCommands playerCommands = new PlayerCommands(this, configManager);
 
+        TempPasswordManager tempPasswordManager = new TempPasswordManager(configManager, this);
+
         passwordsApi = new PasswordsApi(this, configManager);
 
         getLogger().info("Passwords enabled!");
@@ -54,19 +57,8 @@ public final class Passwords extends JavaPlugin {
             Bukkit.getServer().getPluginManager().disablePlugin(this);
         }
 
-        if (getConfig().getString("version") != version) {
-            getLogger().info(ChatColor.GREEN + "Update Config!");
-            File file = new File(getDataFolder(), "config.yml");
-            file.delete();
-            saveDefaultConfig();
-        }
-        // Fail save
-        if (getConfig().getString("version") == null) {
-            getLogger().info(ChatColor.GREEN + "Update Config!");
-            File file = new File(getDataFolder(), "config.yml");
-            file.delete();
-            saveDefaultConfig();
-        }
+        configUpdate();
+
 
         if (getConfig().getBoolean("api.enable")) {
             getLogger().info("API enabled!");
@@ -103,6 +95,24 @@ public final class Passwords extends JavaPlugin {
         Bukkit.getServer().getPluginManager().enablePlugin(this);
 
         sender.sendMessage("§9Reload done!");
+    }
+
+    public void configUpdate() {
+
+        if (getConfig().getString("version") != version) {
+            getLogger().info(ChatColor.GREEN + "Update Config!");
+            File file = new File(getDataFolder(), "config.yml");
+            file.delete();
+            saveDefaultConfig();
+        }
+        // Fail save
+        if (getConfig().getString("version") == null) {
+            getLogger().info(ChatColor.GREEN + "Update Config!");
+            File file = new File(getDataFolder(), "config.yml");
+            file.delete();
+            saveDefaultConfig();
+        }
+
     }
 
     public PasswordsApi getPasswordsApi() {

@@ -46,35 +46,8 @@ server:
   password: 1234
 
 
-# Textures
-skulls:
-  # Disabled number
-  number-disabled-1:
-  number-disabled-2:
-  number-disabled-3:
-  number-disabled-4:
-  number-disabled-5:
-  number-disabled-6:
-  number-disabled-7:
-  number-disabled-8:
-  number-disabled-9:
-  # Enabled number
-  number-enabled-1:
-  number-enabled-2:
-  number-enabled-3:
-  number-enabled-4:
-  number-enabled-5:
-  number-enabled-6:
-  number-enabled-7:
-  number-enabled-8:
-  number-enabled-9:
 
-
-
-
-
-
-# For api
+# For api next update
 api:
   enable: true
   # Kicks the player when the password changes.
