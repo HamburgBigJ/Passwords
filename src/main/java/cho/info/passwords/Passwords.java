@@ -1,5 +1,6 @@
 package cho.info.passwords;
 
+import cho.info.passwords.api.PasswordsApi;
 import cho.info.passwords.player.PasswordPlayer;
 import cho.info.passwords.player.commands.PlayerCommands;
 import cho.info.passwords.publicCommands.PublicCommands;
@@ -12,9 +13,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+
 public final class Passwords extends JavaPlugin {
 
     public ConfigManager configManager;
+    public String version = "0.1.3";
+
+    public PasswordsApi passwordsApi;
 
     @Override
     public void onEnable() {
@@ -25,6 +31,8 @@ public final class Passwords extends JavaPlugin {
         PasswordPlayer passwordPlayer = new PasswordPlayer(configManager, this);
         PublicCommands publicCommands = new PublicCommands(this);
         PlayerCommands playerCommands = new PlayerCommands(this, configManager);
+
+        passwordsApi = new PasswordsApi(this, configManager);
 
         getLogger().info("Passwords enabled!");
         saveDefaultConfig();
@@ -45,6 +53,32 @@ public final class Passwords extends JavaPlugin {
             getLogger().info(ChatColor.RED + "Unable to read Config.yml settings.check-type ");
             Bukkit.getServer().getPluginManager().disablePlugin(this);
         }
+
+        if (getConfig().getString("version") != version) {
+            getLogger().info(ChatColor.GREEN + "Update Config!");
+            File file = new File(getDataFolder(), "config.yml");
+            file.delete();
+            saveDefaultConfig();
+        }
+        // Fail save
+        if (getConfig().getString("version") == null) {
+            getLogger().info(ChatColor.GREEN + "Update Config!");
+            File file = new File(getDataFolder(), "config.yml");
+            file.delete();
+            saveDefaultConfig();
+        }
+
+        if (getConfig().getBoolean("api.enable")) {
+            getLogger().info("API enabled!");
+
+        } else {
+            getLogger().info("API disabled!");
+        }
+
+        getLogger().info("Your are currently running version: " + version);
+        getLogger().info("This is an beta version, please report any bugs to the developer!");
+
+
 
     }
 
@@ -69,6 +103,14 @@ public final class Passwords extends JavaPlugin {
         Bukkit.getServer().getPluginManager().enablePlugin(this);
 
         sender.sendMessage("§9Reload done!");
+    }
+
+    public PasswordsApi getPasswordsApi() {
+        if (getConfig().getBoolean("api.enable")) {
+            return passwordsApi;
+        } else {
+            return null;
+        }
     }
 
     

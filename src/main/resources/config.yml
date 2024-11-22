@@ -1,4 +1,4 @@
-# Passwords 1.0
+version: 0.1.3 # Do not change !!!!
 # Only edit the config.yml
 enable: true
 
@@ -8,6 +8,8 @@ settings:
   check-type: server
   # Gui Name
   gui-name: §9Passwords
+  # Set password name ( Beta - Mey not work!)
+  set-password-name: §aSet Password
   # Message that will be displayed as the kick reason.
   fail-message: §4§lThe password is incorrect!
   # When the UI is closed without a password
@@ -42,3 +44,45 @@ settings:
 server:
   # Server password (Can not be longer than the password-length)
   password: 1234
+
+
+# Textures
+skulls:
+  # Disabled number
+  number-disabled-1:
+  number-disabled-2:
+  number-disabled-3:
+  number-disabled-4:
+  number-disabled-5:
+  number-disabled-6:
+  number-disabled-7:
+  number-disabled-8:
+  number-disabled-9:
+  # Enabled number
+  number-enabled-1:
+  number-enabled-2:
+  number-enabled-3:
+  number-enabled-4:
+  number-enabled-5:
+  number-enabled-6:
+  number-enabled-7:
+  number-enabled-8:
+  number-enabled-9:
+
+
+
+
+
+
+# For api
+api:
+  enable: true
+  # Kicks the player when the password changes.
+  kick-password-change: true
+  # Change Password Message
+  change-password-message: §4Your password has benn changed!
+  # Temporary login passwords ( Beta - Mey not work!)
+  temporary-login: false
+
+
+

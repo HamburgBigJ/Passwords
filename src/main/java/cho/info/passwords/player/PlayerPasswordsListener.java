@@ -21,6 +21,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.swing.*;
 import java.net.InetAddress;
 import java.util.Objects;
 
@@ -120,9 +121,17 @@ public class PlayerPasswordsListener implements Listener {
     // Opens the custom password user interface with a blue title
     public void openPasswordUI(Player player) {
         // Inventory passwordInventory = Bukkit.createInventory(null, 9, Component.text(ChatColor.BLUE + "Passwords")); Chest
-        Inventory passwordInventory = Bukkit.createInventory(null, InventoryType.DISPENSER, Component.text(Objects.requireNonNull(passwords.getConfig().getString("settings.gui-name"))));
-        initializeCraftingItems(passwordInventory); // Adds selection items
-        player.openInventory(passwordInventory);
+        if (isFistJoin) {
+            Inventory passwordInventory = Bukkit.createInventory(null, InventoryType.DISPENSER, Component.text(Objects.requireNonNull(passwords.getConfig().getString("set-password-name"))));
+            initializeCraftingItems(passwordInventory); // Adds selection items
+            player.openInventory(passwordInventory);
+        }else {
+
+            Inventory passwordInventory = Bukkit.createInventory(null, InventoryType.DISPENSER, Component.text(Objects.requireNonNull(passwords.getConfig().getString("settings.gui-name"))));
+            initializeCraftingItems(passwordInventory); // Adds selection items
+            player.openInventory(passwordInventory);
+        }
+
     }
 
     // Adds numbered items to the password UI
@@ -138,6 +147,7 @@ public class PlayerPasswordsListener implements Listener {
                 inventory.setItem(i, selectItem);
             }
         }
+
     }
 
     // Event handler for clicks in the password inventory
@@ -147,7 +157,7 @@ public class PlayerPasswordsListener implements Listener {
             Player player = (Player) event.getWhoClicked();
 
             // Checks if the title matches the password UI
-            if (event.getView().getTitle().equals(passwords.getConfig().getString("settings.gui-name"))) {
+            if (event.getView().getTitle().equals(passwords.getConfig().getString("settings.gui-name")) || event.getView().getTitle().equals(passwords.getConfig().getString("settings.set-password-name"))) {
                 Inventory inventory = event.getInventory();
                 event.setCancelled(true); // Prevents players from moving items
 
