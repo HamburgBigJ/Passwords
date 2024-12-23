@@ -38,4 +38,9 @@ public class Behavior {
         return (boolean) configManager.getPlayerValue(player, "isLogIn");
     }
 
+    public void resetConfig(String consoleMessage) {
+        passwords.getLogger().info(consoleMessage);
+
+        passwords.configUpdate();
+    }
 }

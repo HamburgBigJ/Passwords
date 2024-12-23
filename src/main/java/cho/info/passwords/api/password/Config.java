@@ -26,5 +26,7 @@ public class Config {
         passwords.getConfig().set("settings.login-gamemode", gamemode);
     }
 
-
+    public void setAdminOpLogin(boolean adminOpLogin) {
+        passwords.getConfig().set("settings.is-admin-op", adminOpLogin);
+    }
 }

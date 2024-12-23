@@ -21,8 +21,8 @@ public class SetPassword {
 
     /**
      * Sets player Password
-     * @param player
-     * @param password
+     * @param player Player
+     * @param password int
      */
 
     public void setPlayerPassword(Player player, int password) {
@@ -48,8 +48,8 @@ public class SetPassword {
 
     /**
      * set server password
-     * @param password
-     * @param reason
+     * @param password int
+     * @param reason String
      */
 
     public void setServerPassword(int password, String reason) {
@@ -67,7 +67,7 @@ public class SetPassword {
 
     /**
      * set admin password
-     * @param password
+     * @param password int
      */
 
     public void setAdminPassword (int password) {
@@ -83,10 +83,22 @@ public class SetPassword {
         passwords.getConfig().set("settings.admin-password", password);
     }
 
-    public void resetConfig() {
-        logger.info("Config update");
-
-        passwords.configUpdate();
+    /**
+     * set player password
+     * @param player Player
+     * @return password
+     */
+    public String getPlayerPassword(Player player) {
+        return (String) configManager.getPlayerValue(player, "playerPassword");
     }
+
+    public String getAdminPassword() {
+        return passwords.getConfig().getString("settings.admin-password");
+    }
+
+    public String getServerPassword() {
+        return passwords.getConfig().getString("server.password");
+    }
+
 
 }
