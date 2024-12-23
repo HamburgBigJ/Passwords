@@ -1,8 +1,9 @@
 name: Passwords
-version: '1.0'
+version: '1.4'
 main: cho.info.passwords.Passwords
 api-version: '1.21'
 authors: [ HamburgBigJ ]
+softdepend: [ DiscordSRV ]
 
 commands:
   preload:

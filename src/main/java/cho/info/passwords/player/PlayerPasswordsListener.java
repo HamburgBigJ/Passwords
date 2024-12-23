@@ -44,8 +44,6 @@ public class PlayerPasswordsListener implements Listener {
         if (passwords.getConfig().getString("settings.check-type").equals("player")) {
             Player player = event.getPlayer();
 
-            // Set isLogIn to false and initialize the password fields
-            configManager.setPlayerValue(player, "isLogIn", false);
 
             configManager.setPlayerValue(player, "charSlot", 0);
 

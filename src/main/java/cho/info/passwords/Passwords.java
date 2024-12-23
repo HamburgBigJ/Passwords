@@ -1,17 +1,20 @@
 package cho.info.passwords;
 
 import cho.info.passwords.api.PasswordsApi;
+import cho.info.passwords.discord.DiscordListener;
 import cho.info.passwords.player.PasswordPlayer;
 import cho.info.passwords.player.commands.PlayerCommands;
 import cho.info.passwords.publicCommands.PublicCommands;
 import cho.info.passwords.server.PasswordServer;
-import cho.info.passwords.tempPasswords.TempPasswordManager;
 import cho.info.passwords.utls.ConfigManager;
+import cho.info.passwords.utls.PlayerLeave;
+import github.scarsz.discordsrv.DiscordSRV;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -19,7 +22,7 @@ import java.io.File;
 public final class Passwords extends JavaPlugin {
 
     public ConfigManager configManager;
-    public String version = "0.1.3";
+    public String version = "1.4";
 
     public PasswordsApi passwordsApi;
 
@@ -33,12 +36,31 @@ public final class Passwords extends JavaPlugin {
         PublicCommands publicCommands = new PublicCommands(this);
         PlayerCommands playerCommands = new PlayerCommands(this, configManager);
 
-        TempPasswordManager tempPasswordManager = new TempPasswordManager(configManager, this);
+        PluginManager pluginManager = getServer().getPluginManager();
 
         passwordsApi = new PasswordsApi(this, configManager);
 
         getLogger().info("Passwords enabled!");
         saveDefaultConfig();
+
+        if (Bukkit.getServer().getPluginManager().getPlugin("DiscordSRV") != null) {
+            getLogger().info("DiscordSRV found!");
+            if (getConfig().getBoolean("settings.use-discord-srv")) {
+                getLogger().info("DiscordSRV features enabled!");
+
+                // DiscordSRV features
+
+                DiscordSRV.api.subscribe(this);
+
+                pluginManager.registerEvents(new DiscordListener(configManager, this), this);
+
+            } else {
+                getLogger().info("DiscordSRV features disabled!");
+            }
+        }else{
+            getLogger().info("DiscordSRV not found!");
+            getLogger().info("DiscordSRV features disabled!");
+        }
 
         if (!getConfig().getBoolean("enable")) {
             getLogger().info("Passwords disabled!");
@@ -72,12 +94,26 @@ public final class Passwords extends JavaPlugin {
 
 
 
+        pluginManager.registerEvents(new PlayerLeave(configManager), this);
+
+
+        if (getConfig().getBoolean("api.enable")) {
+            getLogger().info("API is disabled!");
+            getLogger().info("If you want to use the api feature, please enable it in the config.yml");
+        }
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
         getLogger().info("Passwords disabled!");
+
+
+        if (Bukkit.getServer().getPluginManager().getPlugin("DiscordSRV") != null) {
+            DiscordSRV.api.unsubscribe(this);
+            getLogger().info("DiscordSRV features disabled!");
+        }
+
     }
 
     public void afterCheck(PasswordServer passwordServer, PasswordPlayer passwordPlayer) {
