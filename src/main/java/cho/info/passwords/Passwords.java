@@ -26,7 +26,7 @@ import java.util.Objects;
 public final class Passwords extends JavaPlugin {
 
     public ConfigManager configManager;
-    public String version = "1.4";
+    public String version = "1.5";
 
     public PasswordsApi passwordsApi;
 
