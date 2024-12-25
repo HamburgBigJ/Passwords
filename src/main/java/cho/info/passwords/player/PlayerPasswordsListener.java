@@ -120,12 +120,12 @@ public class PlayerPasswordsListener implements Listener {
     public void openPasswordUI(Player player) {
         // Inventory passwordInventory = Bukkit.createInventory(null, 9, Component.text(ChatColor.BLUE + "Passwords")); Chest
         if (isFistJoin) {
-            Inventory passwordInventory = Bukkit.createInventory(null, InventoryType.DISPENSER, Component.text(Objects.requireNonNull(passwords.getConfig().getString("set-password-name"))));
+            Inventory passwordInventory = passwords.getFirstJoinInventory();
             initializeCraftingItems(passwordInventory); // Adds selection items
             player.openInventory(passwordInventory);
         }else {
 
-            Inventory passwordInventory = Bukkit.createInventory(null, InventoryType.DISPENSER, Component.text(Objects.requireNonNull(passwords.getConfig().getString("settings.gui-name"))));
+            Inventory passwordInventory = passwords.getInventory();
             initializeCraftingItems(passwordInventory); // Adds selection items
             player.openInventory(passwordInventory);
         }

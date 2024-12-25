@@ -9,15 +9,19 @@ import cho.info.passwords.server.PasswordServer;
 import cho.info.passwords.utls.ConfigManager;
 import cho.info.passwords.utls.PlayerLeave;
 import github.scarsz.discordsrv.DiscordSRV;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.Objects;
 
 public final class Passwords extends JavaPlugin {
 
@@ -157,6 +161,14 @@ public final class Passwords extends JavaPlugin {
         } else {
             return null;
         }
+    }
+
+    public Inventory getInventory() {
+        return Bukkit.createInventory(null, InventoryType.DISPENSER, Component.text(Objects.requireNonNull(getConfig().getString("settings.gui-name"))));
+    }
+
+    public Inventory getFirstJoinInventory() {
+        return Bukkit.createInventory(null, InventoryType.DISPENSER, Component.text(Objects.requireNonNull(getConfig().getString("settings.set-password-name"))));
     }
 
     
