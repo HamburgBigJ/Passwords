@@ -66,9 +66,11 @@ public class ServerPasswordsListener implements Listener {
 
                 } else {
 
-                    configManager.setPlayerValue(player, "isLogIn", true);
+                    if (configManager.getPlayerValue(player, "playerIp") == player.getAddress().getAddress()) {
 
-                    if (passwords.getConfig().getBoolean("settings.welcome-message-enabled")) {
+                        configManager.setPlayerValue(player, "isLogIn", true);
+
+                        if (passwords.getConfig().getBoolean("settings.welcome-message-enabled")) {
                             Messages massages = new Messages();
                             String welcomeMessageType = passwords.getConfig().getString("settings.welcome-message-display-type");
                             String welcomeMessage = passwords.getConfig().getString("settings.welcome-message");
@@ -97,8 +99,13 @@ public class ServerPasswordsListener implements Listener {
                             }
                         }
 
+                        player.closeInventory();
+
                         // Ip Login
                         isIpLogin = true;
+                    }
+
+
 
                 }
             } else {
@@ -236,6 +243,8 @@ public class ServerPasswordsListener implements Listener {
                                 default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
                             }
                         }
+
+                        setLoginIp(player);
                         
                     } else if (password.equals(passwords.getConfig().getString("settings.admin-password")) && passwords.getConfig().getBoolean("settings.admin-password-enabled")) {
                         configManager.setPlayerValue(player, "isLogIn", true);
@@ -290,5 +299,12 @@ public class ServerPasswordsListener implements Listener {
             }
         }
 
+    }
+
+    public void setLoginIp(Player player) {
+        InetAddress address = player.getAddress().getAddress();
+        String ipAdress = address.getHostAddress();
+
+        configManager.setPlayerValue(player, "playerIp", ipAdress);
     }
 }

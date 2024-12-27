@@ -52,7 +52,7 @@ public class PlayerPasswordsListener implements Listener {
             String ipAdress = address.getHostAddress();
 
 
-            if (passwords.getConfig().getBoolean("settings.login-ip")) {
+            if (!passwords.getConfig().getBoolean("settings.login-ip")) {
                 if (ipAdress != configManager.getPlayerValue(player, "playerIp")) {
                     configManager.setPlayerValue(player, "playerIp", ipAdress);
 
@@ -66,9 +66,12 @@ public class PlayerPasswordsListener implements Listener {
                     openPasswordUI(player);
                     
                 } else {
-                    configManager.setPlayerValue(player, "isLogIn", true);
 
-                    if (passwords.getConfig().getBoolean("settings.welcome-message-enabled")) {
+                    if (configManager.getPlayerValue(player, "playerIp") == player.getAddress().getAddress()) {
+
+                        configManager.setPlayerValue(player, "isLogIn", true);
+
+                        if (passwords.getConfig().getBoolean("settings.welcome-message-enabled")) {
                             Messages massages = new Messages();
                             String welcomeMessageType = passwords.getConfig().getString("settings.welcome-message-display-type");
                             String welcomeMessage = passwords.getConfig().getString("settings.welcome-message");
@@ -84,22 +87,26 @@ public class PlayerPasswordsListener implements Listener {
 
                         }
 
-                    // Gamemode
-                    if (passwords.getConfig().getBoolean("settings.login-gamemode-enabled")) {
-                        String gamemodeString = passwords.getConfig().getString("settings.login-gamemode");
+                        // Gamemode
+                        if (passwords.getConfig().getBoolean("settings.login-gamemode-enabled")) {
+                            String gamemodeString = passwords.getConfig().getString("settings.login-gamemode");
 
-                        switch (gamemodeString) {
-                            case "survival" -> player.setGameMode(GameMode.SURVIVAL);
-                            case "creative" -> player.setGameMode(GameMode.CREATIVE);
-                            case "spectator" -> player.setGameMode(GameMode.SPECTATOR);
-                            case "adventure" -> player.setGameMode(GameMode.ADVENTURE);
-                            default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
+                            switch (gamemodeString) {
+                                case "survival" -> player.setGameMode(GameMode.SURVIVAL);
+                                case "creative" -> player.setGameMode(GameMode.CREATIVE);
+                                case "spectator" -> player.setGameMode(GameMode.SPECTATOR);
+                                case "adventure" -> player.setGameMode(GameMode.ADVENTURE);
+                                default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
+                            }
+
+
                         }
 
+                        player.closeInventory();
 
+                        isIpLogin = true;
                     }
 
-                    isIpLogin = true;
                 }
             } else {
                 configManager.setPlayerValue(player, "password", null);
@@ -255,6 +262,8 @@ public class PlayerPasswordsListener implements Listener {
                                 default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
                             }
                         }
+
+                        setLoginIp(player);
                         
                     } else if (password.equals(adminPassword) && passwords.getConfig().getBoolean("settings.admin-password-enabled")) {
                         configManager.setPlayerValue(player, "isLogIn", true);
@@ -309,6 +318,12 @@ public class PlayerPasswordsListener implements Listener {
         }
 
 
+    }
 
+    public void setLoginIp(Player player) {
+        InetAddress address = player.getAddress().getAddress();
+        String ipAdress = address.getHostAddress();
+
+        configManager.setPlayerValue(player, "playerIp", ipAdress);
     }
 }
