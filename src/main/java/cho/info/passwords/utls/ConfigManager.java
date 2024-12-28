@@ -22,9 +22,22 @@ public class ConfigManager {
 
     public ConfigManager(File pluginFolder) {
         // Create a folder for player files if it doesn't exist
-        playerDataFolder = new File(pluginFolder, "playerdata");
+        playerDataFolder = new File(pluginFolder, "data");
+
+        File playerDataFolderOld = new File(pluginFolder, "playerdata");
+
         if (!playerDataFolder.exists()) {
             playerDataFolder.mkdirs();
+            if (playerDataFolderOld.isDirectory()) {
+                for (File file : Objects.requireNonNull(playerDataFolderOld.listFiles())) {
+                    File newFileLocation = new File(playerDataFolder, file.getName());
+                    if (!file.renameTo(newFileLocation)) {
+                        System.err.println("File " + file.getName() + " could not be moved to the new location.");
+                    }
+                }
+            }
+
+
         }
 
 

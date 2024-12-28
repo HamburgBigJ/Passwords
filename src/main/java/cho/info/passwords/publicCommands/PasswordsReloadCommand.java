@@ -20,7 +20,14 @@ public class PasswordsReloadCommand implements CommandExecutor {
 
         commandSender.sendMessage(ChatColor.BLUE + "Reload Passwords ...");
 
-        passwords.reload(commandSender);
+        if (passwords.getConfig().getBoolean("settings.use-discord-srv")) {
+            commandSender.sendMessage("You can't reload the plugin while DiscordSRV features are enabled!");
+            commandSender.sendMessage("Please use /restart to reload the plugin.");
+        } else {
+            passwords.reload(commandSender);
+        }
+
+
 
         return false;
     }

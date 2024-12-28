@@ -1,10 +1,10 @@
-version: 1.5 # Do not change !!!!
+version: 1.6 # Do not change !!!!
 # Only edit the config.yml
 enable: true
 
 settings:
   # check-type: server : One password for the entire server.
-  # check-type: player : A unique password for each player. (Works only on the first join. To reset, delete player data)
+  # check-type: player : A unique password for each player. (Works only on the first join. To reset, delete player data or use the /setpassword command)
   check-type: server
   # Gui Name
   gui-name: §9Passwords
@@ -18,10 +18,10 @@ settings:
   welcome-message-enabled: true
   # Welcome message after login.
   welcome-message: §3Welcome to ExampleServer
-  # Welcmoe massage second line (Only for title)
+  # Welcome massage second line (Only for title)
   welcome-message-second: §2Passwords
-  # Movment event cancel
-  message-kick-movment: §4§lYou can not move withot being login!
+  # Movement event cancel
+  message-kick-movement: §4§lYou can not move withot being login!
   # Password length
   password-length: 4
   # Display type for the welcome message: chat; actionbar; title
@@ -36,15 +36,15 @@ settings:
   login-gamemode-enabled: true
   # Gamemode every player will have upon login: survival, creative, adventure, spectator
   login-gamemode: survival
-  # Provent movement for non login player
-  provents-movement: false
+  # Prevents movement for non login player
+  prevents-movement: false
   # Ip Login. Login with ip ( Beta - Mey not work!)
   login-ip: false
   # DiscordSRV support
   use-discord-srv: false
 
 discord:
-  # DiscordSRV Password
+  # DiscordSRV Password on login
   need-password: false
 
 server:

@@ -284,7 +284,7 @@ public class ServerPasswordsListener implements Listener {
 
         if (passwords.getConfig().getString("settings.check-type").equals("server")) {
 
-            Boolean proventMovment = passwords.getConfig().getBoolean("settings.provents-movement");
+            Boolean proventMovment = passwords.getConfig().getBoolean("settings.prevents-movement");
 
             if (proventMovment) {
 
@@ -293,7 +293,7 @@ public class ServerPasswordsListener implements Listener {
                 if (!isLogIn) {
                     event.setCancelled(true);
 
-                    event.getPlayer().kick(Component.text(Objects.requireNonNull(passwords.getConfig().getString("settings.message-kick-movment"))));
+                    event.getPlayer().kick(Component.text(Objects.requireNonNull(passwords.getConfig().getString("settings.message-kick-movement"))));
                 }
 
             }

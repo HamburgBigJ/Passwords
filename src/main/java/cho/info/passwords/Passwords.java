@@ -26,7 +26,7 @@ import java.util.Objects;
 public final class Passwords extends JavaPlugin {
 
     public ConfigManager configManager;
-    public String version = "1.5";
+    public String version = "1.6";
 
     public PasswordsApi passwordsApi;
 
@@ -42,7 +42,7 @@ public final class Passwords extends JavaPlugin {
 
         PluginManager pluginManager = getServer().getPluginManager();
 
-        passwordsApi = new PasswordsApi(this, configManager);
+        this.passwordsApi = new PasswordsApi(this, configManager);
 
         getLogger().info("Passwords enabled!");
         saveDefaultConfig();
@@ -157,7 +157,7 @@ public final class Passwords extends JavaPlugin {
 
     public PasswordsApi getPasswordsApi() {
         if (getConfig().getBoolean("api.enable")) {
-            return passwordsApi;
+            return this.passwordsApi;
         } else {
             return null;
         }
