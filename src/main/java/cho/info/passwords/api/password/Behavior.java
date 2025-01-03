@@ -72,4 +72,8 @@ public class Behavior {
     public Inventory getFirstLoginInventory() {
         return passwords.getFirstJoinInventory();
     }
+
+    public void kickPlayer(Player player, String reason) {
+        player.kickPlayer(passwords.getConfig().getString("api.kick-player-message") + reason);
+    }
 }

@@ -1,6 +1,7 @@
 package cho.info.passwords.api.password;
 
 import cho.info.passwords.Passwords;
+import org.bukkit.configuration.file.FileConfiguration;
 
 public class Config {
 
@@ -28,5 +29,10 @@ public class Config {
 
     public void setAdminOpLogin(boolean adminOpLogin) {
         passwords.getConfig().set("settings.is-admin-op", adminOpLogin);
+    }
+
+
+    public FileConfiguration getConfig() {
+        return passwords.getConfig();
     }
 }
