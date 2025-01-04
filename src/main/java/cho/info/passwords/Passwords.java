@@ -82,7 +82,7 @@ public final class Passwords extends JavaPlugin {
         pluginManager.registerEvents(new PlayerLeave(configManager), this);
 
 
-        if (getConfig().getBoolean("api.enable")) {
+        if (!getConfig().getBoolean("api.enable")) {
             getLogger().info("API is disabled!");
             getLogger().info("If you want to use the api feature, please enable it in the config.yml");
         }
