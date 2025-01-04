@@ -1,5 +1,6 @@
-package cho.info.passwords.utls;
+package cho.info.passwords.server;
 
+import cho.info.passwords.utls.ConfigManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;

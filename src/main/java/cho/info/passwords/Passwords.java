@@ -7,14 +7,12 @@ import cho.info.passwords.player.commands.PlayerCommands;
 import cho.info.passwords.publicCommands.PublicCommands;
 import cho.info.passwords.server.PasswordServer;
 import cho.info.passwords.utls.ConfigManager;
-import cho.info.passwords.utls.PlayerLeave;
+import cho.info.passwords.server.PlayerLeave;
 import github.scarsz.discordsrv.DiscordSRV;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.PluginManager;
@@ -26,7 +24,7 @@ import java.util.Objects;
 public final class Passwords extends JavaPlugin {
 
     public ConfigManager configManager;
-    public String version = "1.6";
+    public String version = "1.7";
 
     public PasswordsApi passwordsApi;
 
@@ -47,24 +45,7 @@ public final class Passwords extends JavaPlugin {
         getLogger().info("Passwords enabled!");
         saveDefaultConfig();
 
-        if (Bukkit.getServer().getPluginManager().getPlugin("DiscordSRV") != null) {
-            getLogger().info("DiscordSRV found!");
-            if (getConfig().getBoolean("settings.use-discord-srv")) {
-                getLogger().info("DiscordSRV features enabled!");
-
-                // DiscordSRV features
-
-                DiscordSRV.api.subscribe(this);
-
-                pluginManager.registerEvents(new DiscordListener(configManager, this), this);
-
-            } else {
-                getLogger().info("DiscordSRV features disabled!");
-            }
-        }else{
-            getLogger().info("DiscordSRV not found!");
-            getLogger().info("DiscordSRV features disabled!");
-        }
+        pluginIntegration(pluginManager);
 
         if (!getConfig().getBoolean("enable")) {
             getLogger().info("Passwords disabled!");
@@ -155,6 +136,35 @@ public final class Passwords extends JavaPlugin {
 
     }
 
+    public void pluginIntegration(PluginManager pluginManager) {
+
+        // Discord Srv
+        if (Bukkit.getServer().getPluginManager().getPlugin("DiscordSRV") != null) {
+            getLogger().info("DiscordSRV found!");
+            if (getConfig().getBoolean("settings.use-discord-srv")) {
+                getLogger().info("DiscordSRV features enabled!");
+
+                // DiscordSRV features
+
+                DiscordSRV.api.subscribe(this);
+
+                pluginManager.registerEvents(new DiscordListener(configManager, this), this);
+
+            } else {
+                getLogger().info("DiscordSRV features disabled!");
+            }
+        }else{
+            getLogger().info("DiscordSRV not found!");
+            getLogger().info("DiscordSRV features disabled!");
+        }
+
+    }
+
+    // Api Stuff
+
+    /**
+     * @return Passwords Api
+     */
     public PasswordsApi getPasswordsApi() {
         if (getConfig().getBoolean("api.enable")) {
             return this.passwordsApi;

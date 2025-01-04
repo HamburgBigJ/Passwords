@@ -31,7 +31,9 @@ public class Config {
         passwords.getConfig().set("settings.is-admin-op", adminOpLogin);
     }
 
-
+    /**
+     * @return Plugin Config
+     */
     public FileConfiguration getConfig() {
         return passwords.getConfig();
     }

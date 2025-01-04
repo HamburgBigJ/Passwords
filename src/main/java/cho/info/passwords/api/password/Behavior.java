@@ -73,6 +73,11 @@ public class Behavior {
         return passwords.getFirstJoinInventory();
     }
 
+
+    /**
+     * @param player Player
+     * @param reason String
+     */
     public void kickPlayer(Player player, String reason) {
         player.kickPlayer(passwords.getConfig().getString("api.kick-player-message") + reason);
     }

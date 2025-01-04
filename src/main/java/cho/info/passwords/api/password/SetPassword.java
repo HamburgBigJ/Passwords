@@ -92,10 +92,16 @@ public class SetPassword {
         return (String) configManager.getPlayerValue(player, "playerPassword");
     }
 
+    /**
+     * @return Admin password
+     */
     public String getAdminPassword() {
         return passwords.getConfig().getString("settings.admin-password");
     }
 
+    /**
+     * @return Server password
+     */
     public String getServerPassword() {
         return passwords.getConfig().getString("server.password");
     }

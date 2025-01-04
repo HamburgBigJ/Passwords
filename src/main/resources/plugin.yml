@@ -1,5 +1,5 @@
 name: Passwords
-version: '1.6'
+version: '1.7'
 main: cho.info.passwords.Passwords
 api-version: '1.21'
 authors: [ HamburgBigJ ]
@@ -8,6 +8,8 @@ softdepend: [ DiscordSRV ]
 commands:
   preload:
     permission: passwords.reload
+    permission-message: "You do not have permission to use this command"
 
   setpassword:
     permission: passwords.setpassword
+    permission-message: "You do not have permission to use this command"

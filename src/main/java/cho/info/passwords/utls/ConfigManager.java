@@ -1,18 +1,12 @@
 package cho.info.passwords.utls;
-import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class ConfigManager {
 
@@ -102,4 +96,25 @@ public class ConfigManager {
         return config.contains(path);
     }
 
+    // Retrieves all UUIDs from player configuration files
+    public List<UUID> getAllPlayerUUIDs() {
+        List<UUID> uuids = new ArrayList<>();
+
+        if (playerDataFolder.exists() && playerDataFolder.isDirectory()) {
+            File[] files = playerDataFolder.listFiles((dir, name) -> name.endsWith(".yml"));
+            if (files != null) {
+                for (File file : files) {
+                    String fileName = file.getName();
+                    try {
+                        UUID uuid = UUID.fromString(fileName.replace(".yml", ""));
+                        uuids.add(uuid);
+                    } catch (IllegalArgumentException e) {
+                        System.err.println("Invalid UUID in file name: " + fileName);
+                    }
+                }
+            }
+        }
+
+        return uuids;
+    }
 }

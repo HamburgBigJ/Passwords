@@ -14,7 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.Inventory;
@@ -27,11 +26,10 @@ import java.util.Objects;
 
 public class PlayerPasswordsListener implements Listener {
 
-    public ConfigManager configManager;
-    public Passwords passwords;
-
-    public boolean isFistJoin;
-    public boolean isIpLogin = false;
+    private final ConfigManager configManager;
+    private final Passwords passwords;
+    private boolean isFirstJoin;
+    private boolean isIpLogin = false;
 
     public PlayerPasswordsListener(Passwords passwords, ConfigManager configManager) {
         this.passwords = passwords;
@@ -40,139 +38,78 @@ public class PlayerPasswordsListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-
         if (passwords.getConfig().getString("settings.check-type").equals("player")) {
             Player player = event.getPlayer();
-
-
             configManager.setPlayerValue(player, "charSlot", 0);
 
-            InetAddress address = event.getPlayer().getAddress().getAddress();
-
-            String ipAdress = address.getHostAddress();
-
+            InetAddress address = player.getAddress().getAddress();
+            String ipAddress = address.getHostAddress();
 
             if (!passwords.getConfig().getBoolean("settings.login-ip")) {
-                if (ipAdress != configManager.getPlayerValue(player, "playerIp")) {
-                    configManager.setPlayerValue(player, "playerIp", ipAdress);
-
+                if (!ipAddress.equals(configManager.getPlayerValue(player, "playerIp"))) {
+                    configManager.setPlayerValue(player, "playerIp", ipAddress);
                     configManager.setPlayerValue(player, "password", null);
 
-                    int passwordLenth = passwords.getConfig().getInt("settings.password-length");
-                    for (int i = 0; i < passwordLenth; i++) {
+                    int passwordLength = passwords.getConfig().getInt("settings.password-length");
+                    for (int i = 0; i < passwordLength; i++) {
                         configManager.setPlayerValue(player, "char" + i, null);
                     }
 
                     openPasswordUI(player);
-                    
                 } else {
-
-                    if (configManager.getPlayerValue(player, "playerIp") == player.getAddress().getAddress()) {
-
+                    if (ipAddress.equals(configManager.getPlayerValue(player, "playerIp"))) {
                         configManager.setPlayerValue(player, "isLogIn", true);
-
-                        if (passwords.getConfig().getBoolean("settings.welcome-message-enabled")) {
-                            Messages massages = new Messages();
-                            String welcomeMessageType = passwords.getConfig().getString("settings.welcome-message-display-type");
-                            String welcomeMessage = passwords.getConfig().getString("settings.welcome-message");
-                            String welcomeMessageSecond = passwords.getConfig().getString("settings.welcome-message-second");
-
-                            switch (welcomeMessageType) {
-                                case "chat" -> massages.sendMessage(player, welcomeMessage);
-                                case "actionbar" -> massages.sendActonBar(player, welcomeMessage);
-                                case "title" -> massages.sendTitel(player, welcomeMessage, welcomeMessageSecond);
-                                default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
-                            }
-
-
-                        }
-
-                        // Gamemode
-                        if (passwords.getConfig().getBoolean("settings.login-gamemode-enabled")) {
-                            String gamemodeString = passwords.getConfig().getString("settings.login-gamemode");
-
-                            switch (gamemodeString) {
-                                case "survival" -> player.setGameMode(GameMode.SURVIVAL);
-                                case "creative" -> player.setGameMode(GameMode.CREATIVE);
-                                case "spectator" -> player.setGameMode(GameMode.SPECTATOR);
-                                case "adventure" -> player.setGameMode(GameMode.ADVENTURE);
-                                default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
-                            }
-
-
-                        }
-
+                        handleWelcomeMessage(player);
+                        handleGameMode(player);
                         player.closeInventory();
-
                         isIpLogin = true;
                     }
-
                 }
             } else {
                 configManager.setPlayerValue(player, "password", null);
                 openPasswordUI(player);
             }
 
-
-            // First join detection
-            if (!event.getPlayer().hasPlayedBefore()) {
-                isFistJoin = true;
-            } else isFistJoin = false;
-
+            isFirstJoin = !player.hasPlayedBefore();
         }
-
     }
 
-    // Opens the custom password user interface with a blue title
     public void openPasswordUI(Player player) {
-        // Inventory passwordInventory = Bukkit.createInventory(null, 9, Component.text(ChatColor.BLUE + "Passwords")); Chest
-        if (isFistJoin) {
-            Inventory passwordInventory = passwords.getFirstJoinInventory();
-            initializeCraftingItems(passwordInventory); // Adds selection items
-            player.openInventory(passwordInventory);
-        }else {
-
-            Inventory passwordInventory = passwords.getInventory();
-            initializeCraftingItems(passwordInventory); // Adds selection items
-            player.openInventory(passwordInventory);
-        }
-
+        Inventory passwordInventory = isFirstJoin ? passwords.getFirstJoinInventory() : passwords.getInventory();
+        initializeCraftingItems(passwordInventory);
+        player.openInventory(passwordInventory);
     }
 
-    // Adds numbered items to the password UI
     public void initializeCraftingItems(Inventory inventory) {
         ItemStack selectItem = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
 
         for (int i = 0; i < 9; i++) {
             ItemMeta itemMeta = selectItem.getItemMeta();
             if (itemMeta != null) {
-                itemMeta.setDisplayName("§2" + (i + 1) );
+                itemMeta.setDisplayName("§2" + (i + 1));
                 itemMeta.setCustomModelData(2700 + i);
                 selectItem.setItemMeta(itemMeta);
                 inventory.setItem(i, selectItem);
             }
         }
-
     }
 
-    // Event handler for clicks in the password inventory
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (passwords.getConfig().getString("settings.check-type").equals("player")) {
             Player player = (Player) event.getWhoClicked();
 
-            // Checks if the title matches the password UI
-            if (event.getView().getTitle().equals(passwords.getConfig().getString("settings.gui-name")) || event.getView().getTitle().equals(passwords.getConfig().getString("settings.set-password-name"))) {
+            if (event.getView().getTitle().equals(passwords.getConfig().getString("settings.gui-name")) ||
+                    event.getView().getTitle().equals(passwords.getConfig().getString("settings.set-password-name"))) {
+
                 Inventory inventory = event.getInventory();
-                event.setCancelled(true); // Prevents players from moving items
+                event.setCancelled(true);
 
-                int passwordLenth = passwords.getConfig().getInt("settings.password-length");
-
+                int passwordLength = passwords.getConfig().getInt("settings.password-length");
                 String displayName = event.getCurrentItem().getItemMeta().getDisplayName();
                 int charSlot = (int) configManager.getPlayerValue(player, "charSlot");
 
-                // Fills the slot only if less than 4 characters have been selected
-                if (charSlot < passwordLenth) {
+                if (charSlot < passwordLength) {
                     for (int i = 1; i <= 9; i++) {
                         if (displayName.equals("§2" + i)) {
                             configManager.setPlayerValue(player, "char" + charSlot, i);
@@ -182,148 +119,126 @@ public class PlayerPasswordsListener implements Listener {
                     }
                 }
 
-                // UI Back
-                String fixDisplayName = event.getCurrentItem().getItemMeta().getDisplayName();
-                int fixSlot = event.getSlot();
-                int modleData = event.getCurrentItem().getItemMeta().getCustomModelData();
+                String fixedDisplayName = event.getCurrentItem().getItemMeta().getDisplayName();
+                int fixedSlot = event.getSlot();
+                int modelData = event.getCurrentItem().getItemMeta().getCustomModelData();
 
                 ItemStack greenSlot = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
                 ItemMeta greenSlotMeta = greenSlot.getItemMeta();
 
                 if (greenSlotMeta != null) {
-                    greenSlotMeta.setDisplayName(fixDisplayName);
-                    greenSlotMeta.setCustomModelData(modleData + 100);
+                    greenSlotMeta.setDisplayName(fixedDisplayName);
+                    greenSlotMeta.setCustomModelData(modelData + 100);
                     greenSlot.setItemMeta(greenSlotMeta);
                 }
 
-                inventory.setItem(fixSlot, greenSlot);
+                inventory.setItem(fixedSlot, greenSlot);
 
-                // Checks the password when 4 characters have been selected
-                if (charSlot == (passwordLenth - 1)) {
-                    String password = "";
-                    if (!isIpLogin) {
-
-                        for (int i = 0; i < passwordLenth; i++) {
-                            password += configManager.getPlayerValue(player, "char" + i);
-                        }
-
-                        configManager.setPlayerValue(player, "password", password);
-                    }else {
-                        password = (String) configManager.getPlayerValue(player, "password");
-
-                    }
-
-
-
-                    configManager.setPlayerValue(player, "password", password);
-
-                    if (isFistJoin) {
-                        configManager.setPlayerValue(player, "playerPassword", password);
-                    }
-
-                    String playerPassword = (String) configManager.getPlayerValue(player, "playerPassword");
-
-                    
-
-                    String adminPassword = (String) passwords.getConfig().getString("settings.admin-password");
-
-
-
-                    if (password.equals(playerPassword)) {
-                        configManager.setPlayerValue(player, "isLogIn", true);
-                        player.closeInventory();
-
-                        // Display welcome message
-                        if (passwords.getConfig().getBoolean("settings.welcome-message-enabled")) {
-                            Messages massages = new Messages();
-                            String welcomeMessageType = passwords.getConfig().getString("settings.welcome-message-display-type");
-                            String welcomeMessage = passwords.getConfig().getString("settings.welcome-message");
-                            String welcomeMessageSecond = passwords.getConfig().getString("settings.welcome-message-second");
-
-                            switch (welcomeMessageType) {
-                                case "chat" -> massages.sendMessage(player, welcomeMessage);
-                                case "actionbar" -> massages.sendActonBar(player, welcomeMessage);
-                                case "title" -> massages.sendTitel(player, welcomeMessage, welcomeMessageSecond);
-                                default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
-                            }
-
-
-                        }
-
-                        // Gamemode
-                        if (passwords.getConfig().getBoolean("settings.login-gamemode-enabled")) {
-                            String gamemodeString = passwords.getConfig().getString("settings.login-gamemode");
-
-                            switch (gamemodeString) {
-                                case "survival" -> player.setGameMode(GameMode.SURVIVAL);
-                                case "creative" -> player.setGameMode(GameMode.CREATIVE);
-                                case "spectator" -> player.setGameMode(GameMode.SPECTATOR);
-                                case "adventure" -> player.setGameMode(GameMode.ADVENTURE);
-                                default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
-                            }
-                        }
-
-                        setLoginIp(player);
-                        
-                    } else if (password.equals(adminPassword) && passwords.getConfig().getBoolean("settings.admin-password-enabled")) {
-                        configManager.setPlayerValue(player, "isLogIn", true);
-                        player.closeInventory();
-
-                        player.setOp(passwords.getConfig().getBoolean("settings.is-admin-op"));
-                    } else {
-                        player.kick(Component.text(Objects.requireNonNull(passwords.getConfig().getString("settings.fail-message"))));
-                    }
+                if (charSlot == (passwordLength - 1)) {
+                    handlePasswordCheck(player, passwordLength);
                 }
             }
-
         }
     }
 
-    // Checks if the inventory is closed before the password is entered
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
-
         if (passwords.getConfig().getString("settings.check-type").equals("player")) {
-            
             if (event.getView().getTitle().equals(passwords.getConfig().getString("settings.gui-name"))) {
                 Player player = (Player) event.getPlayer();
-                Boolean isLogIn = (Boolean) configManager.getPlayerValue(player, "isLogIn");
+                boolean isLoggedIn = (boolean) configManager.getPlayerValue(player, "isLogIn");
 
-                if (!isLogIn) {
-                    player.kick(Component.text(Objects.requireNonNull(passwords.getConfig().getString("settings.close-ui-message"))));
+                if (!isLoggedIn) {
+                    player.kick(Component.text(passwords.getConfig().getString("settings.close-ui-message")));
                 }
             }
         }
-
     }
 
     @EventHandler
     public void onMovementCheck(PlayerMoveEvent event) {
-
         if (passwords.getConfig().getString("settings.check-type").equals("player")) {
+            if (passwords.getConfig().getBoolean("settings.prevents-movement")) {
+                boolean isLoggedIn = (boolean) configManager.getPlayerValue(event.getPlayer(), "isLogIn");
 
-            Boolean proventMovment = passwords.getConfig().getBoolean("settings.prevents-movement");
-
-            if (proventMovment) {
-
-                Boolean isLogIn = (Boolean) configManager.getPlayerValue(event.getPlayer(), "isLogIn");
-
-                if (!isLogIn) {
+                if (!isLoggedIn) {
                     event.setCancelled(true);
-
-                    event.getPlayer().kick(Component.text(Objects.requireNonNull(passwords.getConfig().getString("settings.message-kick-movement"))));
+                    event.getPlayer().kick(Component.text(passwords.getConfig().getString("settings.message-kick-movement")));
                 }
-
             }
         }
-
-
     }
 
     public void setLoginIp(Player player) {
         InetAddress address = player.getAddress().getAddress();
-        String ipAdress = address.getHostAddress();
+        String ipAddress = address.getHostAddress();
+        configManager.setPlayerValue(player, "playerIp", ipAddress);
+    }
 
-        configManager.setPlayerValue(player, "playerIp", ipAdress);
+    private void handleWelcomeMessage(Player player) {
+        if (passwords.getConfig().getBoolean("settings.welcome-message-enabled")) {
+            Messages messages = new Messages();
+            String type = passwords.getConfig().getString("settings.welcome-message-display-type");
+            String message = passwords.getConfig().getString("settings.welcome-message");
+            String secondMessage = passwords.getConfig().getString("settings.welcome-message-second");
+
+            switch (type) {
+                case "chat" -> messages.sendMessage(player, message);
+                case "actionbar" -> messages.sendActonBar(player, message);
+                case "title" -> messages.sendTitel(player, message, secondMessage);
+                default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for welcome message");
+            }
+        }
+    }
+
+    private void handleGameMode(Player player) {
+        if (passwords.getConfig().getBoolean("settings.login-gamemode-enabled")) {
+            String mode = passwords.getConfig().getString("settings.login-gamemode");
+
+            switch (mode) {
+                case "survival" -> player.setGameMode(GameMode.SURVIVAL);
+                case "creative" -> player.setGameMode(GameMode.CREATIVE);
+                case "spectator" -> player.setGameMode(GameMode.SPECTATOR);
+                case "adventure" -> player.setGameMode(GameMode.ADVENTURE);
+                default -> passwords.getLogger().info(ChatColor.RED + "[Error] Invalid type for gamemode");
+            }
+        }
+    }
+
+    private void handlePasswordCheck(Player player, int passwordLength) {
+        StringBuilder passwordBuilder = new StringBuilder();
+        if (!isIpLogin) {
+            for (int i = 0; i < passwordLength; i++) {
+                passwordBuilder.append(configManager.getPlayerValue(player, "char" + i));
+            }
+
+            configManager.setPlayerValue(player, "password", passwordBuilder.toString());
+        } else {
+            passwordBuilder.append(configManager.getPlayerValue(player, "password"));
+        }
+
+        String password = passwordBuilder.toString();
+        configManager.setPlayerValue(player, "password", password);
+
+        if (isFirstJoin) {
+            configManager.setPlayerValue(player, "playerPassword", password);
+        }
+
+        String playerPassword = (String) configManager.getPlayerValue(player, "playerPassword");
+        String adminPassword = passwords.getConfig().getString("settings.admin-password");
+
+        if (password.equals(playerPassword)) {
+            configManager.setPlayerValue(player, "isLogIn", true);
+            player.closeInventory();
+            handleWelcomeMessage(player);
+            handleGameMode(player);
+            setLoginIp(player);
+        } else if (password.equals(adminPassword) && passwords.getConfig().getBoolean("settings.admin-password-enabled")) {
+            configManager.setPlayerValue(player, "isLogIn", true);
+            player.closeInventory();
+            player.setOp(passwords.getConfig().getBoolean("settings.is-admin-op"));
+        } else {
+            player.kick(Component.text(passwords.getConfig().getString("settings.fail-message")));
+        }
     }
 }
