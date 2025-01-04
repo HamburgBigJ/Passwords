@@ -4,16 +4,16 @@ import cho.info.passwords.Passwords;
 import cho.info.passwords.api.password.Behavior;
 import cho.info.passwords.api.password.Config;
 import cho.info.passwords.api.password.SetPassword;
-import cho.info.passwords.utls.ConfigManager;
+import cho.info.passwords.utls.DataManager;
 
 public class PasswordsApi {
 
     public Passwords passwords;
-    public ConfigManager configManager;
+    public DataManager dataManager;
 
-    public PasswordsApi(Passwords passwords, ConfigManager configManager) {
+    public PasswordsApi(Passwords passwords, DataManager dataManager) {
         this.passwords = passwords;
-        this.configManager = configManager;
+        this.dataManager = dataManager;
     }
 
     /**
@@ -29,7 +29,7 @@ public class PasswordsApi {
      * @return SetPassword
      */
     public SetPassword setPassword(){
-        return new SetPassword(configManager, passwords);
+        return new SetPassword(dataManager, passwords);
     }
 
     /**
@@ -45,15 +45,15 @@ public class PasswordsApi {
      * @return Behavior
      */
     public Behavior behavior(){
-        return new Behavior(configManager, passwords);
+        return new Behavior(dataManager, passwords);
     }
 
     /**
      * Get the config manager
-     * @return ConfigManager
+     * @return DataManager
      */
-    public ConfigManager getConfigManager(){
-        return configManager;
+    public DataManager getDataManager(){
+        return dataManager;
     }
 
 }

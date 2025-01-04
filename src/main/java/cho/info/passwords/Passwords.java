@@ -6,7 +6,7 @@ import cho.info.passwords.player.PasswordPlayer;
 import cho.info.passwords.player.commands.PlayerCommands;
 import cho.info.passwords.publicCommands.PublicCommands;
 import cho.info.passwords.server.PasswordServer;
-import cho.info.passwords.utls.ConfigManager;
+import cho.info.passwords.utls.DataManager;
 import cho.info.passwords.server.PlayerLeave;
 import github.scarsz.discordsrv.DiscordSRV;
 import net.kyori.adventure.text.Component;
@@ -23,7 +23,7 @@ import java.util.Objects;
 
 public final class Passwords extends JavaPlugin {
 
-    public ConfigManager configManager;
+    public DataManager dataManager;
     public String version = "1.7";
 
     public PasswordsApi passwordsApi;
@@ -32,15 +32,15 @@ public final class Passwords extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
 
-        ConfigManager configManager = new ConfigManager(getDataFolder());
-        PasswordServer passwordServer = new PasswordServer(this, configManager);
-        PasswordPlayer passwordPlayer = new PasswordPlayer(configManager, this);
+        DataManager dataManager = new DataManager(getDataFolder());
+        PasswordServer passwordServer = new PasswordServer(this, dataManager);
+        PasswordPlayer passwordPlayer = new PasswordPlayer(dataManager, this);
         PublicCommands publicCommands = new PublicCommands(this);
-        PlayerCommands playerCommands = new PlayerCommands(this, configManager);
+        PlayerCommands playerCommands = new PlayerCommands(this, dataManager);
 
         PluginManager pluginManager = getServer().getPluginManager();
 
-        this.passwordsApi = new PasswordsApi(this, configManager);
+        this.passwordsApi = new PasswordsApi(this, dataManager);
 
         getLogger().info("Passwords enabled!");
         saveDefaultConfig();
@@ -79,7 +79,7 @@ public final class Passwords extends JavaPlugin {
 
 
 
-        pluginManager.registerEvents(new PlayerLeave(configManager), this);
+        pluginManager.registerEvents(new PlayerLeave(dataManager), this);
 
 
         if (!getConfig().getBoolean("api.enable")) {
@@ -148,7 +148,7 @@ public final class Passwords extends JavaPlugin {
 
                 DiscordSRV.api.subscribe(this);
 
-                pluginManager.registerEvents(new DiscordListener(configManager, this), this);
+                pluginManager.registerEvents(new DiscordListener(dataManager, this), this);
 
             } else {
                 getLogger().info("DiscordSRV features disabled!");

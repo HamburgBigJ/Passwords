@@ -1,5 +1,5 @@
 version: 1.7 # Do not change !!!!
-# Only edit the config.yml
+# Only edit the rest.
 enable: true
 
 settings:
@@ -8,7 +8,7 @@ settings:
   check-type: server
   # Gui Name
   gui-name: §9Passwords
-  # Set password name ( Beta - Mey not work!)
+  # Set password name
   set-password-name: §aSet Password
   # Message that will be displayed as the kick reason.
   fail-message: §4§lThe password is incorrect!
@@ -29,7 +29,7 @@ settings:
   # Admin password enable
   admin-password-enabled: true
   # Admin password grants all permissions to the player. (Can not be longer than the password-length)
-  admin-password: 5678
+  admin-password: 8143
   # Admin login as Op.
   is-admin-op: true
   # Enable login gamemode.

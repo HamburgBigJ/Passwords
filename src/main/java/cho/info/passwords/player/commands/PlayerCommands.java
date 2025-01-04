@@ -1,20 +1,20 @@
 package cho.info.passwords.player.commands;
 
 import cho.info.passwords.Passwords;
-import cho.info.passwords.utls.ConfigManager;
+import cho.info.passwords.utls.DataManager;
 
 public class PlayerCommands {
 
     public Passwords passwords;
-    public ConfigManager configManager;
+    public DataManager dataManager;
 
-    public PlayerCommands(Passwords passwords, ConfigManager configManager) {
+    public PlayerCommands(Passwords passwords, DataManager dataManager) {
         this.passwords = passwords;
-        this.configManager = configManager;
+        this.dataManager = dataManager;
     }
 
     public void registerPlayerCommands() {
         
-        passwords.getCommand("setpassword").setExecutor(new SetPlayerPasswords(configManager));
+        passwords.getCommand("setpassword").setExecutor(new SetPlayerPasswords(dataManager));
     }
 }

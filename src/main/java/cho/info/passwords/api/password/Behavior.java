@@ -1,7 +1,7 @@
 package cho.info.passwords.api.password;
 
 import cho.info.passwords.Passwords;
-import cho.info.passwords.utls.ConfigManager;
+import cho.info.passwords.utls.DataManager;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -9,11 +9,11 @@ import org.bukkit.inventory.Inventory;
 
 public class Behavior {
 
-    public ConfigManager configManager;
+    public DataManager dataManager;
     public Passwords passwords;
 
-    public Behavior(ConfigManager configManager, Passwords passwords) {
-        this.configManager = configManager;
+    public Behavior(DataManager dataManager, Passwords passwords) {
+        this.dataManager = dataManager;
         this.passwords = passwords;
     }
 
@@ -22,7 +22,7 @@ public class Behavior {
      * @param player Player
      */
     public void setLogin(Boolean isLogin, Player player) {
-        configManager.setPlayerValue(player, "isLogIn", isLogin);
+        dataManager.setPlayerValue(player, "isLogIn", isLogin);
     }
 
     /**
@@ -45,7 +45,7 @@ public class Behavior {
      * @return boolean
      */
     public boolean isLoginScreen(Player player) {
-        return (boolean) configManager.getPlayerValue(player, "isLogIn");
+        return (boolean) dataManager.getPlayerValue(player, "isLogIn");
     }
 
     /**

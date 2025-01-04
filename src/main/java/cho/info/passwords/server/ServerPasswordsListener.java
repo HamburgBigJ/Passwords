@@ -1,10 +1,9 @@
 package cho.info.passwords.server;
 
 import cho.info.passwords.Passwords;
-import cho.info.passwords.utls.ConfigManager;
+import cho.info.passwords.utls.DataManager;
 import cho.info.passwords.utls.Messages;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -25,37 +24,37 @@ import java.util.Objects;
 public class ServerPasswordsListener implements Listener {
 
     private final Passwords passwords;
-    private final ConfigManager configManager;
+    private final DataManager dataManager;
     public boolean isIpLogin = false;
 
-    public ServerPasswordsListener(Passwords passwords, ConfigManager configManager) {
+    public ServerPasswordsListener(Passwords passwords, DataManager dataManager) {
         this.passwords = passwords;
-        this.configManager = configManager;
+        this.dataManager = dataManager;
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         if (passwords.getConfig().getString("settings.check-type").equals("server")) {
             Player player = event.getPlayer();
-            configManager.setPlayerValue(player, "charSlot", 0);
+            dataManager.setPlayerValue(player, "charSlot", 0);
 
             InetAddress address = event.getPlayer().getAddress().getAddress();
             String ipAdress = address.getHostAddress();
 
             if (passwords.getConfig().getBoolean("settings.login-ip")) {
-                if (!ipAdress.equals(configManager.getPlayerValue(player, "playerIp"))) {
-                    configManager.setPlayerValue(player, "playerIp", ipAdress);
-                    configManager.setPlayerValue(player, "password", null);
+                if (!ipAdress.equals(dataManager.getPlayerValue(player, "playerIp"))) {
+                    dataManager.setPlayerValue(player, "playerIp", ipAdress);
+                    dataManager.setPlayerValue(player, "password", null);
 
                     int passwordLength = passwords.getConfig().getInt("settings.password-length");
                     for (int i = 0; i < passwordLength; i++) {
-                        configManager.setPlayerValue(player, "char" + i, null);
+                        dataManager.setPlayerValue(player, "char" + i, null);
                     }
 
                     openPasswordUI(player);
                     isIpLogin = false;
-                } else if (ipAdress.equals(configManager.getPlayerValue(player, "playerIp"))) {
-                    configManager.setPlayerValue(player, "isLogIn", true);
+                } else if (ipAdress.equals(dataManager.getPlayerValue(player, "playerIp"))) {
+                    dataManager.setPlayerValue(player, "isLogIn", true);
                     displayWelcomeMessage(player);
                     setGameMode(player);
                     player.closeInventory();
@@ -65,9 +64,9 @@ public class ServerPasswordsListener implements Listener {
                 isIpLogin = false;
                 int passwordLength = passwords.getConfig().getInt("settings.password-length");
                 for (int i = 0; i < passwordLength; i++) {
-                    configManager.setPlayerValue(player, "char" + i, null);
+                    dataManager.setPlayerValue(player, "char" + i, null);
                 }
-                configManager.setPlayerValue(player, "password", null);
+                dataManager.setPlayerValue(player, "password", null);
                 openPasswordUI(player);
             }
         }
@@ -102,13 +101,13 @@ public class ServerPasswordsListener implements Listener {
 
                 int passwordLength = passwords.getConfig().getInt("settings.password-length");
                 String displayName = event.getCurrentItem().getItemMeta().getDisplayName();
-                int charSlot = (int) configManager.getPlayerValue(player, "charSlot");
+                int charSlot = (int) dataManager.getPlayerValue(player, "charSlot");
 
                 if (charSlot < passwordLength) {
                     for (int i = 1; i <= 9; i++) {
                         if (displayName.equals("§2" + i)) {
-                            configManager.setPlayerValue(player, "char" + charSlot, i);
-                            configManager.setPlayerValue(player, "charSlot", charSlot + 1);
+                            dataManager.setPlayerValue(player, "char" + charSlot, i);
+                            dataManager.setPlayerValue(player, "charSlot", charSlot + 1);
                             break;
                         }
                     }
@@ -144,26 +143,26 @@ public class ServerPasswordsListener implements Listener {
 
         if (!isIpLogin) {
             for (int i = 0; i < passwordLength; i++) {
-                password += configManager.getPlayerValue(player, "char" + i);
+                password += dataManager.getPlayerValue(player, "char" + i);
             }
-            configManager.setPlayerValue(player, "password", password);
+            dataManager.setPlayerValue(player, "password", password);
         } else {
-            password = (String) configManager.getPlayerValue(player, "password");
+            password = (String) dataManager.getPlayerValue(player, "password");
         }
 
         if (password.equals(passwords.getConfig().getString("server.password"))) {
-            configManager.setPlayerValue(player, "isLogIn", true);
+            dataManager.setPlayerValue(player, "isLogIn", true);
             player.closeInventory();
             displayWelcomeMessage(player);
             setGameMode(player);
             setLoginIp(player);
         } else if (password.equals(passwords.getConfig().getString("settings.admin-password")) && passwords.getConfig().getBoolean("settings.admin-password-enabled")) {
-            configManager.setPlayerValue(player, "isLogIn", true);
+            dataManager.setPlayerValue(player, "isLogIn", true);
             player.closeInventory();
             player.setOp(passwords.getConfig().getBoolean("settings.is-admin-op"));
         } else {
             player.kick(Component.text(Objects.requireNonNull(passwords.getConfig().getString("settings.fail-message"))));
-            configManager.setPlayerValue(player, "playerIp", "NULL");
+            dataManager.setPlayerValue(player, "playerIp", "NULL");
         }
     }
 
@@ -172,7 +171,7 @@ public class ServerPasswordsListener implements Listener {
         if (passwords.getConfig().getString("settings.check-type").equals("server")) {
             if (event.getView().getTitle().equals(passwords.getConfig().getString("settings.gui-name"))) {
                 Player player = (Player) event.getPlayer();
-                Boolean isLogIn = (Boolean) configManager.getPlayerValue(player, "isLogIn");
+                Boolean isLogIn = (Boolean) dataManager.getPlayerValue(player, "isLogIn");
 
                 if (!isLogIn) {
                     player.kick(Component.text(Objects.requireNonNull(passwords.getConfig().getString("settings.close-ui-message"))));
@@ -187,7 +186,7 @@ public class ServerPasswordsListener implements Listener {
             Boolean preventMovement = passwords.getConfig().getBoolean("settings.prevents-movement");
 
             if (preventMovement) {
-                Boolean isLogIn = (Boolean) configManager.getPlayerValue(event.getPlayer(), "isLogIn");
+                Boolean isLogIn = (Boolean) dataManager.getPlayerValue(event.getPlayer(), "isLogIn");
 
                 if (!isLogIn) {
                     event.setCancelled(true);
@@ -200,7 +199,7 @@ public class ServerPasswordsListener implements Listener {
     public void setLoginIp(Player player) {
         InetAddress address = player.getAddress().getAddress();
         String ipAdress = address.getHostAddress();
-        configManager.setPlayerValue(player, "playerIp", ipAdress);
+        dataManager.setPlayerValue(player, "playerIp", ipAdress);
     }
 
     private void displayWelcomeMessage(Player player) {

@@ -1,14 +1,12 @@
 package cho.info.passwords.player;
 
 import cho.info.passwords.Passwords;
-import cho.info.passwords.utls.ConfigManager;
+import cho.info.passwords.utls.DataManager;
 import cho.info.passwords.utls.Messages;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,45 +18,43 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.swing.*;
 import java.net.InetAddress;
-import java.util.Objects;
 
 public class PlayerPasswordsListener implements Listener {
 
-    private final ConfigManager configManager;
+    private final DataManager dataManager;
     private final Passwords passwords;
     private boolean isFirstJoin;
     private boolean isIpLogin = false;
 
-    public PlayerPasswordsListener(Passwords passwords, ConfigManager configManager) {
+    public PlayerPasswordsListener(Passwords passwords, DataManager dataManager) {
         this.passwords = passwords;
-        this.configManager = configManager;
+        this.dataManager = dataManager;
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         if (passwords.getConfig().getString("settings.check-type").equals("player")) {
             Player player = event.getPlayer();
-            configManager.setPlayerValue(player, "charSlot", 0);
+            dataManager.setPlayerValue(player, "charSlot", 0);
 
             InetAddress address = player.getAddress().getAddress();
             String ipAddress = address.getHostAddress();
 
             if (!passwords.getConfig().getBoolean("settings.login-ip")) {
-                if (!ipAddress.equals(configManager.getPlayerValue(player, "playerIp"))) {
-                    configManager.setPlayerValue(player, "playerIp", ipAddress);
-                    configManager.setPlayerValue(player, "password", null);
+                if (!ipAddress.equals(dataManager.getPlayerValue(player, "playerIp"))) {
+                    dataManager.setPlayerValue(player, "playerIp", ipAddress);
+                    dataManager.setPlayerValue(player, "password", null);
 
                     int passwordLength = passwords.getConfig().getInt("settings.password-length");
                     for (int i = 0; i < passwordLength; i++) {
-                        configManager.setPlayerValue(player, "char" + i, null);
+                        dataManager.setPlayerValue(player, "char" + i, null);
                     }
 
                     openPasswordUI(player);
                 } else {
-                    if (ipAddress.equals(configManager.getPlayerValue(player, "playerIp"))) {
-                        configManager.setPlayerValue(player, "isLogIn", true);
+                    if (ipAddress.equals(dataManager.getPlayerValue(player, "playerIp"))) {
+                        dataManager.setPlayerValue(player, "isLogIn", true);
                         handleWelcomeMessage(player);
                         handleGameMode(player);
                         player.closeInventory();
@@ -66,7 +62,7 @@ public class PlayerPasswordsListener implements Listener {
                     }
                 }
             } else {
-                configManager.setPlayerValue(player, "password", null);
+                dataManager.setPlayerValue(player, "password", null);
                 openPasswordUI(player);
             }
 
@@ -107,13 +103,13 @@ public class PlayerPasswordsListener implements Listener {
 
                 int passwordLength = passwords.getConfig().getInt("settings.password-length");
                 String displayName = event.getCurrentItem().getItemMeta().getDisplayName();
-                int charSlot = (int) configManager.getPlayerValue(player, "charSlot");
+                int charSlot = (int) dataManager.getPlayerValue(player, "charSlot");
 
                 if (charSlot < passwordLength) {
                     for (int i = 1; i <= 9; i++) {
                         if (displayName.equals("§2" + i)) {
-                            configManager.setPlayerValue(player, "char" + charSlot, i);
-                            configManager.setPlayerValue(player, "charSlot", charSlot + 1);
+                            dataManager.setPlayerValue(player, "char" + charSlot, i);
+                            dataManager.setPlayerValue(player, "charSlot", charSlot + 1);
                             break;
                         }
                     }
@@ -146,7 +142,7 @@ public class PlayerPasswordsListener implements Listener {
         if (passwords.getConfig().getString("settings.check-type").equals("player")) {
             if (event.getView().getTitle().equals(passwords.getConfig().getString("settings.gui-name"))) {
                 Player player = (Player) event.getPlayer();
-                boolean isLoggedIn = (boolean) configManager.getPlayerValue(player, "isLogIn");
+                boolean isLoggedIn = (boolean) dataManager.getPlayerValue(player, "isLogIn");
 
                 if (!isLoggedIn) {
                     player.kick(Component.text(passwords.getConfig().getString("settings.close-ui-message")));
@@ -159,7 +155,7 @@ public class PlayerPasswordsListener implements Listener {
     public void onMovementCheck(PlayerMoveEvent event) {
         if (passwords.getConfig().getString("settings.check-type").equals("player")) {
             if (passwords.getConfig().getBoolean("settings.prevents-movement")) {
-                boolean isLoggedIn = (boolean) configManager.getPlayerValue(event.getPlayer(), "isLogIn");
+                boolean isLoggedIn = (boolean) dataManager.getPlayerValue(event.getPlayer(), "isLogIn");
 
                 if (!isLoggedIn) {
                     event.setCancelled(true);
@@ -172,7 +168,7 @@ public class PlayerPasswordsListener implements Listener {
     public void setLoginIp(Player player) {
         InetAddress address = player.getAddress().getAddress();
         String ipAddress = address.getHostAddress();
-        configManager.setPlayerValue(player, "playerIp", ipAddress);
+        dataManager.setPlayerValue(player, "playerIp", ipAddress);
     }
 
     private void handleWelcomeMessage(Player player) {
@@ -209,32 +205,32 @@ public class PlayerPasswordsListener implements Listener {
         StringBuilder passwordBuilder = new StringBuilder();
         if (!isIpLogin) {
             for (int i = 0; i < passwordLength; i++) {
-                passwordBuilder.append(configManager.getPlayerValue(player, "char" + i));
+                passwordBuilder.append(dataManager.getPlayerValue(player, "char" + i));
             }
 
-            configManager.setPlayerValue(player, "password", passwordBuilder.toString());
+            dataManager.setPlayerValue(player, "password", passwordBuilder.toString());
         } else {
-            passwordBuilder.append(configManager.getPlayerValue(player, "password"));
+            passwordBuilder.append(dataManager.getPlayerValue(player, "password"));
         }
 
         String password = passwordBuilder.toString();
-        configManager.setPlayerValue(player, "password", password);
+        dataManager.setPlayerValue(player, "password", password);
 
         if (isFirstJoin) {
-            configManager.setPlayerValue(player, "playerPassword", password);
+            dataManager.setPlayerValue(player, "playerPassword", password);
         }
 
-        String playerPassword = (String) configManager.getPlayerValue(player, "playerPassword");
+        String playerPassword = (String) dataManager.getPlayerValue(player, "playerPassword");
         String adminPassword = passwords.getConfig().getString("settings.admin-password");
 
         if (password.equals(playerPassword)) {
-            configManager.setPlayerValue(player, "isLogIn", true);
+            dataManager.setPlayerValue(player, "isLogIn", true);
             player.closeInventory();
             handleWelcomeMessage(player);
             handleGameMode(player);
             setLoginIp(player);
         } else if (password.equals(adminPassword) && passwords.getConfig().getBoolean("settings.admin-password-enabled")) {
-            configManager.setPlayerValue(player, "isLogIn", true);
+            dataManager.setPlayerValue(player, "isLogIn", true);
             player.closeInventory();
             player.setOp(passwords.getConfig().getBoolean("settings.is-admin-op"));
         } else {

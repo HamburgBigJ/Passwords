@@ -1,7 +1,7 @@
 package cho.info.passwords.api.password;
 
 import cho.info.passwords.Passwords;
-import cho.info.passwords.utls.ConfigManager;
+import cho.info.passwords.utls.DataManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 
@@ -9,12 +9,12 @@ import java.util.logging.Logger;
 
 public class SetPassword {
 
-    public ConfigManager configManager;
+    public DataManager dataManager;
     public Passwords passwords;
     private final Logger logger;
 
-    public SetPassword(ConfigManager configManager, Passwords passwords) {
-        this.configManager = configManager;
+    public SetPassword(DataManager dataManager, Passwords passwords) {
+        this.dataManager = dataManager;
         this.passwords = passwords;
         this.logger = passwords.getLogger(); // Initialize logger in the constructor
     }
@@ -37,7 +37,7 @@ public class SetPassword {
 
 
         // Set the player's password
-        configManager.setPlayerValue(player, "password", password);
+        dataManager.setPlayerValue(player, "password", password);
         logger.info("Password for player " + player.getName() + " has been successfully updated.");
 
         // Kick the player if required
@@ -89,7 +89,7 @@ public class SetPassword {
      * @return password
      */
     public String getPlayerPassword(Player player) {
-        return (String) configManager.getPlayerValue(player, "playerPassword");
+        return (String) dataManager.getPlayerValue(player, "playerPassword");
     }
 
     /**

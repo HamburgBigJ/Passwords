@@ -2,6 +2,7 @@ package cho.info.passwords.api.password;
 
 import cho.info.passwords.Passwords;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 public class Config {
 

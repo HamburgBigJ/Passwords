@@ -1,22 +1,22 @@
 package cho.info.passwords.server;
 
 import cho.info.passwords.Passwords;
-import cho.info.passwords.utls.ConfigManager;
+import cho.info.passwords.utls.DataManager;
 
 public class PasswordServer {
 
     public Passwords passwords;
-    public ConfigManager configManager;
+    public DataManager dataManager;
 
 
-    public PasswordServer(Passwords passwords, ConfigManager configManager) {
+    public PasswordServer(Passwords passwords, DataManager dataManager) {
         this.passwords = passwords;
-        this.configManager = configManager;
+        this.dataManager = dataManager;
     }
 
     public void listeners() {
         
-        passwords.getServer().getPluginManager().registerEvents(new ServerPasswordsListener(passwords, configManager), passwords);
+        passwords.getServer().getPluginManager().registerEvents(new ServerPasswordsListener(passwords, dataManager), passwords);
 
 
     }

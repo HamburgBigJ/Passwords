@@ -1,6 +1,6 @@
 package cho.info.passwords.player.commands;
 
-import cho.info.passwords.utls.ConfigManager;
+import cho.info.passwords.utls.DataManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,10 +10,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class SetPlayerPasswords implements CommandExecutor {
 
-    private final ConfigManager configManager;
+    public DataManager dataManager;
 
-    public SetPlayerPasswords(ConfigManager configManager) {
-        this.configManager = configManager;
+    public SetPlayerPasswords(DataManager dataManager) {
+        this.dataManager = dataManager;
     }
 
     @Override
@@ -30,8 +30,8 @@ public class SetPlayerPasswords implements CommandExecutor {
                 return true;
             }
 
-            // Save password using ConfigManager
-            configManager.setPlayerValue(player, "playerPassword", password); // Assuming this method exists in ConfigManager
+            // Save password using DataManager
+            dataManager.setPlayerValue(player, "playerPassword", password); // Assuming this method exists in DataManager
             commandSender.sendMessage("Password set for player " + playerName);
 
         } else {

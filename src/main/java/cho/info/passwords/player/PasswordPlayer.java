@@ -1,20 +1,20 @@
 package cho.info.passwords.player;
 
 import cho.info.passwords.Passwords;
-import cho.info.passwords.utls.ConfigManager;
+import cho.info.passwords.utls.DataManager;
 
 public class PasswordPlayer {
 
-    public ConfigManager configManager;
+    public DataManager dataManager;
     public Passwords passwords;
 
-    public PasswordPlayer(ConfigManager configManager, Passwords passwords) {
-        this.configManager = configManager;
+    public PasswordPlayer(DataManager dataManager, Passwords passwords) {
+        this.dataManager = dataManager;
         this.passwords = passwords;
     }
 
     public void listeners() {
-        passwords.getServer().getPluginManager().registerEvents(new PlayerPasswordsListener(passwords, configManager), passwords);
+        passwords.getServer().getPluginManager().registerEvents(new PlayerPasswordsListener(passwords, dataManager), passwords);
     }
 
 }

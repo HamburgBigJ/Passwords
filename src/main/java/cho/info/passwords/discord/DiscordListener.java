@@ -1,7 +1,7 @@
 package cho.info.passwords.discord;
 
 import cho.info.passwords.Passwords;
-import cho.info.passwords.utls.ConfigManager;
+import cho.info.passwords.utls.DataManager;
 import github.scarsz.discordsrv.DiscordSRV;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,11 +11,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class DiscordListener implements Listener {
 
-    public ConfigManager configManager;
+    public DataManager dataManager;
     public Passwords passwords;
 
-    public DiscordListener(ConfigManager configManager, Passwords passwords) {
-        this.configManager = configManager;
+    public DiscordListener(DataManager dataManager, Passwords passwords) {
+        this.dataManager = dataManager;
         this.passwords = passwords;
     }
 
@@ -35,7 +35,7 @@ public class DiscordListener implements Listener {
 
         if (!passwords.getConfig().getBoolean("discord.need-password")) {
             if (isLinked(player)) {
-                configManager.setPlayerValue(player, "isLogIn", true);
+                dataManager.setPlayerValue(player, "isLogIn", true);
             }
         }
 

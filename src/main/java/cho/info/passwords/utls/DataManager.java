@@ -8,13 +8,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class ConfigManager {
+public class DataManager {
 
     private final File playerDataFolder;
     private final Map<UUID, FileConfiguration> configCache = new HashMap<>();
     private FileConfiguration publicVarsConfig;
 
-    public ConfigManager(File pluginFolder) {
+    public DataManager(File pluginFolder) {
         // Create a folder for player files if it doesn't exist
         playerDataFolder = new File(pluginFolder, "data");
 
