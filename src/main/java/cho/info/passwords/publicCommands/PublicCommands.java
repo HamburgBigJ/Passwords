@@ -1,6 +1,8 @@
 package cho.info.passwords.publicCommands;
 
 import cho.info.passwords.Passwords;
+import cho.info.passwords.publicCommands.player.LogoutPlayer;
+import cho.info.passwords.publicCommands.reload.PasswordsReloadCommand;
 
 public class PublicCommands {
 
@@ -12,6 +14,7 @@ public class PublicCommands {
 
     public void registerCommands() {
         passwords.getCommand("preload").setExecutor(new PasswordsReloadCommand(passwords));
+        passwords.getCommand("logout").setExecutor(new LogoutPlayer(passwords));
     }
 
 }

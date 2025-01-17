@@ -13,3 +13,7 @@ commands:
   setpassword:
     permission: passwords.setpassword
     permission-message: "You do not have permission to use this command"
+
+  logout:
+    permission: passwords.logout
+    permission-message: "You do not have permission to use this command"

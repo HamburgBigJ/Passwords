@@ -18,6 +18,8 @@ settings:
   welcome-message-enabled: true
   # Welcome message after login.
   welcome-message: §3Welcome to ExampleServer
+  # Logout message
+  logout-message: §4§lYou have been logged out!
   # Welcome massage second line (Only for title)
   welcome-message-second: §2Passwords
   # Movement event cancel

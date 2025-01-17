@@ -1,4 +1,4 @@
-package cho.info.passwords.publicCommands;
+package cho.info.passwords.publicCommands.reload;
 
 import cho.info.passwords.Passwords;
 import org.bukkit.ChatColor;
