@@ -3,6 +3,7 @@ package cho.info.passwords.api.password.customgui;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.Inventory;
 
 public abstract class PasswordsGui {
 
@@ -24,5 +25,10 @@ public abstract class PasswordsGui {
      */
     public abstract void closeGui(InventoryCloseEvent event);
 
+    /**
+     * Get the inventory the player can see.
+     * @return Inventory
+     */
+    public abstract Inventory getInventory();
 }
 

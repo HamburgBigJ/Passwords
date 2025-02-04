@@ -28,6 +28,7 @@ public class CustomGuiHandler implements Listener {
     @EventHandler
     public void onGuiOpen(PlayerJoinEvent event) {
         if (passwords.getConfig().getString("settings.check-type").equals("custom")) {
+            event.getPlayer().openInventory(passwordGui.getInventory());
             passwordGui.openGui(event);
         }
     }
