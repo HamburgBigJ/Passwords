@@ -3,6 +3,7 @@ package cho.info.passwords.api;
 import cho.info.passwords.Passwords;
 import cho.info.passwords.api.password.Behavior;
 import cho.info.passwords.api.password.Config;
+import cho.info.passwords.api.password.customgui.CustomGui;
 import cho.info.passwords.api.password.SetPassword;
 import cho.info.passwords.utls.DataManager;
 
@@ -55,5 +56,14 @@ public class PasswordsApi {
     public DataManager getDataManager(){
         return dataManager;
     }
+
+    /**
+     * Get the custom gui
+     * @return CustomGui
+     */
+    public CustomGui customGui(){
+        return new CustomGui(passwords, dataManager);
+    }
+
 
 }

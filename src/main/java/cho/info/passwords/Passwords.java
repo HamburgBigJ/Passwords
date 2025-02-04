@@ -24,7 +24,7 @@ import java.util.Objects;
 public final class Passwords extends JavaPlugin {
 
     public DataManager dataManager;
-    public String version = "1.7";
+    public String version = "1.8";
 
     public PasswordsApi passwordsApi;
 
@@ -82,6 +82,7 @@ public final class Passwords extends JavaPlugin {
         pluginManager.registerEvents(new PlayerLeave(dataManager), this);
 
 
+
         if (!getConfig().getBoolean("api.enable")) {
             getLogger().info("API is disabled!");
             getLogger().info("If you want to use the api feature, please enable it in the config.yml");
@@ -119,6 +120,7 @@ public final class Passwords extends JavaPlugin {
     }
 
     public void configUpdate() {
+        if (!getConfig().getBoolean("auto-update")) return;
 
         if (getConfig().getString("version") != version) {
             getLogger().info(ChatColor.GREEN + "Update Config!");

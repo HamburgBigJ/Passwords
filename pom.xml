@@ -6,7 +6,7 @@
 
     <groupId>cho.info</groupId>
     <artifactId>passwords</artifactId>
-    <version>1.7</version>
+    <version>1.8</version>
     <packaging>jar</packaging>
 
     <name>passwords</name>
@@ -70,7 +70,7 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.21.1-R0.1-SNAPSHOT</version>
+            <version>1.21.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -82,3 +82,4 @@
         </dependency>
     </dependencies>
 </project>
+
