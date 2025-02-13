@@ -75,6 +75,14 @@
         </dependency>
 
         <dependency>
+            <groupId>cho.info</groupId>
+            <artifactId>horizonLib</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/horizonLib-1.0.jar</systemPath>
+        </dependency>
+
+        <dependency>
             <groupId>com.discordsrv</groupId>
             <artifactId>discordsrv</artifactId>
             <version>1.26.0</version>

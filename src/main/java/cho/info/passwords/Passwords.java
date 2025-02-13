@@ -1,5 +1,6 @@
 package cho.info.passwords;
 
+import cho.info.horizonLib.plugin.HorizonPlugin;
 import cho.info.passwords.api.PasswordsApi;
 import cho.info.passwords.discord.DiscordListener;
 import cho.info.passwords.player.PasswordPlayer;
