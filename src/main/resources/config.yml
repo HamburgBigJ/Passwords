@@ -1,7 +1,4 @@
-version: 1.8 # Do not change !!!!
-# Only edit the rest.
 enable: true
-auto-update: true
 
 settings:
   # check-type: server : One password for the entire server.

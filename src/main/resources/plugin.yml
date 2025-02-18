@@ -1,9 +1,8 @@
 name: Passwords
-version: '1.8'
+version: '1.9'
 main: cho.info.passwords.Passwords
 api-version: '1.21.4'
 authors: [ HamburgBigJ ]
-depend: [ HorizonLib ]
 softdepend: [ DiscordSRV ]
 
 

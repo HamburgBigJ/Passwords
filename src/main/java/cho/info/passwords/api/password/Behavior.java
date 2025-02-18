@@ -49,15 +49,6 @@ public class Behavior {
     }
 
     /**
-     * @param consoleMessage String
-     */
-    public void resetConfig(String consoleMessage) {
-        passwords.getLogger().info(consoleMessage);
-
-        passwords.configUpdate();
-    }
-
-    /**
      * Do not change the name of the Inventory
      * @return Inventory
      */

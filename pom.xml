@@ -6,7 +6,7 @@
 
     <groupId>cho.info</groupId>
     <artifactId>passwords</artifactId>
-    <version>1.8</version>
+    <version>1.9</version>
     <packaging>jar</packaging>
 
     <name>passwords</name>

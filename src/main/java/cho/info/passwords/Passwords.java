@@ -19,15 +19,15 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.Objects;
 
 public final class Passwords extends JavaPlugin {
 
     public DataManager dataManager;
-    public String version = "1.8";
+    public String version = "1.9";
 
     public PasswordsApi passwordsApi;
+
 
     @Override
     public void onEnable() {
@@ -65,7 +65,6 @@ public final class Passwords extends JavaPlugin {
             Bukkit.getServer().getPluginManager().disablePlugin(this);
         }
 
-        configUpdate();
 
 
         if (getConfig().getBoolean("api.enable")) {
@@ -76,7 +75,6 @@ public final class Passwords extends JavaPlugin {
         }
 
         getLogger().info("Your are currently running version: " + version);
-        getLogger().info("This is an beta version, please report any bugs to the developer!");
 
 
 
@@ -120,25 +118,6 @@ public final class Passwords extends JavaPlugin {
         sender.sendMessage("§9Reload done!");
     }
 
-    public void configUpdate() {
-        if (!getConfig().getBoolean("auto-update")) return;
-
-        if (getConfig().getString("version") != version) {
-            getLogger().info(ChatColor.GREEN + "Update Config!");
-            File file = new File(getDataFolder(), "config.yml");
-            file.delete();
-            saveDefaultConfig();
-        }
-        // Fail save
-        if (getConfig().getString("version") == null) {
-            getLogger().info(ChatColor.GREEN + "Update Config!");
-            File file = new File(getDataFolder(), "config.yml");
-            file.delete();
-            saveDefaultConfig();
-        }
-
-    }
-
     public void pluginIntegration(PluginManager pluginManager) {
 
         // Discord Srv
@@ -160,6 +139,7 @@ public final class Passwords extends JavaPlugin {
             getLogger().info("DiscordSRV not found!");
             getLogger().info("DiscordSRV features disabled!");
         }
+
 
     }
 
