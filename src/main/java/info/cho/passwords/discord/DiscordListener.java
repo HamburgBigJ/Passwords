@@ -10,8 +10,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-@InjectableComponent
-@RegisterAsListener
 public class DiscordListener implements Listener {
 
     public boolean isLinked(Player player) {

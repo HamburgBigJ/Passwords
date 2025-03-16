@@ -1,6 +1,8 @@
 package info.cho.passwords;
 
+import github.scarsz.discordsrv.DiscordSRV;
 import info.cho.passwords.config.Config;
+import info.cho.passwords.hooks.DiscordSrvHook;
 import info.cho.passwords.util.DataManager;
 import io.fairyproject.FairyLaunch;
 import io.fairyproject.log.Log;
@@ -22,11 +24,24 @@ public class Passwords extends Plugin {
         instance = this;
         dataManager = new DataManager(getDataFolder().toFile());
         config = new Config();
+
+        DiscordSrvHook discordSrvHook = new DiscordSrvHook();
+
     }
 
     @Override
     public void onPluginEnable() {
         Log.info("Plugin Enabled.");
+    }
+
+    @Override
+    public void onPluginDisable() {
+
+        if (Bukkit.getServer().getPluginManager().getPlugin("DiscordSRV") != null) {
+            DiscordSRV.api.unsubscribe(this);
+            Log.info("DiscordSRV features disabled!");
+        }
+
     }
 
     public Inventory getInventory() {

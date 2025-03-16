@@ -79,9 +79,6 @@ public class Config extends YamlConfiguration {
     @Comment("Server password (Can not be longer than the password-length)")
     private String serverPassword = "1234";
 
-    @Comment("Enable the API")
-    private boolean enableApi = true;
-
     @Comment("Kicks the player when the password changes.")
     private boolean kickPasswordChangeApi = true;
 
