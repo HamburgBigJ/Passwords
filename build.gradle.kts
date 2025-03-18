@@ -73,7 +73,7 @@ dependencies {
     fairy("io.fairyproject:mc-tablist")
 
     api("io.fairyproject:core-config")
-    api("io.fairyproject:bukkit-command")
+    api("io.fairyproject:core-command")
 }
 
 // Repositories

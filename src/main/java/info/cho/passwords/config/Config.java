@@ -93,6 +93,6 @@ public class Config extends YamlConfiguration {
 
     public Config() {
         super(Passwords.instance.getDataFolder().toAbsolutePath().resolve("config.yml"));
-        this.loadAndSave();
+        this.load();
     }
 }
