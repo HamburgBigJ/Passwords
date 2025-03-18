@@ -58,7 +58,7 @@ For developers interested in integrating or extending the Passwords plugin, Mave
 <dependency>
     <groupId>cho.info</groupId>
     <artifactId>passwords</artifactId>
-    <version>1.4</version>
+    <version>2.0</version>
 </dependency>
 
 <repositories>
@@ -72,7 +72,7 @@ For developers interested in integrating or extending the Passwords plugin, Mave
 **Gradle:**
 
 ```groovy
-implementation files("$projectDir/lib/passwords-1.4.jar")
+implementation files("$projectDir/lib/passwords-2.0.jar")
 ```
 
 
