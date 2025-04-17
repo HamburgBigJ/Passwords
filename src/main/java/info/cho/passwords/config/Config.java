@@ -4,6 +4,7 @@ import info.cho.passwords.Passwords;
 import io.fairyproject.config.annotation.Comment;
 import io.fairyproject.config.yaml.YamlConfiguration;
 import io.fairyproject.container.InjectableComponent;
+import io.fairyproject.log.Log;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -91,8 +92,15 @@ public class Config extends YamlConfiguration {
     @Comment("Override the type. (Only for custom)")
     private boolean overrideCheckTypeApi = false;
 
+
+    @Comment("Config Version ( Do not change! )")
+    private String configVersion = "2.2";
+
     public Config() {
         super(Passwords.instance.getDataFolder().toAbsolutePath().resolve("config.yml"));
-        this.load();
+        super.load();
+
     }
+
+
 }

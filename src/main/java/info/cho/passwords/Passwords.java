@@ -18,6 +18,7 @@ public class Passwords extends Plugin {
     @Getter public static Passwords instance;
     @Getter public static Config config;
     @Getter public static DataManager dataManager;
+    @Getter public static String pluginVersion = "2.2";
 
     @Override
     public void onInitial() {
@@ -33,6 +34,10 @@ public class Passwords extends Plugin {
         Log.info("Plugin Enabled.");
 
         config = new Config();
+
+        if (!config.getConfigVersion().equals(pluginVersion)) {
+            Log.info("Config version is not up to date! Please delete the config.yml file and restart the server.");
+        }
     }
 
     @Override

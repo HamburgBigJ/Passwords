@@ -20,6 +20,14 @@ public class PasswordApi {
         passwords = Passwords.instance;
     }
 
+    /**
+     * Get the password length.
+     * @return password length.
+     */
+    public static String getPluginVersion() {
+        return Passwords.pluginVersion;
+    }
+
 
 
 }
