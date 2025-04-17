@@ -11,11 +11,10 @@ import io.fairyproject.container.InjectableComponent;
 import org.bukkit.entity.Player;
 
 @InjectableComponent
-@Command(value = "logout")
 @CommandPresence(DefaultPresenceProvider.class)
 public class LogoutPlayerCommand extends BaseCommand {
 
-    @Command("#")
+    @Command(value = "logout")
     public void playerLogout(CommandContext context, @Arg("player") Player player) {
         if (player == null) {
             context.sendMessage(MessageType.valueOf("§cPlayer not found"));

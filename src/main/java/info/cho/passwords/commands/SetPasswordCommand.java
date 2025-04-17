@@ -13,11 +13,10 @@ import io.fairyproject.container.InjectableComponent;
 import org.bukkit.entity.Player;
 
 @InjectableComponent
-@Command(value = "setpassword")
 @CommandPresence(DefaultPresenceProvider.class)
 public class SetPasswordCommand extends BaseCommand {
 
-    @Command("#")
+    @Command(value = "setpassword")
     public void execute(CommandContext context, @Arg("player") Player player, @Arg("password") String password) {
         if (player == null) {
             context.sendMessage(MessageType.INFO, "§cPlayer not found!");

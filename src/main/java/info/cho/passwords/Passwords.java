@@ -23,7 +23,6 @@ public class Passwords extends Plugin {
     public void onInitial() {
         instance = this;
         dataManager = new DataManager(getDataFolder().toFile());
-        config = new Config();
 
         DiscordSrvHook discordSrvHook = new DiscordSrvHook();
 
@@ -32,6 +31,8 @@ public class Passwords extends Plugin {
     @Override
     public void onPluginEnable() {
         Log.info("Plugin Enabled.");
+
+        config = new Config();
     }
 
     @Override
