@@ -1,6 +1,7 @@
 package cho.info.passwords.server.customgui;
 
 import cho.info.passwords.Passwords;
+import cho.info.passwords.utls.PLog;
 import cho.info.passwordsApi.password.customgui.PasswordsGui;
 import cho.info.passwords.utls.DataManager;
 import net.kyori.adventure.text.Component;
@@ -28,6 +29,7 @@ public class CustomGuiHandler implements Listener {
     @EventHandler
     public void onGuiOpen(PlayerJoinEvent event) {
         if (passwords.getConfig().getString("settings.check-type").equals("custom")) {
+            PLog.debug(event.getPlayer().getName() + " has been opened");
             event.getPlayer().openInventory(passwordGui.getInventory());
             passwordGui.openGui(event);
         }
@@ -37,6 +39,7 @@ public class CustomGuiHandler implements Listener {
     @EventHandler
     public void onGuiInteract(InventoryClickEvent event) {
         if (passwords.getConfig().getString("settings.check-type").equals("custom")) {
+            PLog.debug(event.getWhoClicked().getName() + " has been clicked");
             passwordGui.interactGui(event);
         }
     }
@@ -52,6 +55,7 @@ public class CustomGuiHandler implements Listener {
 
                 if (!isLogIn) {
                     player.kick(Component.text(Objects.requireNonNull(passwords.getConfig().getString("settings.close-ui-message"))));
+                    PLog.debug(player.getName() + " has been closed");
                 }
             }
         }
@@ -70,6 +74,7 @@ public class CustomGuiHandler implements Listener {
                 if (!isLogIn) {
                     event.setCancelled(true);
                     event.getPlayer().kick(Component.text(Objects.requireNonNull(passwords.getConfig().getString("settings.message-kick-movement"))));
+                    PLog.debug(event.getPlayer().getName() + " has been closed");
                 }
             }
         }

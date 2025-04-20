@@ -2,6 +2,7 @@ package cho.info.passwordsApi.password;
 
 import cho.info.passwords.Passwords;
 import cho.info.passwords.utls.DataManager;
+import cho.info.passwords.utls.PLog;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -12,12 +13,10 @@ public class PasswordsConfig {
 
     private final Passwords passwords;
     private final DataManager dataManager;
-    private final Logger logger;
 
     public PasswordsConfig() {
         this.passwords = Passwords.instance;
         this.dataManager = Passwords.dataManager;
-        this.logger = passwords.getLogger();
     }
 
     /**
@@ -59,14 +58,14 @@ public class PasswordsConfig {
 
         // Validate password length
         if (passwordLength > maxLength) {
-            logger.warning("Password is too long! Maximum allowed length: " + maxLength);
+            PLog.debug("Password is too long! Maximum allowed length: " + maxLength);
             return; // Stop execution if the password is too long
         }
 
 
         // Set the player's password
         dataManager.setPlayerValue(player, "password", password);
-        logger.info("Password for player " + player.getName() + " has been successfully updated.");
+        PLog.debug("Password for player " + player.getName() + " has been successfully updated.");
 
         // Kick the player if required
         if (passwords.getConfig().getBoolean("kick-password-change") && player.isOnline()) {
@@ -85,7 +84,7 @@ public class PasswordsConfig {
         int passwordLength = String.valueOf(password).length();
 
         if (passwordLength > maxLength) {
-            logger.warning("Password is too long! Maximum allowed length: " + maxLength);
+            PLog.debug("Password is too long! Maximum allowed length: " + maxLength);
             return;
         }
 
@@ -104,7 +103,7 @@ public class PasswordsConfig {
 
         // Validate password length
         if (passwordLength > maxLength) {
-            logger.warning("Admin password is too long! Maximum allowed length: " + maxLength);
+            PLog.debug("Admin password is too long! Maximum allowed length: " + maxLength);
             return; // Stop execution if the password is too long
         }
 

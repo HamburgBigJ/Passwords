@@ -1,7 +1,8 @@
 package cho.info.passwords;
 
+import cho.info.passwords.utls.PLog;
 import cho.info.passwordsApi.PasswordsApi;
-import cho.info.passwords.discord.DiscordListener;
+import cho.info.passwords.hooks.discord.DiscordListener;
 import cho.info.passwords.player.PasswordPlayer;
 import cho.info.passwords.player.commands.PlayerCommands;
 import cho.info.passwords.publicCommands.PublicCommands;
@@ -10,7 +11,6 @@ import cho.info.passwords.utls.DataManager;
 import github.scarsz.discordsrv.DiscordSRV;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
@@ -24,7 +24,7 @@ public final class Passwords extends JavaPlugin {
     public static Passwords instance;
 
     public static DataManager dataManager;
-    public static String version = "2.2-hotfix";
+    public static String version = "2.3";
 
     public PasswordsApi passwordsApi;
 
@@ -48,13 +48,13 @@ public final class Passwords extends JavaPlugin {
 
         this.passwordsApi = new PasswordsApi();
 
-        getLogger().info("Passwords enabled!");
+        PLog.info("Passwords enabled!");
         saveDefaultConfig();
 
         pluginIntegration(pluginManager);
 
         if (!getConfig().getBoolean("enable")) {
-            getLogger().info("Passwords disabled!");
+            PLog.info("Passwords disabled!");
             getServer().getPluginManager().disablePlugin(this);
         } else {
             afterCheck(passwordServer, passwordPlayer);
@@ -66,28 +66,31 @@ public final class Passwords extends JavaPlugin {
             playerCommands.registerPlayerCommands();
 
         } else {
-            getLogger().info(ChatColor.RED + "Unable to read Config.yml settings.check-type ");
+            PLog.warning("Unable to read Config.yml settings.check-type ");
             Bukkit.getServer().getPluginManager().disablePlugin(this);
         }
 
 
 
         if (getConfig().getBoolean("api.enable")) {
-            getLogger().info("API enabled!");
+            PLog.info("API enabled!");
 
         } else {
-            getLogger().info("API disabled!");
+            PLog.info("API disabled!");
         }
 
-        getLogger().info("Your are currently running version: " + version);
+        PLog.info("Your are currently running version: " + version);
 
         // Check for updates
         if(!Objects.equals(version, getConfig().getString("version"))) {
-            getLogger().info("Your version is outdated! Please delete the config.yml and restart the server to get the latest version!");
-            getLogger().info("Your version: " + version);
-            getLogger().info("Latest version: " + getConfig().getString("version"));
+            PLog.warning("!!!!!!!!-----------------------------------------------------------------------------------!!!!!!!!");
+            PLog.warning("Your version is outdated! Please delete the config.yml and restart the server to get the latest version!");
+            PLog.warning("Your version: " + version);
+            PLog.warning("Config version: " + getConfig().getString("version"));
+            PLog.warning("!!!!!!!!-----------------------------------------------------------------------------------!!!!!!!!");
+            getServer().getPluginManager().disablePlugin(this);
         } else {
-            getLogger().info("Your version is up to date!");
+            PLog.info("Your version is up to date!");
         }
 
 
@@ -95,20 +98,20 @@ public final class Passwords extends JavaPlugin {
 
 
         if (!getConfig().getBoolean("api.enable")) {
-            getLogger().info("API is disabled!");
-            getLogger().info("If you want to use the api feature, please enable it in the config.yml");
+            PLog.info("API is disabled!");
+            PLog.info("If you want to use the api feature, please enable it in the config.yml");
         }
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        getLogger().info("Passwords disabled!");
+        PLog.info("Passwords disabled!");
 
 
         if (Bukkit.getServer().getPluginManager().getPlugin("DiscordSRV") != null) {
             DiscordSRV.api.unsubscribe(this);
-            getLogger().info("DiscordSRV features disabled!");
+            PLog.info("DiscordSRV features disabled!");
         }
 
     }
@@ -134,9 +137,9 @@ public final class Passwords extends JavaPlugin {
 
         // Discord Srv
         if (Bukkit.getServer().getPluginManager().getPlugin("DiscordSRV") != null) {
-            getLogger().info("DiscordSRV found!");
+            PLog.info("DiscordSRV found!");
             if (getConfig().getBoolean("settings.use-discord-srv")) {
-                getLogger().info("DiscordSRV features enabled!");
+                PLog.info("DiscordSRV features enabled!");
 
                 // DiscordSRV features
 
@@ -145,11 +148,11 @@ public final class Passwords extends JavaPlugin {
                 pluginManager.registerEvents(new DiscordListener(), this);
 
             } else {
-                getLogger().info("DiscordSRV features disabled!");
+                PLog.info("DiscordSRV features disabled!");
             }
         }else{
-            getLogger().info("DiscordSRV not found!");
-            getLogger().info("DiscordSRV features disabled!");
+            PLog.info("DiscordSRV not found!");
+            PLog.info("DiscordSRV features disabled!");
         }
 
 

@@ -1,7 +1,6 @@
-package cho.info.passwords.discord;
+package cho.info.passwords.hooks.discord;
 
 import cho.info.passwords.Passwords;
-import cho.info.passwords.utls.DataManager;
 import github.scarsz.discordsrv.DiscordSRV;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

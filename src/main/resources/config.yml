@@ -1,5 +1,6 @@
 enable: true
-version: "2.2-hotfix"
+version: "2.3"
+debug: false
 
 settings:
   # check-type: server : One password for the entire server.

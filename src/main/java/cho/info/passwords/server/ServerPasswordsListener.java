@@ -3,6 +3,7 @@ package cho.info.passwords.server;
 import cho.info.passwords.Passwords;
 import cho.info.passwords.utls.DataManager;
 import cho.info.passwords.utls.Messages;
+import cho.info.passwords.utls.PLog;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -35,6 +36,8 @@ public class ServerPasswordsListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
 
+        PLog.debug("Player Dead : " + event.getPlayer().isDead());
+
         if (event.getPlayer().isDead()) {
             event.getPlayer().spigot().respawn();
         }
@@ -45,6 +48,8 @@ public class ServerPasswordsListener implements Listener {
 
             InetAddress address = event.getPlayer().getAddress().getAddress();
             String ipAdress = address.getHostAddress();
+
+            PLog.debug("Server IP address: " + ipAdress);
 
             if (passwords.getConfig().getBoolean("settings.login-ip")) {
                 if (!ipAdress.equals(dataManager.getPlayerValue(player, "playerIp"))) {
@@ -110,6 +115,7 @@ public class ServerPasswordsListener implements Listener {
                 if (charSlot < passwordLength) {
                     for (int i = 1; i <= 9; i++) {
                         if (displayName.equals("§2" + i)) {
+                            PLog.debug("Selected character: " + i);
                             dataManager.setPlayerValue(player, "char" + charSlot, i);
                             dataManager.setPlayerValue(player, "charSlot", charSlot + 1);
                             break;
@@ -215,8 +221,10 @@ public class ServerPasswordsListener implements Listener {
 
     public void setLoginIp(Player player) {
         InetAddress address = player.getAddress().getAddress();
+        PLog.debug("Server IP address: " + address.getHostAddress());
         if (address == null) address = InetAddress.getLoopbackAddress();
         String ipAdress = address.getHostAddress();
+        PLog.debug("Server IP address ( after ): " + ipAdress);
         dataManager.setPlayerValue(player, "playerIp", ipAdress);
     }
 

@@ -3,6 +3,7 @@ package cho.info.passwords.player;
 import cho.info.passwords.Passwords;
 import cho.info.passwords.utls.DataManager;
 import cho.info.passwords.utls.Messages;
+import cho.info.passwords.utls.PLog;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -39,6 +40,8 @@ public class PlayerPasswordsListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
 
+        PLog.debug("Is dead: " + event.getPlayer().isDead());
+
         if (event.getPlayer().isDead()) {
             event.getPlayer().spigot().respawn();
         }
@@ -52,6 +55,8 @@ public class PlayerPasswordsListener implements Listener {
             InetAddress address = event.getPlayer().getAddress().getAddress();
 
             String ipAdress = address.getHostAddress();
+
+            PLog.debug("IP address: " + ipAdress);
 
 
             if (!passwords.getConfig().getBoolean("settings.login-ip")) {

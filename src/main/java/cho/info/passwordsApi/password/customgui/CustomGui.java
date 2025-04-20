@@ -2,6 +2,7 @@ package cho.info.passwordsApi.password.customgui;
 
 import cho.info.passwords.Passwords;
 import cho.info.passwords.utls.DataManager;
+import cho.info.passwords.utls.PLog;
 import org.bukkit.entity.Player;
 
 public class CustomGui {
@@ -53,6 +54,7 @@ public class CustomGui {
         int passwordLength = passwords.getConfig().getInt("settings.password-length");
         for (int i = 0; i < passwordLength; i++) {
             dataManager.setPlayerValue(player, "char" + i, null);
+            PLog.debug("Registering char " + i );
         }
     }
 
