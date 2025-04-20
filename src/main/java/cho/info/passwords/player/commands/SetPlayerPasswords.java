@@ -1,5 +1,6 @@
 package cho.info.passwords.player.commands;
 
+import cho.info.passwords.Passwords;
 import cho.info.passwords.utls.DataManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -9,12 +10,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class SetPlayerPasswords implements CommandExecutor {
-
-    public DataManager dataManager;
-
-    public SetPlayerPasswords(DataManager dataManager) {
-        this.dataManager = dataManager;
-    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
@@ -31,7 +26,7 @@ public class SetPlayerPasswords implements CommandExecutor {
             }
 
             // Save password using DataManager
-            dataManager.setPlayerValue(player, "playerPassword", password); // Assuming this method exists in DataManager
+            Passwords.dataManager.setPlayerValue(player, "playerPassword", password); // Assuming this method exists in DataManager
             commandSender.sendMessage("Password set for player " + playerName);
 
         } else {

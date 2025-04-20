@@ -6,19 +6,11 @@ import cho.info.passwords.utls.DataManager;
 
 public class PasswordServer {
 
-    public Passwords passwords;
-    public DataManager dataManager;
-
-
-    public PasswordServer(Passwords passwords, DataManager dataManager) {
-        this.passwords = passwords;
-        this.dataManager = dataManager;
-    }
-
     public void listeners() {
 
-        passwords.getServer().getPluginManager().registerEvents(new ServerPasswordsListener(passwords, dataManager), passwords);
-        passwords.getServer().getPluginManager().registerEvents(new CustomGuiHandler(passwords, dataManager), passwords);
+        Passwords.instance.getServer().getPluginManager().registerEvents(new PlayerLeave(), Passwords.instance);
+        Passwords.instance.getServer().getPluginManager().registerEvents(new ServerPasswordsListener(), Passwords.instance);
+        Passwords.instance.getServer().getPluginManager().registerEvents(new CustomGuiHandler(), Passwords.instance);
 
     }
 

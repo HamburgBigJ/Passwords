@@ -5,16 +5,9 @@ import cho.info.passwords.utls.DataManager;
 
 public class PlayerCommands {
 
-    public Passwords passwords;
-    public DataManager dataManager;
-
-    public PlayerCommands(Passwords passwords, DataManager dataManager) {
-        this.passwords = passwords;
-        this.dataManager = dataManager;
-    }
 
     public void registerPlayerCommands() {
         
-        passwords.getCommand("setpassword").setExecutor(new SetPlayerPasswords(dataManager));
+         Passwords.instance.getCommand("setpassword").setExecutor(new SetPlayerPasswords());
     }
 }

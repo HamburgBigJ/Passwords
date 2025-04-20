@@ -1,5 +1,6 @@
 package cho.info.passwords.utls;
 
+import cho.info.passwords.Passwords;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -14,7 +15,8 @@ public class DataManager {
     private final Map<UUID, FileConfiguration> configCache = new HashMap<>();
     private FileConfiguration publicVarsConfig;
 
-    public DataManager(File pluginFolder) {
+    public DataManager() {
+        File pluginFolder = Passwords.instance.getDataFolder();
         // Create a folder for player files if it doesn't exist
         playerDataFolder = new File(pluginFolder, "data");
 

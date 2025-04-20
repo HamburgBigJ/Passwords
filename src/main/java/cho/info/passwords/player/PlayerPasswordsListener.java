@@ -7,6 +7,8 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,13 +31,17 @@ public class PlayerPasswordsListener implements Listener {
     public boolean isFistJoin;
     public boolean isIpLogin = false;
 
-    public PlayerPasswordsListener(Passwords passwords, DataManager dataManager) {
-        this.passwords = passwords;
-        this.dataManager = dataManager;
+    public PlayerPasswordsListener() {
+        this.passwords = Passwords.instance;
+        this.dataManager = Passwords.dataManager;
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
+
+        if (event.getPlayer().isDead()) {
+            event.getPlayer().spigot().respawn();
+        }
 
         if (passwords.getConfig().getString("settings.check-type").equals("player")) {
             Player player = event.getPlayer();
@@ -121,7 +127,6 @@ public class PlayerPasswordsListener implements Listener {
 
     // Opens the custom password user interface with a blue title
     public void openPasswordUI(Player player) {
-        // Inventory passwordInventory = Bukkit.createInventory(null, 9, Component.text(ChatColor.BLUE + "Passwords")); Chest
         if (isFistJoin) {
             Inventory passwordInventory = passwords.getFirstJoinInventory();
             initializeCraftingItems(passwordInventory); // Adds selection items
@@ -142,8 +147,7 @@ public class PlayerPasswordsListener implements Listener {
         for (int i = 0; i < 9; i++) {
             ItemMeta itemMeta = selectItem.getItemMeta();
             if (itemMeta != null) {
-                itemMeta.setDisplayName("§2" + (i + 1) );
-                itemMeta.setCustomModelData(2700 + i);
+                itemMeta.displayName(Component.text("§2" + (i + 1) ));
                 selectItem.setItemMeta(itemMeta);
                 inventory.setItem(i, selectItem);
             }
@@ -179,16 +183,14 @@ public class PlayerPasswordsListener implements Listener {
                 }
 
                 // UI Back
-                String fixDisplayName = event.getCurrentItem().getItemMeta().getDisplayName();
+                String fixDisplayName = String.valueOf(event.getCurrentItem().getItemMeta().displayName());
                 int fixSlot = event.getSlot();
-                int modleData = event.getCurrentItem().getItemMeta().getCustomModelData();
 
                 ItemStack greenSlot = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
                 ItemMeta greenSlotMeta = greenSlot.getItemMeta();
 
                 if (greenSlotMeta != null) {
-                    greenSlotMeta.setDisplayName(fixDisplayName);
-                    greenSlotMeta.setCustomModelData(modleData + 100);
+                    greenSlotMeta.displayName(Component.text(fixDisplayName));
                     greenSlot.setItemMeta(greenSlotMeta);
                 }
 

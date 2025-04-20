@@ -1,10 +1,9 @@
-package cho.info.passwords.api;
+package cho.info.passwordsApi;
 
 import cho.info.passwords.Passwords;
-import cho.info.passwords.api.password.Behavior;
-import cho.info.passwords.api.password.Config;
-import cho.info.passwords.api.password.customgui.CustomGui;
-import cho.info.passwords.api.password.SetPassword;
+import cho.info.passwordsApi.password.Behavior;
+import cho.info.passwordsApi.password.PasswordsConfig;
+import cho.info.passwordsApi.password.customgui.CustomGui;
 import cho.info.passwords.utls.DataManager;
 
 public class PasswordsApi {
@@ -12,9 +11,9 @@ public class PasswordsApi {
     public Passwords passwords;
     public DataManager dataManager;
 
-    public PasswordsApi(Passwords passwords, DataManager dataManager) {
-        this.passwords = passwords;
-        this.dataManager = dataManager;
+    public PasswordsApi() {
+        this.passwords = Passwords.instance;
+        this.dataManager = Passwords.dataManager;
     }
 
     /**
@@ -25,20 +24,13 @@ public class PasswordsApi {
         return passwords;
     }
 
-    /**
-     * Get the set password
-     * @return SetPassword
-     */
-    public SetPassword setPassword(){
-        return new SetPassword(dataManager, passwords);
-    }
 
     /**
      * Get the config
      * @return Config
      */
-    public Config config(){
-        return new Config(passwords);
+    public PasswordsConfig passwordsConfig(){
+        return new PasswordsConfig();
     }
 
     /**
@@ -46,7 +38,7 @@ public class PasswordsApi {
      * @return Behavior
      */
     public Behavior behavior(){
-        return new Behavior(dataManager, passwords);
+        return new Behavior();
     }
 
     /**
@@ -62,7 +54,7 @@ public class PasswordsApi {
      * @return CustomGui
      */
     public CustomGui customGui(){
-        return new CustomGui(passwords, dataManager);
+        return new CustomGui();
     }
 
 

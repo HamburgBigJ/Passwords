@@ -1,7 +1,7 @@
 package cho.info.passwords.server.customgui;
 
 import cho.info.passwords.Passwords;
-import cho.info.passwords.api.password.customgui.PasswordsGui;
+import cho.info.passwordsApi.password.customgui.PasswordsGui;
 import cho.info.passwords.utls.DataManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
@@ -20,9 +20,9 @@ public class CustomGuiHandler implements Listener {
     public DataManager dataManager;
     public PasswordsGui passwordGui;
 
-    public CustomGuiHandler(Passwords passwords, DataManager dataManager) {
-        this.passwords = passwords;
-        this.dataManager = dataManager;
+    public CustomGuiHandler() {
+        this.passwords = Passwords.instance;
+        this.dataManager = Passwords.dataManager;
     }
 
     @EventHandler

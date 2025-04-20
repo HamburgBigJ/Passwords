@@ -11,13 +11,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class DiscordListener implements Listener {
 
-    public DataManager dataManager;
-    public Passwords passwords;
-
-    public DiscordListener(DataManager dataManager, Passwords passwords) {
-        this.dataManager = dataManager;
-        this.passwords = passwords;
-    }
 
     public boolean isLinked(Player player) {
         String discordID = DiscordSRV.getPlugin().getAccountLinkManager().getDiscordId(player.getUniqueId());
@@ -33,9 +26,9 @@ public class DiscordListener implements Listener {
 
         Player player = event.getPlayer();
 
-        if (!passwords.getConfig().getBoolean("discord.need-password")) {
+        if (!Passwords.instance.getConfig().getBoolean("discord.need-password")) {
             if (isLinked(player)) {
-                dataManager.setPlayerValue(player, "isLogIn", true);
+                Passwords.dataManager.setPlayerValue(player, "isLogIn", true);
             }
         }
 

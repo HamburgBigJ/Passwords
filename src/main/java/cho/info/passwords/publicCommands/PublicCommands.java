@@ -6,15 +6,10 @@ import cho.info.passwords.publicCommands.reload.PasswordsReloadCommand;
 
 public class PublicCommands {
 
-    public Passwords passwords;
-
-    public PublicCommands(Passwords passwords) {
-        this.passwords = passwords;
-    }
 
     public void registerCommands() {
-        passwords.getCommand("preload").setExecutor(new PasswordsReloadCommand(passwords));
-        passwords.getCommand("logout").setExecutor(new LogoutPlayer(passwords));
+        Passwords.instance.getCommand("preload").setExecutor(new PasswordsReloadCommand());
+        Passwords.instance.getCommand("logout").setExecutor(new LogoutPlayer());
     }
 
 }

@@ -27,13 +27,18 @@ public class ServerPasswordsListener implements Listener {
     private final DataManager dataManager;
     public boolean isIpLogin = false;
 
-    public ServerPasswordsListener(Passwords passwords, DataManager dataManager) {
-        this.passwords = passwords;
-        this.dataManager = dataManager;
+    public ServerPasswordsListener() {
+        this.passwords = Passwords.instance;
+        this.dataManager = Passwords.dataManager;
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
+
+        if (event.getPlayer().isDead()) {
+            event.getPlayer().spigot().respawn();
+        }
+
         if (passwords.getConfig().getString("settings.check-type").equals("server")) {
             Player player = event.getPlayer();
             dataManager.setPlayerValue(player, "charSlot", 0);
@@ -84,8 +89,7 @@ public class ServerPasswordsListener implements Listener {
         for (int i = 0; i < 9; i++) {
             ItemMeta itemMeta = selectItem.getItemMeta();
             if (itemMeta != null) {
-                itemMeta.setDisplayName("§2" + (i + 1));
-                itemMeta.setCustomModelData(2700 + i);
+                itemMeta.displayName(Component.text("§2" + (i + 1)));
                 selectItem.setItemMeta(itemMeta);
                 inventory.setItem(i, selectItem);
             }
@@ -100,7 +104,7 @@ public class ServerPasswordsListener implements Listener {
                 event.setCancelled(true);
 
                 int passwordLength = passwords.getConfig().getInt("settings.password-length");
-                String displayName = event.getCurrentItem().getItemMeta().getDisplayName();
+                String displayName = String.valueOf(event.getCurrentItem().getItemMeta().displayName());
                 int charSlot = (int) dataManager.getPlayerValue(player, "charSlot");
 
                 if (charSlot < passwordLength) {
@@ -124,14 +128,12 @@ public class ServerPasswordsListener implements Listener {
 
     private void updateSlotAppearance(InventoryClickEvent event, String displayName) {
         int fixSlot = event.getSlot();
-        int modelData = event.getCurrentItem().getItemMeta().getCustomModelData();
 
         ItemStack greenSlot = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
         ItemMeta greenSlotMeta = greenSlot.getItemMeta();
 
         if (greenSlotMeta != null) {
-            greenSlotMeta.setDisplayName(displayName);
-            greenSlotMeta.setCustomModelData(modelData + 100);
+            greenSlotMeta.displayName(Component.text(displayName));
             greenSlot.setItemMeta(greenSlotMeta);
         }
 
@@ -143,25 +145,40 @@ public class ServerPasswordsListener implements Listener {
 
         if (!isIpLogin) {
             for (int i = 0; i < passwordLength; i++) {
-                password += dataManager.getPlayerValue(player, "char" + i);
+                Object charValue = dataManager.getPlayerValue(player, "char" + i);
+                if (charValue == null) {
+                    player.kick(Component.text("Invalid password entry. Please try again."));
+                    return;
+                }
+                password += charValue.toString();
             }
             dataManager.setPlayerValue(player, "password", password);
         } else {
-            password = (String) dataManager.getPlayerValue(player, "password");
+            Object storedPassword = dataManager.getPlayerValue(player, "password");
+            if (storedPassword == null) {
+                player.kick(Component.text("No stored password found. Please log in again."));
+                return;
+            }
+            password = storedPassword.toString();
         }
 
-        if (password.equals(passwords.getConfig().getString("server.password"))) {
+        String serverPassword = passwords.getConfig().getString("server.password");
+        String adminPassword = passwords.getConfig().getString("settings.admin-password");
+
+        if (password.equals(serverPassword)) {
             dataManager.setPlayerValue(player, "isLogIn", true);
             player.closeInventory();
             displayWelcomeMessage(player);
             setGameMode(player);
             setLoginIp(player);
-        } else if (password.equals(passwords.getConfig().getString("settings.admin-password")) && passwords.getConfig().getBoolean("settings.admin-password-enabled")) {
+        } else if (password.equals(adminPassword) && passwords.getConfig().getBoolean("settings.admin-password-enabled")) {
             dataManager.setPlayerValue(player, "isLogIn", true);
             player.closeInventory();
             player.setOp(passwords.getConfig().getBoolean("settings.is-admin-op"));
         } else {
-            player.kick(Component.text(Objects.requireNonNull(passwords.getConfig().getString("settings.fail-message"))));
+            player.kick(Component.text(
+                    Objects.requireNonNull(passwords.getConfig().getString("settings.fail-message"))
+            ));
             dataManager.setPlayerValue(player, "playerIp", "NULL");
         }
     }
@@ -198,6 +215,7 @@ public class ServerPasswordsListener implements Listener {
 
     public void setLoginIp(Player player) {
         InetAddress address = player.getAddress().getAddress();
+        if (address == null) address = InetAddress.getLoopbackAddress();
         String ipAdress = address.getHostAddress();
         dataManager.setPlayerValue(player, "playerIp", ipAdress);
     }

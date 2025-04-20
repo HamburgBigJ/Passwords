@@ -1,4 +1,4 @@
-package cho.info.passwords.api.password.customgui;
+package cho.info.passwordsApi.password.customgui;
 
 import cho.info.passwords.Passwords;
 import cho.info.passwords.utls.DataManager;
@@ -9,9 +9,9 @@ public class CustomGui {
     public DataManager dataManager;
     public Passwords passwords;
 
-    public CustomGui(Passwords passwords, DataManager dataManager) {
-        this.passwords = passwords;
-        this.dataManager = dataManager;
+    public CustomGui() {
+        this.passwords = Passwords.instance;
+        this.dataManager = Passwords.dataManager;
     }
 
     /**

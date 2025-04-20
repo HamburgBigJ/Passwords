@@ -1,22 +1,50 @@
-package cho.info.passwords.api.password;
+package cho.info.passwordsApi.password;
 
 import cho.info.passwords.Passwords;
 import cho.info.passwords.utls.DataManager;
 import net.kyori.adventure.text.Component;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.logging.Logger;
 
-public class SetPassword {
+public class PasswordsConfig {
 
-    public DataManager dataManager;
-    public Passwords passwords;
+    private final Passwords passwords;
+    private final DataManager dataManager;
     private final Logger logger;
 
-    public SetPassword(DataManager dataManager, Passwords passwords) {
-        this.dataManager = dataManager;
-        this.passwords = passwords;
-        this.logger = passwords.getLogger(); // Initialize logger in the constructor
+    public PasswordsConfig() {
+        this.passwords = Passwords.instance;
+        this.dataManager = Passwords.dataManager;
+        this.logger = passwords.getLogger();
+    }
+
+    /**
+     * Get the password length
+     * @param length The length of the password
+     */
+    public void setPasswordLength(int length) {
+        passwords.getConfig().set("settings.password-length", length);
+    }
+
+    /**
+     * Get the password length
+     * @param gamemode The gamemode of the player
+     */
+    public void setLoginGamemode(String gamemode) {
+        passwords.getConfig().set("settings.login-gamemode", gamemode);
+    }
+
+    public void setAdminOpLogin(boolean adminOpLogin) {
+        passwords.getConfig().set("settings.is-admin-op", adminOpLogin);
+    }
+
+    /**
+     * @return Plugin Config
+     */
+    public FileConfiguration getConfig() {
+        return passwords.getConfig();
     }
 
     /**
@@ -105,6 +133,4 @@ public class SetPassword {
     public String getServerPassword() {
         return passwords.getConfig().getString("server.password");
     }
-
-
 }

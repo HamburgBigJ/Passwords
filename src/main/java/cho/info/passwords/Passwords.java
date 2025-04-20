@@ -1,13 +1,12 @@
 package cho.info.passwords;
 
-import cho.info.passwords.api.PasswordsApi;
+import cho.info.passwordsApi.PasswordsApi;
 import cho.info.passwords.discord.DiscordListener;
 import cho.info.passwords.player.PasswordPlayer;
 import cho.info.passwords.player.commands.PlayerCommands;
 import cho.info.passwords.publicCommands.PublicCommands;
 import cho.info.passwords.server.PasswordServer;
 import cho.info.passwords.utls.DataManager;
-import cho.info.passwords.server.PlayerLeave;
 import github.scarsz.discordsrv.DiscordSRV;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -22,25 +21,32 @@ import java.util.Objects;
 
 public final class Passwords extends JavaPlugin {
 
-    public DataManager dataManager;
-    public String version = "2.2-hotfix";
+    public static Passwords instance;
+
+    public static DataManager dataManager;
+    public static String version = "2.2-hotfix";
 
     public PasswordsApi passwordsApi;
+
+    @Override
+    public void onLoad() {
+        instance = this;
+        dataManager = new DataManager();
+    }
 
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
 
-        DataManager dataManager = new DataManager(getDataFolder());
-        PasswordServer passwordServer = new PasswordServer(this, dataManager);
-        PasswordPlayer passwordPlayer = new PasswordPlayer(dataManager, this);
-        PublicCommands publicCommands = new PublicCommands(this);
-        PlayerCommands playerCommands = new PlayerCommands(this, dataManager);
+
+        PasswordServer passwordServer = new PasswordServer();
+        PasswordPlayer passwordPlayer = new PasswordPlayer();
+        PublicCommands publicCommands = new PublicCommands();
+        PlayerCommands playerCommands = new PlayerCommands();
 
         PluginManager pluginManager = getServer().getPluginManager();
 
-        this.passwordsApi = new PasswordsApi(this, dataManager);
+        this.passwordsApi = new PasswordsApi();
 
         getLogger().info("Passwords enabled!");
         saveDefaultConfig();
@@ -86,8 +92,6 @@ public final class Passwords extends JavaPlugin {
 
 
 
-        pluginManager.registerEvents(new PlayerLeave(dataManager), this);
-
 
 
         if (!getConfig().getBoolean("api.enable")) {
@@ -109,7 +113,7 @@ public final class Passwords extends JavaPlugin {
 
     }
 
-    public void afterCheck(PasswordServer passwordServer, PasswordPlayer passwordPlayer) {
+    private void afterCheck(PasswordServer passwordServer, PasswordPlayer passwordPlayer) {
         // Plugin enable
         // Register Server Listeners
         passwordServer.listeners();
@@ -126,7 +130,7 @@ public final class Passwords extends JavaPlugin {
         sender.sendMessage("§9Reload done!");
     }
 
-    public void pluginIntegration(PluginManager pluginManager) {
+    private void pluginIntegration(PluginManager pluginManager) {
 
         // Discord Srv
         if (Bukkit.getServer().getPluginManager().getPlugin("DiscordSRV") != null) {
@@ -138,7 +142,7 @@ public final class Passwords extends JavaPlugin {
 
                 DiscordSRV.api.subscribe(this);
 
-                pluginManager.registerEvents(new DiscordListener(dataManager, this), this);
+                pluginManager.registerEvents(new DiscordListener(), this);
 
             } else {
                 getLogger().info("DiscordSRV features disabled!");

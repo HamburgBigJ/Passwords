@@ -1,4 +1,4 @@
-package cho.info.passwords.api.password;
+package cho.info.passwordsApi.password;
 
 import cho.info.passwords.Passwords;
 import cho.info.passwords.utls.DataManager;
@@ -12,9 +12,9 @@ public class Behavior {
     public DataManager dataManager;
     public Passwords passwords;
 
-    public Behavior(DataManager dataManager, Passwords passwords) {
-        this.dataManager = dataManager;
-        this.passwords = passwords;
+    public Behavior() {
+        this.dataManager = Passwords.dataManager;
+        this.passwords = Passwords.instance;
     }
 
     /**
