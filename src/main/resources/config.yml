@@ -20,8 +20,8 @@ settings:
   welcome-message: Welcome to ExampleServer
   # Welcomemassage second line (Only for title)
   welcome-message-second: Passwords
-  # Display type for the welcome message: chat; actionbar; title
-  welcome-message-display-type: chat
+  # Display type for the welcome message: message; actionbar; title
+  welcome-message-display-type: message
   # Enable login gamemode.
   login-gamemode-enabled: true
   # Gamemode every player will have upon login: survival, creative, adventure, spectator
