@@ -71,9 +71,9 @@ public class PasswordConfig {
         return config().getBoolean("settings.prevents-movement");
     }
 
-    // Discord Settings
-    public static boolean isDiscordSrvEnabled() {
-        return config().getBoolean("discord.need-password");
+    // DiscordHook Settings
+    public static boolean isUseDiscordLogin() {
+        return config().getBoolean("discord.useDiscordLogin");
     }
 
     // Server Settings

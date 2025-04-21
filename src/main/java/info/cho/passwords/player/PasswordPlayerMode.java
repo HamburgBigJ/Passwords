@@ -1,4 +1,4 @@
-package info.cho.passwords.server;
+package info.cho.passwords.player;
 
 import info.cho.passwords.utls.DataManager;
 import info.cho.passwords.utls.PLog;
@@ -17,7 +17,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class PasswordServerMode extends PasswordsGui {
+public class PasswordPlayerMode extends PasswordsGui {
+
 
     @Override
     public void openGui(PlayerJoinEvent event) {
@@ -30,6 +31,13 @@ public class PasswordServerMode extends PasswordsGui {
         Player player = (Player) event.getWhoClicked();
         int passwordLength = PasswordConfig.getPasswordLength();
         PLog.debug("Password length: " + passwordLength);
+        boolean hasPassword;
+
+        if (getDataManager().getPlayerValue(player, "password").equals("n/a")) {
+            hasPassword = false;
+        } else {
+            hasPassword = true;
+        }
 
 
 
@@ -53,7 +61,19 @@ public class PasswordServerMode extends PasswordsGui {
                 password += getDataManager().getPlayerValue(player, "char" + i);
             }
 
-            if (PasswordConfig.getServerPassword().equals(password)) {
+            if (!hasPassword) {
+                getDataManager().setPlayerValue(player, "password", password);
+                getDataManager().setPlayerValue(player, "isLogin", true);
+                player.closeInventory();
+
+                welcomeMessage(player);
+                gamemodeSwitch(player);
+
+                PLog.debug("Player password set to: " + password);
+                return;
+            }
+
+            if (getDataManager().getPlayerValue(player, "password").equals(password)) {
                 getDataManager().setPlayerValue(player, "isLogin", true);
                 player.closeInventory();
 
@@ -83,7 +103,13 @@ public class PasswordServerMode extends PasswordsGui {
 
     @Override
     public Inventory getInventory(Player player) {
-        Inventory inventory = Bukkit.createInventory(null, InventoryType.DROPPER, Component.text(PasswordConfig.getGuiName()));
+        Inventory inventory;
+        if (getDataManager().getPlayerValue(player, "password").equals("n/a")) {
+            inventory = Bukkit.createInventory(null, InventoryType.DISPENSER, Component.text(PasswordConfig.getSetPasswordName()));
+        } else{
+            inventory = Bukkit.createInventory(null, InventoryType.DROPPER, Component.text(PasswordConfig.getGuiName()));
+        }
+
 
         ItemStack selectItem = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
 
@@ -98,5 +124,6 @@ public class PasswordServerMode extends PasswordsGui {
 
         return inventory;
     }
+
 
 }

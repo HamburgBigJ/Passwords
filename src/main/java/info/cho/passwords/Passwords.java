@@ -4,6 +4,8 @@ import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import info.cho.passwords.customGui.CustomGui;
 import info.cho.passwords.customGui.CustomGuiHandler;
+import info.cho.passwords.hook.DiscordHook;
+import info.cho.passwords.player.PasswordPlayerMode;
 import info.cho.passwords.server.PasswordServerMode;
 import info.cho.passwords.utls.PLog;
 import info.cho.passwordsApi.password.PasswordConfig;
@@ -30,10 +32,14 @@ public class Passwords extends JavaPlugin {
     public void onEnable() {
         CommandAPI.onEnable();
         CustomGuiHandler customGuiHandler = new CustomGuiHandler(customGui);
+        if (PasswordConfig.isUseDiscordLogin()) {
+            DiscordHook discordHook = new DiscordHook();
+        }
 
         versionCheck();
 
         customGui.registerGui("server", PasswordServerMode.class);
+        customGui.registerGui("player", PasswordPlayerMode.class);
 
 
     }

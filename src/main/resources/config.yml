@@ -28,8 +28,8 @@ settings:
   login-gamemode: survival
 
 discord:
-  # DiscordSRV Password on login
-  need-password: false
+  # DiscordSRV Liked players do not need a Password on login
+  useDiscordLogin: false
 
 server:
   # Server password (Can not be longer than the password-length)
