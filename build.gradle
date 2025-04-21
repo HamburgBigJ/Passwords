@@ -23,7 +23,7 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
 
-    compileOnly("com.discordsrv:discordsrv:1.26.0")
+    compileOnly("com.discordsrv:discordsrv:1.29.0")
 }
 
 tasks {
