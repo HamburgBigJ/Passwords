@@ -1,6 +1,6 @@
 name: Passwords
 version: '2.3'
-main: cho.info.passwords.Passwords
+main: info.cho.passwords.Passwords
 api-version: '1.21.4'
 authors: [ HamburgBigJ ]
 softdepend: [ DiscordSRV ]

@@ -1,4 +1,4 @@
-package cho.info.passwordsApi.password.customgui;
+package info.cho.passwordsApi.password.customgui;
 
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;

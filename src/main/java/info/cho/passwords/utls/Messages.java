@@ -1,4 +1,4 @@
-package cho.info.passwords.utls;
+package info.cho.passwords.utls;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;

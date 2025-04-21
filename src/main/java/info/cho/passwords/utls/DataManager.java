@@ -1,6 +1,6 @@
-package cho.info.passwords.utls;
+package info.cho.passwords.utls;
 
-import cho.info.passwords.Passwords;
+import info.cho.passwords.Passwords;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;

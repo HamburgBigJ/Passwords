@@ -5,44 +5,27 @@ debug: false
 settings:
   # check-type: server : One password for the entire server.
   # check-type: player : A unique password for each player. (Works only on the first join. To reset, delete player data or use the /setpassword command)
-  # check-type: custom : The addon will handle the ui / mode. (You can use the api to change the password)
   check-type: server
   # Gui Name
-  gui-name: §9Passwords
+  gui-name: Passwords
   # Set password name
-  set-password-name: §aSet Password
+  set-password-name: Set Password
   # Message that will be displayed as the kick reason.
-  fail-message: §4§lThe password is incorrect!
+  fail-message: The password is incorrect!
   # When the UI is closed without a password
-  close-ui-message: §4§lYou need to enter a Password!
+  close-ui-message: You need to enter a Password!
   # Enable welcome message.
   welcome-message-enabled: true
   # Welcome message after login.
-  welcome-message: §3Welcome to ExampleServer
+  welcome-message: Welcome to ExampleServer
   # Welcomemassage second line (Only for title)
-  welcome-message-second: §2Passwords
-  # Movement event cancel
-  message-kick-movement: §4§lYou can not move withot being login!
-  # Password length
-  password-length: 4
+  welcome-message-second: Passwords
   # Display type for the welcome message: chat; actionbar; title
   welcome-message-display-type: chat
-  # Admin password enable
-  admin-password-enabled: true
-  # Admin password grants all permissions to the player. (Can not be longer than the password-length)
-  admin-password: 8143
-  # Admin login as Op.
-  is-admin-op: true
   # Enable login gamemode.
   login-gamemode-enabled: true
   # Gamemode every player will have upon login: survival, creative, adventure, spectator
   login-gamemode: survival
-  # Prevents movement for non login player
-  prevents-movement: false
-  # Ip Login. Login with ip ( Beta - Mey not work!)
-  login-ip: false
-  # DiscordSRV support
-  use-discord-srv: false
 
 discord:
   # DiscordSRV Password on login
@@ -51,15 +34,3 @@ discord:
 server:
   # Server password (Can not be longer than the password-length)
   password: 1234
-
-
-api:
-  enable: true
-  # Kicks the player when the password changes.
-  kick-password-change: true
-  # Change Password Message
-  change-password-message: §4Your password has benn changed!
-  # Kick Player Message
-  kick-player-message: "§6 Passwords Kicked You Reason : "
-  # Override the type. (Only for custom)
-  override-check-type: true
