@@ -2,6 +2,9 @@ package info.cho.passwords;
 
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
+import info.cho.passwords.commads.LogoutPlayerCommand;
+import info.cho.passwords.commads.SetPasswordCommand;
+import info.cho.passwords.commads.SetPlayerPasswordCommand;
 import info.cho.passwords.customGui.CustomGui;
 import info.cho.passwords.customGui.CustomGuiHandler;
 import info.cho.passwords.hook.DiscordHook;
@@ -37,6 +40,10 @@ public class Passwords extends JavaPlugin {
         }
 
         versionCheck();
+
+        LogoutPlayerCommand logoutPlayerCommand = new LogoutPlayerCommand();
+        SetPlayerPasswordCommand setPlayerPasswordCommand = new SetPlayerPasswordCommand();
+        SetPasswordCommand setPasswordCommand = new SetPasswordCommand();
 
         customGui.registerGui("server", PasswordServerMode.class);
         customGui.registerGui("player", PasswordPlayerMode.class);
