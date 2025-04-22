@@ -28,7 +28,7 @@ settings:
   login-gamemode: survival
 
 discord:
-  # DiscordSRV Liked players do not need a Password on login
+  # DiscordSRV Liked players do not need a Password on login ( Experimental )
   useDiscordLogin: false
 
 server:
