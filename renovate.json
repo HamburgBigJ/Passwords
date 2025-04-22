@@ -1,6 +1,21 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    ":automergeMinor",
+    ":dependencyDashboard"
+  ],
+  "schedule": ["before 5am every weekday", "every weekend"],
+  "packageRules": [
+    {
+      "description": "Automatically merge minor and patch updates",
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "description": "Group Gradle plugin updates",
+      "matchManagers": ["gradle"],
+      "groupName": "gradle plugins"
+    }
   ]
 }

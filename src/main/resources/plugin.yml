@@ -1,20 +1,17 @@
 name: Passwords
 version: '2.3'
-main: cho.info.passwords.Passwords
+main: info.cho.passwords.Passwords
 api-version: '1.21.4'
 authors: [ HamburgBigJ ]
 softdepend: [ DiscordSRV ]
 
+permissions:
+  passwords.command.logout:
+    default: op
+    description: "Allows to use the /logout command"
 
-commands:
-  preload:
-    permission: passwords.reload
-    permission-message: "You do not have permission to use this command"
+  passwords.command.setplayerpassword:
+    default: op
+    description: "Allows to use the /setplayerpassword command"
 
-  setpassword:
-    permission: passwords.setpassword
-    permission-message: "You do not have permission to use this command"
 
-  logout:
-    permission: passwords.logout
-    permission-message: "You do not have permission to use this command"
