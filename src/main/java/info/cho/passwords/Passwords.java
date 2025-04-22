@@ -26,8 +26,7 @@ public class Passwords extends JavaPlugin {
         instance = this;
         customGui = new CustomGui();
         saveDefaultConfig();
-
-        CommandAPI.onLoad(new CommandAPIBukkitConfig(this).verboseOutput(false));
+        CommandAPI.onLoad(new CommandAPIBukkitConfig(this).verboseOutput(PasswordConfig.isDebugMode()));
 
     }
 
