@@ -38,6 +38,14 @@ public class Passwords extends JavaPlugin {
             DiscordHook discordHook = new DiscordHook();
         }
 
+        if (PasswordConfig.isEnabled()) {
+            PLog.info("Passwords plugin is enabled!");
+        } else {
+            PLog.warning("Passwords plugin is disabled!");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         versionCheck();
 
         LogoutPlayerCommand logoutPlayerCommand = new LogoutPlayerCommand();
@@ -58,7 +66,7 @@ public class Passwords extends JavaPlugin {
 
 
     private void versionCheck() {
-        String version = "2.3";
+        String version = "2.3-fix";
         if(!Objects.equals(version, getConfig().getString("version"))) {
             PLog.warning("!!!!!!!!-----------------------------------------------------------------------------------!!!!!!!!");
             PLog.warning("Your version is outdated! Please delete the config.yml and restart the server to get the latest version!");

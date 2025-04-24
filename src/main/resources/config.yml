@@ -1,5 +1,5 @@
 enable: true
-version: "2.3"
+version: "2.3-fix"
 debug: false
 
 settings:
@@ -26,11 +26,13 @@ settings:
   login-gamemode-enabled: true
   # Gamemode every player will have upon login: survival, creative, adventure, spectator
   login-gamemode: survival
+  # Player password length ( for the check-type: player )
+  player-password-length: 4
 
 discord:
   # DiscordSRV Liked players do not need a Password on login ( Experimental )
   useDiscordLogin: false
 
 server:
-  # Server password (Can not be longer than the password-length)
+  # Server password ( the password can be any length | for the check-type: server )
   password: 1234

@@ -67,8 +67,9 @@ public class PasswordConfig {
         return config().getString("settings.login-gamemode");
     }
 
-    public static boolean isMovementPrevented() {
-        return config().getBoolean("settings.prevents-movement");
+
+    public static int getPlayerPasswordLength() {
+        return config().getInt("settings.player-password-length");
     }
 
     // DiscordHook Settings
