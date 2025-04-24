@@ -48,12 +48,18 @@ public class PasswordServerMode extends PasswordsGui {
 
 
         if ((int)getDataManager().getPlayerValue(player, "charLocation") > passwordLength) {
-            String password = "";
+            StringBuilder password = new StringBuilder();
             for (int i = 1; i <= passwordLength; i++) {
-                password += getDataManager().getPlayerValue(player, "char" + i);
+                password.append(getDataManager().getPlayerValue(player, "char" + i));
+                PLog.debug("PasswordBuilder: " + password.toString());
             }
 
-            if (PasswordConfig.getServerPassword().equals(password)) {
+            if (PasswordConfig.getBlockedPasswordList().contains(password.toString())) {
+                player.kick(Component.text("You have been blocked by this password", NamedTextColor.RED));
+                return;
+            }
+
+            if (PasswordConfig.getServerPassword().equals(password.toString())) {
                 getDataManager().setPlayerValue(player, "isLogin", true);
                 player.closeInventory();
 
@@ -75,7 +81,6 @@ public class PasswordServerMode extends PasswordsGui {
     public void closeGui(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
         if ((boolean) getDataManager().getPlayerValue(player, "isLogin")) {
-
             return;
         }
         player.kick(Component.text(PasswordConfig.getCloseUiMessage(), NamedTextColor.RED));

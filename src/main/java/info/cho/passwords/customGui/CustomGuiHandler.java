@@ -63,7 +63,7 @@ public class CustomGuiHandler implements Listener {
                     DataManager dataManager = new DataManager();
                     PLog.debug("onGuiInteract test1");
                     PLog.debug(dataManager.getPlayerValue((Player) event.getWhoClicked(), "isLogin").toString());
-                    if ((boolean) dataManager.getPlayerValue((Player) event.getWhoClicked(), "isLogin") == true) return;
+                    if ((boolean) dataManager.getPlayerValue((Player) event.getWhoClicked(), "isLogin")) return;
                     PLog.debug("test1");
                     PasswordsGui passwordGui = (PasswordsGui) entry.getValue().getDeclaredConstructor().newInstance();
                     passwordGui.interactGui(event);
@@ -81,7 +81,7 @@ public class CustomGuiHandler implements Listener {
             if (Objects.equals(PasswordConfig.getCheckType(), entry.getKey())) {
                 try {
                     DataManager dataManager = new DataManager();
-                    if ((boolean) dataManager.getPlayerValue((Player) event.getPlayer(), "isLogin") == true) return;
+                    if ((boolean) dataManager.getPlayerValue((Player) event.getPlayer(), "isLogin")) return;
                     PLog.debug("test2");
                     PasswordsGui passwordGui = (PasswordsGui) entry.getValue().getDeclaredConstructor().newInstance();
                     passwordGui.closeGui(event);

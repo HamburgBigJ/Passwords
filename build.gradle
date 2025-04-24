@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'info.cho'
-version = '2.3-fix'
+version = '2.4'
 
 repositories {
     mavenCentral()

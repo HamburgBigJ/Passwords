@@ -3,6 +3,8 @@ package info.cho.passwordsApi.password;
 import info.cho.passwords.Passwords;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.List;
+
 public class PasswordConfig {
 
     private static FileConfiguration config() {
@@ -70,6 +72,10 @@ public class PasswordConfig {
 
     public static int getPlayerPasswordLength() {
         return config().getInt("settings.player-password-length");
+    }
+
+    public static List<String> getBlockedPasswordList() {
+        return config().getStringList("settings.blocked-passwords");
     }
 
     // DiscordHook Settings

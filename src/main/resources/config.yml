@@ -1,5 +1,5 @@
 enable: true
-version: "2.3-fix"
+version: "2.4"
 debug: false
 
 settings:
@@ -28,6 +28,9 @@ settings:
   login-gamemode: survival
   # Player password length ( for the check-type: player )
   player-password-length: 4
+  # Blocked Passwords
+  blocked-passwords:
+    - 1111
 
 discord:
   # DiscordSRV Liked players do not need a Password on login ( Experimental )

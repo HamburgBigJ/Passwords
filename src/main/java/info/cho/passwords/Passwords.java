@@ -66,7 +66,7 @@ public class Passwords extends JavaPlugin {
 
 
     private void versionCheck() {
-        String version = "2.3-fix";
+        String version = "2.4";
         if(!Objects.equals(version, getConfig().getString("version"))) {
             PLog.warning("!!!!!!!!-----------------------------------------------------------------------------------!!!!!!!!");
             PLog.warning("Your version is outdated! Please delete the config.yml and restart the server to get the latest version!");

@@ -1,5 +1,5 @@
 name: Passwords
-version: '2.3'
+version: '2.4'
 main: info.cho.passwords.Passwords
 api-version: '1.21.4'
 authors: [ HamburgBigJ ]
