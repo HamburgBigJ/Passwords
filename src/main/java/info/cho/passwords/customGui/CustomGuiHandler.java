@@ -5,6 +5,7 @@ import info.cho.passwords.utls.DataManager;
 import info.cho.passwords.utls.PLog;
 import info.cho.passwordsApi.password.PasswordConfig;
 import info.cho.passwordsApi.password.customgui.PasswordsGui;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -59,6 +60,11 @@ public class CustomGuiHandler implements Listener {
         for (Map.Entry<String, Class<?>> entry : customGui.customGuiList.entrySet()) {
             if (Objects.equals(PasswordConfig.getCheckType(), entry.getKey())) {
                 try {
+                    DataManager dataManager = new DataManager();
+                    PLog.debug("onGuiInteract test1");
+                    PLog.debug(dataManager.getPlayerValue((Player) event.getWhoClicked(), "isLogin").toString());
+                    if ((boolean) dataManager.getPlayerValue((Player) event.getWhoClicked(), "isLogin") == true) return;
+                    PLog.debug("test1");
                     PasswordsGui passwordGui = (PasswordsGui) entry.getValue().getDeclaredConstructor().newInstance();
                     passwordGui.interactGui(event);
                 } catch (Exception e) {
@@ -74,6 +80,9 @@ public class CustomGuiHandler implements Listener {
         for (Map.Entry<String, Class<?>> entry : customGui.customGuiList.entrySet()) {
             if (Objects.equals(PasswordConfig.getCheckType(), entry.getKey())) {
                 try {
+                    DataManager dataManager = new DataManager();
+                    if ((boolean) dataManager.getPlayerValue((Player) event.getPlayer(), "isLogin") == true) return;
+                    PLog.debug("test2");
                     PasswordsGui passwordGui = (PasswordsGui) entry.getValue().getDeclaredConstructor().newInstance();
                     passwordGui.closeGui(event);
                 } catch (Exception e) {

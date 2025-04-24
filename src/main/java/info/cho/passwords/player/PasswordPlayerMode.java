@@ -1,6 +1,5 @@
 package info.cho.passwords.player;
 
-import info.cho.passwords.utls.DataManager;
 import info.cho.passwords.utls.PLog;
 import info.cho.passwordsApi.password.PasswordConfig;
 import info.cho.passwordsApi.password.customgui.PasswordsGui;
@@ -29,7 +28,7 @@ public class PasswordPlayerMode extends PasswordsGui {
     @Override
     public void interactGui(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        int passwordLength = PasswordConfig.getPasswordLength();
+        int passwordLength = PasswordConfig.getPlayerPasswordLength();
         PLog.debug("Password length: " + passwordLength);
         boolean hasPassword;
 
