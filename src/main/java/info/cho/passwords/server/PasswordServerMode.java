@@ -27,6 +27,9 @@ public class PasswordServerMode extends PasswordsGui {
 
     @Override
     public void interactGui(InventoryClickEvent event) {
+        if (event.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE || event.getCurrentItem().getType() == Material.GREEN_STAINED_GLASS_PANE) {;
+            PLog.debug("onGuiInteract");
+        } else return;
         Player player = (Player) event.getWhoClicked();
         int passwordLength = PasswordConfig.getPasswordLength();
         PLog.debug("Password length: " + passwordLength);
@@ -74,7 +77,6 @@ public class PasswordServerMode extends PasswordsGui {
         }
 
 
-        event.setCancelled(true);
     }
 
     @Override

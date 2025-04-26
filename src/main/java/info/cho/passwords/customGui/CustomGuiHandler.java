@@ -67,6 +67,7 @@ public class CustomGuiHandler implements Listener {
                     PLog.debug("test1");
                     PasswordsGui passwordGui = (PasswordsGui) entry.getValue().getDeclaredConstructor().newInstance();
                     passwordGui.interactGui(event);
+                    event.setCancelled(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

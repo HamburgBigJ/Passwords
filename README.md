@@ -10,8 +10,6 @@ Passwords is an innovative and user-friendly plugin designed to enhance the secu
 - **Adjustable Password Lengths**  
   Customize the password length to achieve the desired balance between security and convenience.
 
-- **Admin Password Options**  
-  Administrators can set a master password to access full permissions and operator (Op) status.
 
 - **Seamless Integration**  
   Works effortlessly with any Minecraft server without requiring complex setup procedures.
@@ -32,14 +30,6 @@ Passwords is an innovative and user-friendly plugin designed to enhance the secu
 3. **Restart the Server**  
    Restart your server to allow the plugin to initialize and function correctly.
 
-## Commands
-
-- `/preload`  
-  Reloads the plugin's configuration.
-
-- `/setpassword <Player> <Password>`  
-  Sets a specific password for a player.
-
 ## Why Choose Passwords?
 
 - **Enhanced Server Security**  
@@ -58,7 +48,7 @@ For developers interested in integrating or extending the Passwords plugin, Mave
 <dependency>
     <groupId>cho.info</groupId>
     <artifactId>passwords</artifactId>
-    <version>2.0</version>
+    <version>VERSION</version>
 </dependency>
 
 <repositories>
@@ -72,7 +62,7 @@ For developers interested in integrating or extending the Passwords plugin, Mave
 **Gradle:**
 
 ```groovy
-implementation files("$projectDir/lib/passwords-2.0.jar")
+implementation files("$projectDir/lib/passwords-VERSION.jar")
 ```
 
 
