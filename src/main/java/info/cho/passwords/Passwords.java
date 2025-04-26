@@ -10,6 +10,7 @@ import info.cho.passwords.customGui.CustomGuiHandler;
 import info.cho.passwords.hook.DiscordHook;
 import info.cho.passwords.player.PasswordPlayerMode;
 import info.cho.passwords.server.PasswordServerMode;
+import info.cho.passwords.server.PlayerRemPermissions;
 import info.cho.passwords.utls.PLog;
 import info.cho.passwordsApi.password.PasswordConfig;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,6 +35,7 @@ public class Passwords extends JavaPlugin {
     public void onEnable() {
         CommandAPI.onEnable();
         CustomGuiHandler customGuiHandler = new CustomGuiHandler(customGui);
+        PlayerRemPermissions playerRemPermissions = new PlayerRemPermissions();
         if (PasswordConfig.isUseDiscordLogin()) {
             DiscordHook discordHook = new DiscordHook();
         }

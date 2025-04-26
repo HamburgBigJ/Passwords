@@ -78,6 +78,17 @@ public class PasswordConfig {
         return config().getStringList("settings.blocked-passwords");
     }
 
+    public static String getStaffPassword() {
+        return config().getString("server.staff-password");
+    }
+
+    public static List<String> getStaffPermissions() {
+        return config().getStringList("server.staff-permissions");
+    }
+
+    public static boolean isRemoveStaffPermissionsOnLogout() {
+        return config().getBoolean("server.remove-staff-permissions-on-logout");
+    }
     // DiscordHook Settings
     public static boolean isUseDiscordLogin() {
         return config().getBoolean("discord.useDiscordLogin");

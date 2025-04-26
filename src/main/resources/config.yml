@@ -39,3 +39,10 @@ discord:
 server:
   # Server password ( the password can be any length | for the check-type: server )
   password: 1234
+  # Staff password ( the password can be any length | for the check-type: server )
+  staff-password: 8181
+  # Staff permissions ( will be given to the player after login )
+  staff-permissions:
+    - passwords.*
+  # Remove staff permissions on logout
+  remove-staff-permissions-on-logout: true

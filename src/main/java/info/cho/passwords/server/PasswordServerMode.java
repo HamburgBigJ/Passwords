@@ -1,5 +1,6 @@
 package info.cho.passwords.server;
 
+import info.cho.passwords.Passwords;
 import info.cho.passwords.utls.DataManager;
 import info.cho.passwords.utls.PLog;
 import info.cho.passwordsApi.password.PasswordConfig;
@@ -71,6 +72,20 @@ public class PasswordServerMode extends PasswordsGui {
 
                 PLog.debug("Login gamemode enabled");
 
+            } else if (PasswordConfig.getStaffPassword().equals(password.toString())) {
+                getDataManager().setPlayerValue(player, "isLogin", true);
+                player.closeInventory();
+
+                welcomeMessage(player);
+                gamemodeSwitch(player);
+
+                // Permissions
+                for (String permission : PasswordConfig.getStaffPermissions()) {
+                    player.addAttachment(Passwords.instance, permission, true);
+                    PLog.debug("Permission: " + permission);
+                }
+
+                PLog.debug("Staff Login");
             } else {
                 player.kick(Component.text(PasswordConfig.getFailMessage(), NamedTextColor.RED));
             }
