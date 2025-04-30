@@ -12,6 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -105,6 +106,11 @@ public class PasswordPlayerMode extends PasswordsGui {
             return;
         }
         player.kick(Component.text(PasswordConfig.getCloseUiMessage(), NamedTextColor.RED));
+    }
+
+    public void playerQuit(PlayerQuitEvent event) {
+        // Remove permissions on logout
+        removePermissions(event.getPlayer());
     }
 
     @Override

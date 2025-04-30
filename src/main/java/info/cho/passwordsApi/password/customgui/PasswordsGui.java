@@ -1,12 +1,15 @@
 package info.cho.passwordsApi.password.customgui;
 
+import info.cho.passwords.Passwords;
 import info.cho.passwords.utls.DataManager;
 import info.cho.passwords.utls.Messages;
+import info.cho.passwords.utls.PLog;
 import info.cho.passwordsApi.password.PasswordConfig;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 
 public abstract class PasswordsGui {
@@ -42,6 +45,12 @@ public abstract class PasswordsGui {
      * @param event InventoryCloseEvent
      */
     public abstract void closeGui(InventoryCloseEvent event);
+
+    /**
+     * Player quit event.
+     * @param event PlayerQuitEvent
+     */
+    public abstract void playerQuit(PlayerQuitEvent event);
 
     /**
      * Get the inventory the player can see.
@@ -92,6 +101,18 @@ public abstract class PasswordsGui {
                 case "title" -> Messages.sendTitel(player, PasswordConfig.getWelcomeMessage(), PasswordConfig.getWelcomeMessageSecondLine());
                 case "message" -> Messages.sendMessage(player, PasswordConfig.getWelcomeMessage());
             }
+        }
+    }
+
+    /**
+     * Remove permissions from the player.
+     * @param player Player
+     */
+    public void removePermissions(Player player) {
+        if (!PasswordConfig.isRemoveStaffPermissionsOnLogout()) return;
+        for (String permission : PasswordConfig.getStaffPermissions()) {
+            player.addAttachment(Passwords.instance, permission, false);
+            PLog.debug("PermissionRemove: " + permission);
         }
     }
 }

@@ -1,7 +1,6 @@
 package info.cho.passwords.server;
 
 import info.cho.passwords.Passwords;
-import info.cho.passwords.utls.DataManager;
 import info.cho.passwords.utls.PLog;
 import info.cho.passwordsApi.password.PasswordConfig;
 import info.cho.passwordsApi.password.customgui.PasswordsGui;
@@ -14,6 +13,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -101,6 +101,11 @@ public class PasswordServerMode extends PasswordsGui {
             return;
         }
         player.kick(Component.text(PasswordConfig.getCloseUiMessage(), NamedTextColor.RED));
+    }
+
+    public void playerQuit(PlayerQuitEvent event) {
+        // Remove permissions on logout
+        removePermissions(event.getPlayer());
     }
 
     @Override
