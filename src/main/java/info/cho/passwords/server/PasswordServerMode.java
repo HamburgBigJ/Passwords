@@ -1,6 +1,6 @@
 package info.cho.passwords.server;
 
-import info.cho.passwords.utls.DataManager;
+import info.cho.passwords.Passwords;
 import info.cho.passwords.utls.PLog;
 import info.cho.passwordsApi.password.PasswordConfig;
 import info.cho.passwordsApi.password.customgui.PasswordsGui;
@@ -13,6 +13,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -27,6 +28,9 @@ public class PasswordServerMode extends PasswordsGui {
 
     @Override
     public void interactGui(InventoryClickEvent event) {
+        if (event.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE || event.getCurrentItem().getType() == Material.GREEN_STAINED_GLASS_PANE) {
+            PLog.debug("onGuiInteract");
+        } else return;
         Player player = (Player) event.getWhoClicked();
         int passwordLength = PasswordConfig.getPasswordLength();
         PLog.debug("Password length: " + passwordLength);
@@ -48,12 +52,18 @@ public class PasswordServerMode extends PasswordsGui {
 
 
         if ((int)getDataManager().getPlayerValue(player, "charLocation") > passwordLength) {
-            String password = "";
+            StringBuilder password = new StringBuilder();
             for (int i = 1; i <= passwordLength; i++) {
-                password += getDataManager().getPlayerValue(player, "char" + i);
+                password.append(getDataManager().getPlayerValue(player, "char" + i));
+                PLog.debug("PasswordBuilder: " + password.toString());
             }
 
-            if (PasswordConfig.getServerPassword().equals(password)) {
+            if (PasswordConfig.getBlockedPasswordList().contains(password.toString())) {
+                player.kick(Component.text("You have been blocked by this password", NamedTextColor.RED));
+                return;
+            }
+
+            if (PasswordConfig.getServerPassword().equals(password.toString())) {
                 getDataManager().setPlayerValue(player, "isLogin", true);
                 player.closeInventory();
 
@@ -62,23 +72,40 @@ public class PasswordServerMode extends PasswordsGui {
 
                 PLog.debug("Login gamemode enabled");
 
+            } else if (PasswordConfig.getStaffPassword().equals(password.toString())) {
+                getDataManager().setPlayerValue(player, "isLogin", true);
+                player.closeInventory();
+
+                welcomeMessage(player);
+                gamemodeSwitch(player);
+
+                // Permissions
+                for (String permission : PasswordConfig.getStaffPermissions()) {
+                    player.addAttachment(Passwords.instance, permission, true);
+                    PLog.debug("Permission: " + permission);
+                }
+
+                PLog.debug("Staff Login");
             } else {
                 player.kick(Component.text(PasswordConfig.getFailMessage(), NamedTextColor.RED));
             }
         }
 
 
-        event.setCancelled(true);
     }
 
     @Override
     public void closeGui(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
         if ((boolean) getDataManager().getPlayerValue(player, "isLogin")) {
-
             return;
         }
         player.kick(Component.text(PasswordConfig.getCloseUiMessage(), NamedTextColor.RED));
+    }
+
+    public void playerQuit(PlayerQuitEvent event) {
+        // Remove permissions on logout
+        removePermissions(event.getPlayer());
     }
 
     @Override

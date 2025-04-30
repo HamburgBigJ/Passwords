@@ -32,6 +32,11 @@ public class PasswordArgument extends Argument<String> {
     public <Source> String parseArgument(CommandContext<Source> cmdCtx, String key, CommandArguments previousArgs) throws CommandSyntaxException {
         String password = cmdCtx.getArgument(key, String.class);
 
+        if (PasswordConfig.getBlockedPasswordList().contains(password)) {
+            throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherParseException()
+                    .create("Invalid password. Choose a different password.");
+        }
+
         if (!isValidPassword(password)) {
             throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherParseException()
                     .create("Invalid password. It must be between " + MIN_LENGTH + " and " + MAX_LENGTH + " characters and contain only allowed characters.");

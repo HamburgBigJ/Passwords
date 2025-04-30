@@ -3,6 +3,8 @@ package info.cho.passwordsApi.password;
 import info.cho.passwords.Passwords;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.List;
+
 public class PasswordConfig {
 
     private static FileConfiguration config() {
@@ -72,6 +74,21 @@ public class PasswordConfig {
         return config().getInt("settings.player-password-length");
     }
 
+    public static List<String> getBlockedPasswordList() {
+        return config().getStringList("settings.blocked-passwords");
+    }
+
+    public static String getStaffPassword() {
+        return config().getString("server.staff-password");
+    }
+
+    public static List<String> getStaffPermissions() {
+        return config().getStringList("server.staff-permissions");
+    }
+
+    public static boolean isRemoveStaffPermissionsOnLogout() {
+        return config().getBoolean("server.remove-staff-permissions-on-logout");
+    }
     // DiscordHook Settings
     public static boolean isUseDiscordLogin() {
         return config().getBoolean("discord.useDiscordLogin");

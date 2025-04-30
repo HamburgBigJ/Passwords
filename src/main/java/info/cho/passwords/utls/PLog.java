@@ -1,6 +1,7 @@
 package info.cho.passwords.utls;
 
 import info.cho.passwords.Passwords;
+import info.cho.passwordsApi.password.PasswordConfig;
 
 public class PLog {
 
@@ -13,7 +14,7 @@ public class PLog {
     }
 
     public static void debug(String message) {
-        if (Passwords.instance.getConfig().getBoolean("debug")) {
+        if (PasswordConfig.isDebugMode()) {
             Passwords.instance.getLogger().warning("[PSDebug] " + message);
         }
     }
