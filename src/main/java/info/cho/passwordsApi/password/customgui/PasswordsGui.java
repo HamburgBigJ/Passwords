@@ -98,7 +98,7 @@ public abstract class PasswordsGui {
         if (PasswordConfig.isWelcomeMessageEnabled()) {
             switch (PasswordConfig.getWelcomeMessageDisplayType()) {
                 case "actionbar" -> Messages.sendActonBar(player, PasswordConfig.getWelcomeMessage());
-                case "title" -> Messages.sendTitel(player, PasswordConfig.getWelcomeMessage(), PasswordConfig.getWelcomeMessageSecondLine());
+                case "title" -> Messages.sendTitle(player, PasswordConfig.getWelcomeMessage(), PasswordConfig.getWelcomeMessageSecondLine());
                 case "message" -> Messages.sendMessage(player, PasswordConfig.getWelcomeMessage());
             }
         }

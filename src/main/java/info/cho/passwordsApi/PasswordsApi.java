@@ -3,22 +3,18 @@ package info.cho.passwordsApi;
 import info.cho.passwords.Passwords;
 import info.cho.passwords.customGui.CustomGui;
 import info.cho.passwords.utls.DataManager;
+import info.cho.passwordsApi.password.PasswordConfig;
 
 public class PasswordsApi {
 
-    public Passwords passwords;
-    public DataManager dataManager;
-
-    public PasswordsApi() {
-        this.passwords = Passwords.instance;
-        this.dataManager = new DataManager();
-    }
+    public static Passwords passwords = Passwords.instance;
+    public static DataManager dataManager = new DataManager();
 
     /**
      * Get the plugin
      * @return Passwords
      */
-    public Passwords getPlugin(){
+    public static Passwords getPlugin(){
         return passwords;
     }
 
@@ -26,7 +22,7 @@ public class PasswordsApi {
      * Get the config manager
      * @return DataManager
      */
-    public DataManager getDataManager(){
+    public static DataManager getDataManager(){
         return dataManager;
     }
 
@@ -35,8 +31,25 @@ public class PasswordsApi {
      * Get the custom gui manager
      * @return CustomGui
      */
-    public CustomGui getCustomGui(){
+    public static CustomGui getCustomGui(){
         return Passwords.customGui;
     }
+
+    /**
+     * Get the version of the plugin
+     * @return String
+     */
+    public static String getPluginVersion() {
+        return Passwords.version;
+    }
+
+    /**
+     * Get the version of the config
+     * @return String
+     */
+    public static String getConfigVersion() {
+        return PasswordConfig.getVersion();
+    }
+
 
 }

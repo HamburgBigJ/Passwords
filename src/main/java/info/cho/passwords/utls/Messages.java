@@ -10,7 +10,7 @@ public class Messages {
         player.sendActionBar(Component.text(message));
     }
 
-    public static void sendTitel(Player player, String message, String second) {
+    public static void sendTitle(Player player, String message, String second) {
         player.showTitle(Title.title(Component.text(message), Component.text(second)));
     }
 

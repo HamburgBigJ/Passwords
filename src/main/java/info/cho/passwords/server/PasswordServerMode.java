@@ -97,10 +97,10 @@ public class PasswordServerMode extends PasswordsGui {
     @Override
     public void closeGui(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
-        if ((boolean) getDataManager().getPlayerValue(player, "isLogin")) {
-            return;
+        if (!(boolean) getDataManager().getPlayerValue(player, "isLogin")) {
+            player.kick(Component.text(PasswordConfig.getCloseUiMessage(), NamedTextColor.RED));
         }
-        player.kick(Component.text(PasswordConfig.getCloseUiMessage(), NamedTextColor.RED));
+
     }
 
     public void playerQuit(PlayerQuitEvent event) {

@@ -20,6 +20,7 @@ public class Passwords extends JavaPlugin {
 
     public static Passwords instance;
     public static CustomGui customGui;
+    public static String version = "2.5";
 
     @Override
     public void onLoad() {
@@ -39,6 +40,7 @@ public class Passwords extends JavaPlugin {
         if (PasswordConfig.isUseDiscordLogin()) {
             DiscordHook discordHook = new DiscordHook();
         }
+
 
         if (PasswordConfig.isEnabled()) {
             PLog.info("Passwords plugin is enabled!");
@@ -68,7 +70,6 @@ public class Passwords extends JavaPlugin {
 
 
     private void versionCheck() {
-        String version = "2.4";
         if(!Objects.equals(version, getConfig().getString("version"))) {
             PLog.warning("!!!!!!!!-----------------------------------------------------------------------------------!!!!!!!!");
             PLog.warning("Your version is outdated! Please delete the config.yml and restart the server to get the latest version!");
