@@ -12,8 +12,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class DiscordHook implements Listener {
 
-    // Experimental
-
     public DiscordHook() {
 
         Passwords.instance.getServer().getPluginManager().registerEvents(this, Passwords.instance);
@@ -21,24 +19,18 @@ public class DiscordHook implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onLogin(PlayerJoinEvent event) {
-        if (Bukkit.getPluginManager().isPluginEnabled("DiscordSRV")) {
-            Player player = event.getPlayer();
-
-            if (!Passwords.instance.getConfig().getBoolean("discord.need-password")) {
-                if (isLinked(player)) {
-                    DataManager dataManager = new DataManager();
-                    dataManager.setPlayerValue(player, "isLogIn", true);
-                }
+        if (!Bukkit.getPluginManager().isPluginEnabled("DiscordSRV")) return;
+        if (!Passwords.instance.getConfig().getBoolean("discord.need-password")) {
+            if (isLinked(event.getPlayer())) {
+                DataManager dataManager = new DataManager();
+                dataManager.setPlayerValue(event.getPlayer(), "isLogIn", true);
             }
         }
+
     }
 
     public boolean isLinked(Player player) {
         String discordID = DiscordSRV.getPlugin().getAccountLinkManager().getDiscordId(player.getUniqueId());
-        if (discordID != null) {
-            return true;
-        }else {
-            return false;
-        }
+        return discordID != null;
     }
 }
