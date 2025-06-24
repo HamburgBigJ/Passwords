@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id("xyz.jpenilla.run-paper") version "2.3.1"
-    id("com.gradleup.shadow") version "8.3.6"
+    id("com.gradleup.shadow") version "8.3.7"
 }
 
 group = 'info.cho'
@@ -25,7 +25,7 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
 
-    implementation("dev.jorel:commandapi-bukkit-shade:10.0.1")
+    implementation("dev.jorel:commandapi-bukkit-shade:10.1.0")
 
     compileOnly("com.discordsrv:discordsrv:1.29.0")
 }
