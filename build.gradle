@@ -27,7 +27,7 @@ dependencies {
 
     implementation("dev.jorel:commandapi-bukkit-shade:10.1.2")
 
-    compileOnly("com.discordsrv:discordsrv:1.29.0")
+    compileOnly("com.discordsrv:discordsrv:1.30.0")
 }
 
 tasks {
