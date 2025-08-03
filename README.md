@@ -67,6 +67,6 @@ implementation files("$projectDir/lib/passwords-VERSION.jar")
 
 ## License
 
-Passwords is licensed under the MIT License, allowing for free use, modification, and distribution. For more details, see the [LICENSE](https://github.com/HamburgBigJ/Passwords/blob/main/LICENSE) file in the repository.
+Passwords is licensed under the MIT License, allowing for free use, modification, and distribution. For more details, see the [LICENSE](https://github.com/HamburgBigJ/Passwords/blob/main/LICENSE.txt) file in the repository.
 
 Enhance your Minecraft server's security and provide a personalized experience for your players with Passwords! 
