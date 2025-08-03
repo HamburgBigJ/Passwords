@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'info.cho'
-version = '2.5'
+version = '2.6'
 
 repositories {
     mavenCentral()
@@ -17,6 +17,11 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
+
+    maven {
+        url = 'https://repo.extendedclip.com/releases/'
+    }
+
     maven{url "https://repo.codemc.org/repository/maven-public/"}
 
     maven { url 'https://nexus.scarsz.me/content/groups/public/' }
@@ -27,7 +32,9 @@ dependencies {
 
     implementation("dev.jorel:commandapi-bukkit-shade:10.1.2")
 
+    // Extern Apis
     compileOnly("com.discordsrv:discordsrv:1.30.0")
+    compileOnly ("me.clip:placeholderapi:2.11.6")
 }
 
 tasks {
@@ -36,7 +43,10 @@ tasks {
     }
 
     runServer {
-        minecraftVersion("1.21.5")
+        downloadPlugins {
+            url("https://www.spigotmc.org/resources/placeholderapi.6245/download?version=541946")
+        }
+        minecraftVersion("1.21.8")
     }
 
     build {

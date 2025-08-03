@@ -9,9 +9,12 @@ import info.cho.passwords.customGui.CustomGui;
 import info.cho.passwords.customGui.CustomGuiHandler;
 import info.cho.passwords.hook.DiscordHook;
 import info.cho.passwords.player.PasswordPlayerMode;
+import info.cho.passwords.server.PasswordNoneMode;
+import info.cho.passwords.server.PasswordPatternMode;
 import info.cho.passwords.server.PasswordServerMode;
 import info.cho.passwords.utls.PLog;
 import info.cho.passwordsApi.password.PasswordConfig;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -20,7 +23,7 @@ public class Passwords extends JavaPlugin {
 
     public static Passwords instance;
     public static CustomGui customGui;
-    public static String version = "2.5";
+    public static String version = "2.6";
 
     @Override
     public void onLoad() {
@@ -36,6 +39,13 @@ public class Passwords extends JavaPlugin {
         CommandAPI.onEnable();
         CustomGuiHandler customGuiHandler = new CustomGuiHandler(customGui);
 
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            PLog.info("Found PlaceholderAPI! Registering placeholders...");
+        } else {
+            PLog.warning("Could not find PlaceholderAPI! This plugin is required.");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
 
         if (PasswordConfig.isUseDiscordLogin()) {
             DiscordHook discordHook = new DiscordHook();
@@ -56,8 +66,11 @@ public class Passwords extends JavaPlugin {
         SetPlayerPasswordCommand setPlayerPasswordCommand = new SetPlayerPasswordCommand();
         SetPasswordCommand setPasswordCommand = new SetPasswordCommand();
 
+        // PasswordGui registration
         customGui.registerGui("server", PasswordServerMode.class);
         customGui.registerGui("player", PasswordPlayerMode.class);
+        customGui.registerGui("none", PasswordNoneMode.class);
+        customGui.registerGui("pattern", PasswordPatternMode.class);
 
 
     }
@@ -79,12 +92,13 @@ public class Passwords extends JavaPlugin {
         } else {
             PLog.info("Your version is up to date!");
 
-            PLog.debug("!!!!!!!!-----------------------------------------------------------------------------------!!!!!!!!");
+            PLog.debug("!!!!!!!!------------------------ This is not an Error -------------------------------------!!!!!!!!");
             PLog.debug("Your version: " + version);
             PLog.debug("Config version: " + PasswordConfig.getVersion());
             PLog.debug("!!!!!!!!-----------------------------------------------------------------------------------!!!!!!!!");
 
         }
     }
+
 
 }

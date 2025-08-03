@@ -5,6 +5,9 @@ import info.cho.passwords.utls.DataManager;
 import info.cho.passwords.utls.Messages;
 import info.cho.passwords.utls.PLog;
 import info.cho.passwordsApi.password.PasswordConfig;
+import me.clip.placeholderapi.PlaceholderAPI;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -97,23 +100,27 @@ public abstract class PasswordsGui {
     public void welcomeMessage(Player player) {
         if (PasswordConfig.isWelcomeMessageEnabled()) {
             switch (PasswordConfig.getWelcomeMessageDisplayType()) {
-                case "actionbar" -> Messages.sendActonBar(player, PasswordConfig.getWelcomeMessage());
-                case "title" -> Messages.sendTitle(player, PasswordConfig.getWelcomeMessage(), PasswordConfig.getWelcomeMessageSecondLine());
-                case "message" -> Messages.sendMessage(player, PasswordConfig.getWelcomeMessage());
+                case "actionbar" -> Messages.sendActonBar(player, PlaceholderAPI.setPlaceholders(player, PasswordConfig.getWelcomeMessage()));
+                case "title" -> Messages.sendTitle(player, PlaceholderAPI.setPlaceholders(player, PasswordConfig.getWelcomeMessage()), PlaceholderAPI.setPlaceholders(player, PasswordConfig.getWelcomeMessageSecondLine()));
+                case "message" -> Messages.sendMessage(player, PlaceholderAPI.setPlaceholders(player, PasswordConfig.getWelcomeMessage()));
             }
         }
     }
 
     /**
-     * Remove permissions from the player.
+     * Remove staff permissions from the player.
      * @param player Player
      */
-    public void removePermissions(Player player) {
+    public void removeStaffPermissions(Player player) {
         if (!PasswordConfig.isRemoveStaffPermissionsOnLogout()) return;
         for (String permission : PasswordConfig.getStaffPermissions()) {
             player.addAttachment(Passwords.instance, permission, false);
             PLog.debug("PermissionRemove: " + permission);
         }
+    }
+
+    public void kickPlayer(Player player) {
+        player.kick(Component.text(PlaceholderAPI.setPlaceholders(player, PasswordConfig.getFailMessage())).color(NamedTextColor.RED));
     }
 }
 

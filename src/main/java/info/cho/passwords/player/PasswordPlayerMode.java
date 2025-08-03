@@ -51,7 +51,7 @@ public class PasswordPlayerMode extends PasswordsGui {
         ItemStack newItem = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
         ItemMeta itemMeta = item.getItemMeta();
         if (itemMeta != null) {
-            itemMeta.displayName(Component.text((event.getSlot() + 1), NamedTextColor.GREEN));
+            itemMeta.displayName(Component.text((event.getSlot() + 1), NamedTextColor.DARK_GREEN));
             newItem.setItemMeta(itemMeta);
         }
 
@@ -92,7 +92,7 @@ public class PasswordPlayerMode extends PasswordsGui {
                 PLog.debug("Login gamemode enabled");
 
             } else {
-                player.kick(Component.text(PasswordConfig.getFailMessage(), NamedTextColor.RED));
+                kickPlayer(player);
             }
         }
 
@@ -103,13 +103,13 @@ public class PasswordPlayerMode extends PasswordsGui {
     public void closeGui(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
         if (!(boolean) getDataManager().getPlayerValue(player, "isLogin")) {
-            player.kick(Component.text(PasswordConfig.getCloseUiMessage(), NamedTextColor.RED));
+            kickPlayer(player);
         }
     }
 
     public void playerQuit(PlayerQuitEvent event) {
         // Remove permissions on logout
-        removePermissions(event.getPlayer());
+        removeStaffPermissions(event.getPlayer());
     }
 
     @Override
@@ -127,7 +127,7 @@ public class PasswordPlayerMode extends PasswordsGui {
         for (int i = 0; i < 9; i++) {
             ItemMeta itemMeta = selectItem.getItemMeta();
             if (itemMeta != null) {
-                itemMeta.displayName(Component.text((i + 1), NamedTextColor.GREEN));
+                itemMeta.displayName(Component.text((i + 1), NamedTextColor.DARK_GREEN));
                 selectItem.setItemMeta(itemMeta);
                 inventory.setItem(i, selectItem);
             }

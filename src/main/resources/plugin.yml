@@ -1,9 +1,9 @@
 name: Passwords
-version: '1.5'
+version: '2.6'
 main: info.cho.passwords.Passwords
 api-version: '1.21.5'
 authors: [ HamburgBigJ ]
-softdepend: [ DiscordSRV ]
+softdepend: [ "DiscordSRV", "PlaceholderAPI" ]
 
 permissions:
   passwords.command.logout:

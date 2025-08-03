@@ -47,6 +47,8 @@ public class CustomGuiHandler implements Listener {
 
                     PasswordsGui passwordGui = (PasswordsGui) entry.getValue().getDeclaredConstructor().newInstance();
                     passwordGui.openGui(event);
+
+                    if (passwordGui.getInventory(event.getPlayer()) == null) return;
                     event.getPlayer().openInventory(passwordGui.getInventory(event.getPlayer()));
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -63,8 +65,10 @@ public class CustomGuiHandler implements Listener {
                 try {
                     DataManager dataManager = new DataManager();
                     PLog.debug("onGuiInteract test1");
+
                     PLog.debug(dataManager.getPlayerValue((Player) event.getWhoClicked(), "isLogin").toString());
                     if ((boolean) dataManager.getPlayerValue((Player) event.getWhoClicked(), "isLogin")) return;
+
                     PLog.debug("test1");
                     PasswordsGui passwordGui = (PasswordsGui) entry.getValue().getDeclaredConstructor().newInstance();
                     passwordGui.interactGui(event);
@@ -85,6 +89,7 @@ public class CustomGuiHandler implements Listener {
                     DataManager dataManager = new DataManager();
                     if ((boolean) dataManager.getPlayerValue((Player) event.getPlayer(), "isLogin")) return;
                     PLog.debug("test2");
+
                     PasswordsGui passwordGui = (PasswordsGui) entry.getValue().getDeclaredConstructor().newInstance();
                     passwordGui.closeGui(event);
                 } catch (Exception e) {
@@ -103,6 +108,7 @@ public class CustomGuiHandler implements Listener {
                     DataManager dataManager = new DataManager();
                     if ((boolean) dataManager.getPlayerValue(event.getPlayer(), "isLogin")) return;
                     PLog.debug("test3");
+
                     PasswordsGui passwordGui = (PasswordsGui) entry.getValue().getDeclaredConstructor().newInstance();
                     passwordGui.playerQuit(event);
                 } catch (Exception e) {

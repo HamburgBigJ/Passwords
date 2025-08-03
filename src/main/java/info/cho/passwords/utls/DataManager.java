@@ -86,6 +86,42 @@ public class DataManager {
         }
     }
 
+    public void addListValue(Player player, String variableName, Object value) {
+        FileConfiguration config = getPlayerConfig(player.getUniqueId());
+
+        if (!config.contains(variableName)) {
+            config.set(variableName, new ArrayList<>());
+        }
+
+        List<Object> list = (List<Object>) config.getList(variableName, new ArrayList<>());
+        // Create a mutable copy if the list is immutable
+        if (!(list instanceof ArrayList)) {
+            list = new ArrayList<>(list);
+        }
+
+        if (!list.contains(value)) {
+            list.add(value);
+            config.set(variableName, list);
+            savePlayerConfig(player.getUniqueId(), config);
+        }
+    }
+
+    public void setListValue(Player player, String variableName, List<Object> list) {
+        FileConfiguration config = getPlayerConfig(player.getUniqueId());
+
+        if (!config.contains(variableName)) {
+            config.set(variableName, new ArrayList<>());
+        }
+
+        config.set(variableName, list);
+        savePlayerConfig(player.getUniqueId(), config);
+    }
+
+    public List<Object> getListValue(Player player, String variableName) {
+        FileConfiguration config = getPlayerConfig(player.getUniqueId());
+        return (List<Object>) config.getList(variableName, new ArrayList<>());
+    }
+
     public boolean contains(Player player, String path) {
         FileConfiguration config = getPlayerConfig(player.getUniqueId());
         return config.contains(path);

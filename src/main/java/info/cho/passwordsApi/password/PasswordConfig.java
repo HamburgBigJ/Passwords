@@ -103,4 +103,8 @@ public class PasswordConfig {
         String password = getServerPassword();
         return password != null ? password.length() : 0;
     }
+
+    public static List<Object> getServerPatternList() {
+        return (List<Object>) config().getList("server.pattern");
+    }
 }
