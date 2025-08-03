@@ -5,12 +5,21 @@ import info.cho.passwords.utls.DataManager;
 import info.cho.passwords.utls.Messages;
 import info.cho.passwords.utls.PLog;
 import info.cho.passwordsApi.password.PasswordConfig;
+import me.clip.placeholderapi.PlaceholderAPI;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class PasswordsGui {
 
@@ -97,23 +106,86 @@ public abstract class PasswordsGui {
     public void welcomeMessage(Player player) {
         if (PasswordConfig.isWelcomeMessageEnabled()) {
             switch (PasswordConfig.getWelcomeMessageDisplayType()) {
-                case "actionbar" -> Messages.sendActonBar(player, PasswordConfig.getWelcomeMessage());
-                case "title" -> Messages.sendTitle(player, PasswordConfig.getWelcomeMessage(), PasswordConfig.getWelcomeMessageSecondLine());
-                case "message" -> Messages.sendMessage(player, PasswordConfig.getWelcomeMessage());
+                case "actionbar" -> Messages.sendActonBar(player, PlaceholderAPI.setPlaceholders(player, PasswordConfig.getWelcomeMessage()));
+                case "title" -> Messages.sendTitle(player, PlaceholderAPI.setPlaceholders(player, PasswordConfig.getWelcomeMessage()), PlaceholderAPI.setPlaceholders(player, PasswordConfig.getWelcomeMessageSecondLine()));
+                case "message" -> Messages.sendMessage(player, PlaceholderAPI.setPlaceholders(player, PasswordConfig.getWelcomeMessage()));
             }
         }
     }
 
     /**
-     * Remove permissions from the player.
+     * Remove staff permissions from the player.
      * @param player Player
      */
-    public void removePermissions(Player player) {
+    public void removeStaffPermissions(Player player) {
         if (!PasswordConfig.isRemoveStaffPermissionsOnLogout()) return;
         for (String permission : PasswordConfig.getStaffPermissions()) {
             player.addAttachment(Passwords.instance, permission, false);
             PLog.debug("PermissionRemove: " + permission);
         }
+    }
+
+    /**
+     * Kick the player with a fail message.
+     * @param player Player
+     */
+    public void kickPlayer(Player player) {
+        player.kick(Component.text(PlaceholderAPI.setPlaceholders(player, PasswordConfig.getFailMessage())).color(NamedTextColor.RED));
+    }
+
+    /**
+     * Save the player's inventory to the data manager.
+     * @param player Player
+     */
+    public void savePlayerInventory(Player player) {
+        if (!PasswordConfig.isSavePlayerInventory()) return;
+        dataManager.setPlayerValue(player, "playerInventory", new ArrayList<>());
+        PLog.debug("Saving inventory for player: " + player.getName());
+
+        Inventory playerInventory = player.getInventory();
+
+        for (int i = 0; i < playerInventory.getSize(); i++) {
+            if (playerInventory.getItem(i) != null) {
+                String itemName = playerInventory.getItem(i).getType().name();
+                int itemAmount = playerInventory.getItem(i).getAmount();
+                PLog.debug("Saving item: " + itemName + " with amount: " + itemAmount + " at slot: " + i);
+
+                ItemStack currentItem = playerInventory.getItem(i);
+                List<Object> playerInventoryList = getDataManager().getListValue(player, "playerInventory");
+                playerInventoryList.add(currentItem);
+                dataManager.setPlayerValue(player, "playerInventory", playerInventoryList);
+            } else {
+                PLog.debug("Slot " + i + " is empty.");
+                ItemStack air = new ItemStack(Material.AIR);
+                List<Object> playerInventoryList = getDataManager().getListValue(player, "playerInventory");
+                playerInventoryList.add(air);
+                dataManager.setPlayerValue(player, "playerInventory", playerInventoryList);
+            }
+        }
+
+        for (int i = 0; i < player.getInventory().getSize(); i++) {
+            player.getInventory().setItem(i, new ItemStack(Material.AIR));
+        }
+    }
+
+    public void loadPlayerInventory(Player player) {
+        if (!PasswordConfig.isSavePlayerInventory()) return;
+        PLog.debug("Loading inventory for player: " + player.getName());
+
+        List<Object> playerInventory = dataManager.getListValue(player, "playerInventory");
+
+        for (int i = 0; i < playerInventory.size(); i++) {
+            if (playerInventory.get(i) instanceof ItemStack itemStack) {
+                if (itemStack.getType() == Material.AIR) {
+                    continue;
+                }
+                PLog.debug("Loading item: " + itemStack.getType().name() + " with amount: " + itemStack.getAmount() + " at slot: " + i);
+                player.getInventory().setItem(i, itemStack);
+            } else {
+                PLog.debug("Slot " + i + " is empty.");
+            }
+        }
+
     }
 }
 

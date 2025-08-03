@@ -2,6 +2,9 @@ package info.cho.passwords.utls;
 
 import info.cho.passwords.Passwords;
 import info.cho.passwordsApi.password.PasswordConfig;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public class PLog {
 
@@ -10,7 +13,7 @@ public class PLog {
     }
 
     public static void warning(String message) {
-        Passwords.instance.getLogger().warning(message);
+        Passwords.instance.getLogger().warning("[WARNING] " + message);
     }
 
     public static void debug(String message) {
