@@ -8,13 +8,14 @@ import dev.jorel.commandapi.arguments.CommandAPIArgumentType;
 import dev.jorel.commandapi.executors.CommandArguments;
 import info.cho.passwordsApi.password.PasswordConfig;
 
-public class PasswordArgument extends Argument<String> {
+public class PasswordPlayerArgument extends Argument<String> {
 
-    private static final int MAX_LENGTH = PasswordConfig.getPasswordLength();
+
+    private static final int MAX_LENGTH = PasswordConfig.getPlayerPasswordLength();
     private static final int MIN_LENGTH = 1;
     private static final String ALLOWED_CHARACTERS = "123456789";
 
-    public PasswordArgument(String nodeName) {
+    public PasswordPlayerArgument(String nodeName) {
         super(nodeName, StringArgumentType.word());
     }
 
@@ -58,4 +59,5 @@ public class PasswordArgument extends Argument<String> {
 
         return true;
     }
+
 }

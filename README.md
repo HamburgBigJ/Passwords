@@ -10,7 +10,6 @@ Passwords is an innovative and user-friendly plugin designed to enhance the secu
 - **Adjustable Password Lengths**  
   Customize the password length to achieve the desired balance between security and convenience.
 
-
 - **Seamless Integration**  
   Works effortlessly with any Minecraft server without requiring complex setup procedures.
 

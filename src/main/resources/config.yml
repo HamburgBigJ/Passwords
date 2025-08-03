@@ -1,6 +1,6 @@
 enable: true
 version: "2.6"
-debug: true
+debug: false
 
 # Password now supports PlaceholderAPI in messages.
 
@@ -11,7 +11,7 @@ settings:
   # check-type: pattern : The player must enter a pattern like "o x o"
   #                                                            "x x x"
   #                                                            "0 x x"
-  check-type: none
+  check-type: server
   # GUI Name
   gui-name: Passwords
   # Set password name

@@ -16,7 +16,7 @@ public class SetPasswordCommand {
                     String password = (String) args.get("password");
                     DataManager dataManager = new DataManager();
                     dataManager.setPlayerValue((Player) sender, "password", password);
-                    ((Player) sender).kick(Component.text("Password changed!", NamedTextColor.GREEN));
+                    ((Player) sender).kick(Component.text("Password changed!", NamedTextColor.DARK_GREEN));
                 })
                 .register();
     }
