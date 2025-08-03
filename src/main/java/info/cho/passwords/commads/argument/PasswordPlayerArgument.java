@@ -40,7 +40,7 @@ public class PasswordPlayerArgument extends Argument<String> {
 
         if (!isValidPassword(password)) {
             throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherParseException()
-                    .create("Invalid password. It must be " + MAX_LENGTH + " characters and contain only allowed characters ( 1 - 9.");
+                    .create("Invalid password. It must be " + MAX_LENGTH + " characters and contain only allowed characters ( 1 - 9).");
         }
 
         return password;
