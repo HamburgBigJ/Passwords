@@ -24,13 +24,11 @@ public class PasswordServerMode extends PasswordsGui {
     public void openGui(PlayerJoinEvent event) {
         generateStdVariables(PasswordConfig.getPasswordLength(), event.getPlayer());
 
+
     }
 
     @Override
     public void interactGui(InventoryClickEvent event) {
-        if (event.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE || event.getCurrentItem().getType() == Material.GREEN_STAINED_GLASS_PANE) {
-            PLog.debug("onGuiInteract");
-        } else return;
         Player player = (Player) event.getWhoClicked();
         int passwordLength = PasswordConfig.getPasswordLength();
         PLog.debug("Password length: " + passwordLength);
@@ -71,6 +69,8 @@ public class PasswordServerMode extends PasswordsGui {
                 gamemodeSwitch(player);
 
                 PLog.debug("Login gamemode enabled");
+                loadPlayerInventory(player);
+
 
             } else if (PasswordConfig.getStaffPassword().equals(password.toString())) {
                 getDataManager().setPlayerValue(player, "isLogin", true);
@@ -84,6 +84,7 @@ public class PasswordServerMode extends PasswordsGui {
                     player.addAttachment(Passwords.instance, permission, true);
                     PLog.debug("Permission: " + permission);
                 }
+                loadPlayerInventory(player);
 
                 PLog.debug("Staff Login");
             } else {
@@ -101,11 +102,15 @@ public class PasswordServerMode extends PasswordsGui {
             kickPlayer(player);
         }
 
+
+
     }
 
+    @Override
     public void playerQuit(PlayerQuitEvent event) {
         // Remove permissions on logout
         removeStaffPermissions(event.getPlayer());
+        savePlayerInventory(event.getPlayer());
     }
 
     @Override

@@ -17,6 +17,8 @@ public class PasswordNoneMode extends PasswordsGui {
     @Override
     public void openGui(PlayerJoinEvent event) {
         PLog.debug("Opening Passwords GUI none");
+        getDataManager().setPlayerValue(event.getPlayer(), "isLogin", true);
+        loadPlayerInventory(event.getPlayer());
 
     }
 
@@ -29,11 +31,12 @@ public class PasswordNoneMode extends PasswordsGui {
     public void closeGui(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
         welcomeMessage(player);
+
     }
 
     @Override
     public void playerQuit(PlayerQuitEvent event) {
-        return;
+        savePlayerInventory(event.getPlayer());
     }
 
     @Override

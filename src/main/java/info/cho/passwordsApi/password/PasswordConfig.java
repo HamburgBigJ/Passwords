@@ -107,4 +107,20 @@ public class PasswordConfig {
     public static List<Object> getServerPatternList() {
         return (List<Object>) config().getList("server.pattern");
     }
+
+    public static boolean isSavePlayerInventory() {
+        return config().getBoolean("settings.save-player-inventory");
+    }
+
+    public static int getSavePlayerInventoryIntervall() {
+        return config().getInt("settings.save-player-inventory-intervall");
+    }
+
+    public static boolean invulnerableOnLogin() {
+        return config().getBoolean("settings.invulnerable-on-login");
+    }
+
+    public static boolean useAutoSave() {
+        return config().getBoolean("settings.enable-auto-save");
+    }
 }

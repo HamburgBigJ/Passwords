@@ -1,7 +1,6 @@
 enable: true
 version: "2.6"
 debug: false
-
 # Password now supports PlaceholderAPI in messages.
 
 settings:
@@ -10,10 +9,10 @@ settings:
   # check-type: none   : No password check.
   # check-type: pattern : The player must enter a pattern like "o x o"
   #                                                            "x x x"
-  #                                                            "0 x x"
+  #                                                            "x x x"
   check-type: server
   # GUI Name
-  gui-name: Passwords
+  gui-name: Enter Passwords
   # Set password name
   set-password-name: Set Password
   # Message that will be displayed as the kick reason.
@@ -37,6 +36,14 @@ settings:
   # Blocked passwords ( only for the check-type: player & server )
   blocked-passwords:
     - 1111
+  # Saves the player inventory on logout and restores it on login. ( !!!!! Waring: When the data folder or the player data in the passwords folder is deleted, the player inventory will be lost !!!!! )
+  save-player-inventory: true
+  # Saves the player inventory automatically
+  enable-auto-save: true
+  # Saves the player inventory every 5 minutes (if save-player-inventory is true)
+  save-player-inventory-intervall: 10 # in minutes ( min 3 )
+  # Invulnerable on login (note: this will prevent fall damage when exploited)
+  invulnerable-on-login: true
 
 discord:
   # DiscordSRV linked players do not need a password on login (Experimental may not work)

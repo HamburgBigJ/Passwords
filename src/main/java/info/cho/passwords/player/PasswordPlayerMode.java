@@ -28,9 +28,6 @@ public class PasswordPlayerMode extends PasswordsGui {
 
     @Override
     public void interactGui(InventoryClickEvent event) {
-        if (event.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE || event.getCurrentItem().getType() == Material.GREEN_STAINED_GLASS_PANE) {
-            PLog.debug("onGuiInteract");
-        } else return;
         Player player = (Player) event.getWhoClicked();
         int passwordLength = PasswordConfig.getPlayerPasswordLength();
         PLog.debug("Password length: " + passwordLength);
@@ -91,6 +88,8 @@ public class PasswordPlayerMode extends PasswordsGui {
 
                 PLog.debug("Login gamemode enabled");
 
+                loadPlayerInventory(player);
+
             } else {
                 kickPlayer(player);
             }
@@ -110,6 +109,7 @@ public class PasswordPlayerMode extends PasswordsGui {
     public void playerQuit(PlayerQuitEvent event) {
         // Remove permissions on logout
         removeStaffPermissions(event.getPlayer());
+        savePlayerInventory(event.getPlayer());
     }
 
     @Override

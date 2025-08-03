@@ -5,6 +5,7 @@ import info.cho.passwords.utls.DataManager;
 import info.cho.passwords.utls.PLog;
 import info.cho.passwordsApi.password.PasswordConfig;
 import info.cho.passwordsApi.password.customgui.PasswordsGui;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,6 +15,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import javax.xml.crypto.Data;
 import java.util.Map;
 import java.util.Objects;
 
@@ -51,6 +53,11 @@ public class CustomGuiHandler implements Listener {
                         PLog.debug("Password GUI is null, returning.");
                         return;
                     }
+
+                    if (PasswordConfig.invulnerableOnLogin()) {
+                        event.getPlayer().setInvulnerable(true);
+                    }
+
                     event.getPlayer().openInventory(passwordGui.getInventory(event.getPlayer()));
                     PLog.debug("onGuiOpen end");
 
@@ -67,9 +74,16 @@ public class CustomGuiHandler implements Listener {
         for (Map.Entry<String, Class<?>> entry : customGui.customGuiList.entrySet()) {
             if (Objects.equals(PasswordConfig.getCheckType(), entry.getKey())) {
                 try {
+                    if (event.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE || event.getCurrentItem().getType() == Material.GREEN_STAINED_GLASS_PANE) {
+                        PLog.debug("onGuiInteract");
+                    } else return;
+
                     DataManager dataManager = new DataManager();
-                    PLog.debug(dataManager.getPlayerValue((Player) event.getWhoClicked(), "isLogin").toString());
-                    if ((boolean) dataManager.getPlayerValue((Player) event.getWhoClicked(), "isLogin")) return;
+                    PLog.debug("Player login test");
+                    if ( (boolean) dataManager.getPlayerValue((Player) event.getWhoClicked(), "isLogin")) {
+                        PLog.debug("Player is already logged in");
+                        continue;
+                    }
 
                     PasswordsGui passwordGui = (PasswordsGui) entry.getValue().getDeclaredConstructor().newInstance();
                     passwordGui.interactGui(event);
@@ -89,11 +103,12 @@ public class CustomGuiHandler implements Listener {
         for (Map.Entry<String, Class<?>> entry : customGui.customGuiList.entrySet()) {
             if (Objects.equals(PasswordConfig.getCheckType(), entry.getKey())) {
                 try {
-                    DataManager dataManager = new DataManager();
-                    if ((boolean) dataManager.getPlayerValue((Player) event.getPlayer(), "isLogin")) return;
-
                     PasswordsGui passwordGui = (PasswordsGui) entry.getValue().getDeclaredConstructor().newInstance();
                     passwordGui.closeGui(event);
+
+                    if (PasswordConfig.invulnerableOnLogin()) {
+                        event.getPlayer().setInvulnerable(false);
+                    }
 
                     PLog.debug("onGuiClose end");
                 } catch (Exception e) {
@@ -110,11 +125,12 @@ public class CustomGuiHandler implements Listener {
             if (Objects.equals(PasswordConfig.getCheckType(), entry.getKey())) {
                 try {
                     DataManager dataManager = new DataManager();
-                    if ((boolean) dataManager.getPlayerValue(event.getPlayer(), "isLogin")) return;
-
+                    if (Objects.equals(dataManager.getPlayerValue(event.getPlayer(), "isLogin").toString(), "false")) {
+                        PLog.debug("Player is not logged in");
+                        return;
+                    }
                     PasswordsGui passwordGui = (PasswordsGui) entry.getValue().getDeclaredConstructor().newInstance();
                     passwordGui.playerQuit(event);
-
                     PLog.debug("playerQuit end");
                 } catch (Exception e) {
                     e.printStackTrace();

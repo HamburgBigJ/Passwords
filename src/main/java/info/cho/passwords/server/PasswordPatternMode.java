@@ -23,6 +23,7 @@ import java.util.List;
 public class PasswordPatternMode extends PasswordsGui {
     @Override
     public void openGui(PlayerJoinEvent event) {
+
         List<String> defaultPattern = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             defaultPattern.add("000");
@@ -88,6 +89,8 @@ public class PasswordPatternMode extends PasswordsGui {
                 gamemodeSwitch(player);
 
                 PLog.debug("Login gamemode enabled");
+                loadPlayerInventory(player);
+
 
             } else {
                 kickPlayer(player);
@@ -108,7 +111,7 @@ public class PasswordPatternMode extends PasswordsGui {
     @Override
     public void playerQuit(PlayerQuitEvent event) {
         removeStaffPermissions(event.getPlayer());
-
+        savePlayerInventory(event.getPlayer());
     }
 
     @Override
