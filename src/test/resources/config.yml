@@ -1,0 +1,37 @@
+enable: true
+version: "2.6"
+debug: true
+
+settings:
+  check-type: player
+  gui-name: Enter Passwords
+  set-password-name: Set Password
+  fail-message: The password is incorrect!
+  close-ui-message: You need to enter a password!
+  welcome-message-enabled: true
+  welcome-message: Welcome to TestServer
+  welcome-message-second: Passwords
+  welcome-message-display-type: message
+  login-gamemode-enabled: true
+  login-gamemode: survival
+  player-password-length: 4
+  blocked-passwords:
+    - 1111
+  save-player-inventory: true
+  enable-auto-save: true
+  save-player-inventory-intervall: 10
+  invulnerable-on-login: true
+
+discord:
+  useDiscordLogin: false
+
+server:
+  password: 1234
+  staff-password: 8181
+  staff-permissions:
+    - passwords.*
+  remove-staff-permissions-on-logout: true
+  pattern:
+    - oxo
+    - xxx
+    - xxx

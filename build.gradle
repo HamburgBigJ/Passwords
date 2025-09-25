@@ -25,6 +25,9 @@ repositories {
     maven{url "https://repo.codemc.org/repository/maven-public/"}
 
     maven { url 'https://nexus.scarsz.me/content/groups/public/' }
+    
+    // JitPack for MockBukkit
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -35,6 +38,10 @@ dependencies {
     // Extern Apis
     compileOnly("com.discordsrv:discordsrv:1.30.1")
     compileOnly ("me.clip:placeholderapi:2.11.6")
+    
+    // Test dependencies
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.9.0")
 }
 
 tasks {
@@ -51,6 +58,13 @@ tasks {
 
     build {
         dependsOn shadowJar
+    }
+    
+    test {
+        useJUnitPlatform()
+        testLogging {
+            events "passed", "skipped", "failed"
+        }
     }
 }
 
