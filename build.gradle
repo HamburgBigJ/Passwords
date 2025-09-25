@@ -35,6 +35,7 @@ dependencies {
     // Extern Apis
     compileOnly("com.discordsrv:discordsrv:1.30.1")
     compileOnly ("me.clip:placeholderapi:2.11.6")
+
 }
 
 tasks {
@@ -52,6 +53,23 @@ tasks {
     build {
         dependsOn shadowJar
     }
+
+}
+
+tasks.register("unitTest", JavaExec) {
+    group = 'verification'
+    description = "Runs lightweight unit tests without external dependencies."
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = "info.cho.passwords.testing.SimpleTestRunner"
+}
+
+tasks.named("test") {
+    dependsOn(tasks.named("unitTest"))
+    enabled = false
+}
+
+tasks.named("check") {
+    dependsOn(tasks.named("unitTest"))
 }
 
 def targetJavaVersion = 21
