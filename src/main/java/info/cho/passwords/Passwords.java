@@ -123,8 +123,10 @@ public class Passwords extends JavaPlugin {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 DataManager dataManager = new DataManager();
 
-                if (Objects.equals(dataManager.getPlayerValue(player, "isLogin").toString(), "false")) {
-                    return;
+                Object loginValue = dataManager.getPlayerValue(player, "isLogin");
+                boolean isLoggedIn = loginValue != null && Boolean.parseBoolean(loginValue.toString());
+                if (!isLoggedIn) {
+                    continue;
                 }
 
                 Inventory playerInventory = player.getInventory();
