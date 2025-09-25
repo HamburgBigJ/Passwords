@@ -36,10 +36,6 @@ dependencies {
     compileOnly("com.discordsrv:discordsrv:1.30.1")
     compileOnly ("me.clip:placeholderapi:2.11.6")
 
-    testImplementation(platform("org.junit:junit-bom:5.10.2"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.45.0")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks {
@@ -58,9 +54,22 @@ tasks {
         dependsOn shadowJar
     }
 
-    test {
-        useJUnitPlatform()
-    }
+}
+
+tasks.register("unitTest", JavaExec) {
+    group = 'verification'
+    description = "Runs lightweight unit tests without external dependencies."
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = "info.cho.passwords.testing.SimpleTestRunner"
+}
+
+tasks.named("test") {
+    dependsOn(tasks.named("unitTest"))
+    enabled = false
+}
+
+tasks.named("check") {
+    dependsOn(tasks.named("unitTest"))
 }
 
 def targetJavaVersion = 21

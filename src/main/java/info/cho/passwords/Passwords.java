@@ -44,45 +44,81 @@ public class Passwords extends JavaPlugin {
     @Override
     public void onEnable() {
         CommandAPI.onEnable();
-        CustomGuiHandler customGuiHandler = new CustomGuiHandler(customGui);
 
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            PLog.info("Found PlaceholderAPI! Registering placeholders...");
-        } else {
-            PLog.warning("Could not find PlaceholderAPI! This plugin is required.");
-            Bukkit.getPluginManager().disablePlugin(this);
+        createGuiHandler(customGui);
+
+        if (!ensurePlaceholderApiPresent()) {
             return;
         }
 
         if (PasswordConfig.isUseDiscordLogin()) {
-            DiscordHook discordHook = new DiscordHook();
+            createDiscordHook();
         }
 
-
-        if (PasswordConfig.isEnabled()) {
-            PLog.info("Passwords plugin is enabled!");
-        } else {
-            PLog.warning("Passwords plugin is disabled!");
-            getServer().getPluginManager().disablePlugin(this);
+        if (!isPluginEnabledInConfig()) {
+            disablePlugin(this);
             return;
         }
 
         versionCheck();
 
-        LogoutPlayerCommand logoutPlayerCommand = new LogoutPlayerCommand();
-        SetPlayerPasswordCommand setPlayerPasswordCommand = new SetPlayerPasswordCommand();
-        SetPasswordCommand setPasswordCommand = new SetPasswordCommand();
+        registerCommands();
+        registerDefaultGuis(customGui);
 
-        // PasswordGui registration
+        if (PasswordConfig.useAutoSave()) {
+            scheduleInventoryAutoSave();
+        }
+
+    }
+
+    protected void createGuiHandler(CustomGui customGui) {
+        new CustomGuiHandler(customGui);
+    }
+
+    protected boolean ensurePlaceholderApiPresent() {
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            PLog.info("Found PlaceholderAPI! Registering placeholders...");
+            return true;
+        }
+
+        PLog.warning("Could not find PlaceholderAPI! This plugin is required.");
+        disablePlugin(this);
+        return false;
+    }
+
+    protected void createDiscordHook() {
+        new DiscordHook();
+    }
+
+    protected boolean isPluginEnabledInConfig() {
+        if (PasswordConfig.isEnabled()) {
+            PLog.info("Passwords plugin is enabled!");
+            return true;
+        }
+
+        PLog.warning("Passwords plugin is disabled!");
+        return false;
+    }
+
+    protected void disablePlugin(JavaPlugin plugin) {
+        getServer().getPluginManager().disablePlugin(plugin);
+    }
+
+    protected void registerCommands() {
+        new LogoutPlayerCommand();
+        new SetPlayerPasswordCommand();
+        new SetPasswordCommand();
+    }
+
+    protected void registerDefaultGuis(CustomGui customGui) {
         customGui.registerGui("server", PasswordServerMode.class);
         customGui.registerGui("player", PasswordPlayerMode.class);
         customGui.registerGui("none", PasswordNoneMode.class);
         customGui.registerGui("pattern", PasswordPatternMode.class);
+    }
 
-        if (PasswordConfig.useAutoSave()) {
-            savePlayerInventory();
-        }
-
+    protected void scheduleInventoryAutoSave() {
+        savePlayerInventory();
     }
 
     @Override
