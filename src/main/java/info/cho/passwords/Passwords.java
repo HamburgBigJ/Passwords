@@ -2,6 +2,7 @@ package info.cho.passwords;
 
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
+import dev.jorel.commandapi.CommandAPIPaperConfig;
 import info.cho.passwords.commads.LogoutPlayerCommand;
 import info.cho.passwords.commads.SetPasswordCommand;
 import info.cho.passwords.commads.SetPlayerPasswordCommand;
@@ -37,7 +38,7 @@ public class Passwords extends JavaPlugin {
         instance = this;
         customGui = new CustomGui();
         saveDefaultConfig();
-        CommandAPI.onLoad(new CommandAPIBukkitConfig(this).verboseOutput(PasswordConfig.isDebugMode()));
+        CommandAPI.onLoad(new CommandAPIPaperConfig(Passwords.instance).verboseOutput(PasswordConfig.isDebugMode()));
 
     }
 
@@ -149,6 +150,10 @@ public class Passwords extends JavaPlugin {
         }, intervalTicks, intervalTicks);
 
     }
+
+
+
+
 
 
 }

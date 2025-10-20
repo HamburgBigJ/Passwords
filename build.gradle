@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id("java")
     id("xyz.jpenilla.run-paper") version "3.0.2"
     id("com.gradleup.shadow") version "9.2.2"
 }
@@ -10,7 +10,7 @@ version = '2.6'
 repositories {
     mavenCentral()
     maven {
-        name = "papermc-repo"
+        name = "papermc"
         url = "https://repo.papermc.io/repository/maven-public/"
     }
     maven {
@@ -28,12 +28,12 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
 
-    implementation("dev.jorel:commandapi-bukkit-shade:10.1.2")
+    implementation("dev.jorel:commandapi-paper-shade:11.0.0")
 
     // Extern Apis
-    compileOnly("com.discordsrv:discordsrv:1.30.1")
+    compileOnly("com.discordsrv:discordsrv:1.28.0")
     compileOnly ("me.clip:placeholderapi:2.11.6")
 }
 
@@ -44,9 +44,9 @@ tasks {
 
     runServer {
         downloadPlugins {
-            url("https://www.spigotmc.org/resources/placeholderapi.6245/download?version=541946")
+            modrinth("PlaceholderAPI", "2.11.6")
         }
-        minecraftVersion("1.21.8")
+        minecraftVersion("1.21.9")
     }
 
     build {
