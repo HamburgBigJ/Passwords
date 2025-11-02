@@ -1,7 +1,7 @@
 enable: true
-version: "2.6"
+version: "2.6.1"
 debug: false
-# Password now supports PlaceholderAPI in messages.
+# Password dose not supports PlaceholderAPI in messages.
 
 settings:
   # check-type: server : One password for the entire server.

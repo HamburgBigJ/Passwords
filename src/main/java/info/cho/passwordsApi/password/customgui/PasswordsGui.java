@@ -5,7 +5,6 @@ import info.cho.passwords.utls.DataManager;
 import info.cho.passwords.utls.Messages;
 import info.cho.passwords.utls.PLog;
 import info.cho.passwordsApi.password.PasswordConfig;
-import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -106,9 +105,9 @@ public abstract class PasswordsGui {
     public void welcomeMessage(Player player) {
         if (PasswordConfig.isWelcomeMessageEnabled()) {
             switch (PasswordConfig.getWelcomeMessageDisplayType()) {
-                case "actionbar" -> Messages.sendActonBar(player, PlaceholderAPI.setPlaceholders(player, PasswordConfig.getWelcomeMessage()));
-                case "title" -> Messages.sendTitle(player, PlaceholderAPI.setPlaceholders(player, PasswordConfig.getWelcomeMessage()), PlaceholderAPI.setPlaceholders(player, PasswordConfig.getWelcomeMessageSecondLine()));
-                case "message" -> Messages.sendMessage(player, PlaceholderAPI.setPlaceholders(player, PasswordConfig.getWelcomeMessage()));
+                case "actionbar" -> Messages.sendActonBar(player, PasswordConfig.getWelcomeMessage());
+                case "title" -> Messages.sendTitle(player, PasswordConfig.getWelcomeMessage(), PasswordConfig.getWelcomeMessageSecondLine());
+                case "message" -> Messages.sendMessage(player, PasswordConfig.getWelcomeMessage());
             }
         }
     }
@@ -130,7 +129,9 @@ public abstract class PasswordsGui {
      * @param player Player
      */
     public void kickPlayer(Player player) {
-        player.kick(Component.text(PlaceholderAPI.setPlaceholders(player, PasswordConfig.getFailMessage())).color(NamedTextColor.RED));
+        player.kick(Component.text(
+                PasswordConfig.getFailMessage()
+        ).color(NamedTextColor.RED));
     }
 
     /**

@@ -1,7 +1,7 @@
 package info.cho.passwords.commads;
 
 import dev.jorel.commandapi.CommandAPICommand;
-import dev.jorel.commandapi.arguments.PlayerArgument;
+import dev.jorel.commandapi.arguments.PlayerProfileArgument;
 import info.cho.passwords.utls.DataManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -11,7 +11,7 @@ public class LogoutPlayerCommand {
 
     public LogoutPlayerCommand() {
         new CommandAPICommand("logout")
-                .withArguments(new PlayerArgument("player"))
+                .withArguments(new PlayerProfileArgument("player"))
                 .withPermission("passwords.command.logout")
                 .executes((sender, args) -> {
                     Player player = (Player) args.get("player");
