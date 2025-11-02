@@ -1,7 +1,7 @@
 package info.cho.passwords.commads;
 
 import dev.jorel.commandapi.CommandAPICommand;
-import dev.jorel.commandapi.arguments.PlayerArgument;
+import dev.jorel.commandapi.arguments.PlayerProfileArgument;
 import info.cho.passwords.commads.argument.PasswordArgument;
 import info.cho.passwords.commads.argument.PasswordPlayerArgument;
 import info.cho.passwords.utls.DataManager;
@@ -14,7 +14,7 @@ public class SetPlayerPasswordCommand {
 
     public SetPlayerPasswordCommand() {
         new CommandAPICommand("setplayerpassword")
-                .withArguments(new PlayerArgument("player"))
+                .withArguments(new PlayerProfileArgument("player"))
                 .withArguments(new PasswordPlayerArgument("password"))
                 .withPermission("passwords.command.setplayerpassword")
                 .executes((sender, args) -> {

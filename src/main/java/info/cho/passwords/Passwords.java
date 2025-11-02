@@ -2,6 +2,7 @@ package info.cho.passwords;
 
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
+import dev.jorel.commandapi.CommandAPIPaperConfig;
 import info.cho.passwords.commads.LogoutPlayerCommand;
 import info.cho.passwords.commads.SetPasswordCommand;
 import info.cho.passwords.commads.SetPlayerPasswordCommand;
@@ -31,14 +32,14 @@ public class Passwords extends JavaPlugin {
 
     public static Passwords instance;
     public static CustomGui customGui;
-    public static String version = "2.6";
+    public static String version = "2.6.1";
 
     @Override
     public void onLoad() {
         instance = this;
         customGui = new CustomGui();
         saveDefaultConfig();
-        CommandAPI.onLoad(new CommandAPIBukkitConfig(this).verboseOutput(PasswordConfig.isDebugMode()));
+        CommandAPI.onLoad(new CommandAPIPaperConfig(this).verboseOutput(PasswordConfig.isDebugMode()));
 
     }
 
@@ -46,14 +47,6 @@ public class Passwords extends JavaPlugin {
     public void onEnable() {
         CommandAPI.onEnable();
         CustomGuiHandler customGuiHandler = new CustomGuiHandler(customGui);
-
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            PLog.info("Found PlaceholderAPI! Registering placeholders...");
-        } else {
-            PLog.warning("Could not find PlaceholderAPI! This plugin is required.");
-            Bukkit.getPluginManager().disablePlugin(this);
-            return;
-        }
 
         if (PasswordConfig.isUseDiscordLogin()) {
             DiscordHook discordHook = new DiscordHook();
