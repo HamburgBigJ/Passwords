@@ -44,7 +44,7 @@ tasks {
 
     runServer {
         downloadPlugins {
-            url("https://www.spigotmc.org/resources/placeholderapi.6245/download?version=541946")
+            modrinth("placeholderapi", "2.11.6")
         }
         minecraftVersion("1.21.8")
     }
