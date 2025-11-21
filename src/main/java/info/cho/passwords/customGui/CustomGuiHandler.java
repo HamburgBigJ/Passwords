@@ -86,6 +86,7 @@ public class CustomGuiHandler implements Listener {
                         return;
                     }
 
+
                     DataManager dataManager = new DataManager();
                     PLog.debug("Player login test");
                     if ((boolean) dataManager.getPlayerValue((Player) event.getWhoClicked(), "isLogin")) {
