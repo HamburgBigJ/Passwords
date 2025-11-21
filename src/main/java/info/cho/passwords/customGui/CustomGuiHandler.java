@@ -14,8 +14,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
-import javax.xml.crypto.Data;
 import java.util.Map;
 import java.util.Objects;
 
@@ -54,12 +55,17 @@ public class CustomGuiHandler implements Listener {
                         return;
                     }
 
-                    if (PasswordConfig.invulnerableOnLogin()) {
-                        event.getPlayer().setInvulnerable(true);
-                    }
+                    Inventory inv = passwordGui.getInventory(event.getPlayer());
+                    if (inv != null) {
+                        if (PasswordConfig.invulnerableOnLogin()) {
+                            event.getPlayer().setInvulnerable(true);
+                        }
 
-                    event.getPlayer().openInventory(passwordGui.getInventory(event.getPlayer()));
-                    PLog.debug("onGuiOpen end");
+                        event.getPlayer().openInventory(inv);
+                        PLog.debug("onGuiOpen end");
+                    } else {
+                        PLog.debug("Inventory is null, skipping openInventory.");
+                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -71,16 +77,23 @@ public class CustomGuiHandler implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onGuiInteract(InventoryClickEvent event) {
         PLog.debug("onGuiInteract");
+        ItemStack currentItem = event.getCurrentItem();
+        if (currentItem == null || currentItem.getType() == Material.AIR) {
+            return;
+        }
+
         for (Map.Entry<String, Class<?>> entry : customGui.customGuiList.entrySet()) {
             if (Objects.equals(PasswordConfig.getCheckType(), entry.getKey())) {
                 try {
-                    if (event.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE || event.getCurrentItem().getType() == Material.GREEN_STAINED_GLASS_PANE) {
+                    if (currentItem.getType() == Material.GRAY_STAINED_GLASS_PANE || currentItem.getType() == Material.GREEN_STAINED_GLASS_PANE) {
                         PLog.debug("onGuiInteract");
-                    } else return;
+                    } else {
+                        return;
+                    }
 
                     DataManager dataManager = new DataManager();
                     PLog.debug("Player login test");
-                    if ( (boolean) dataManager.getPlayerValue((Player) event.getWhoClicked(), "isLogin")) {
+                    if ((boolean) dataManager.getPlayerValue((Player) event.getWhoClicked(), "isLogin")) {
                         PLog.debug("Player is already logged in");
                         continue;
                     }
