@@ -5,6 +5,7 @@ import info.cho.passwords.utls.DataManager;
 import info.cho.passwords.utls.PLog;
 import info.cho.passwordsApi.password.PasswordConfig;
 import info.cho.passwordsApi.password.customgui.PasswordsGui;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -77,19 +78,14 @@ public class CustomGuiHandler implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onGuiInteract(InventoryClickEvent event) {
         PLog.debug("onGuiInteract");
-        ItemStack currentItem = event.getCurrentItem();
-        if (currentItem == null || currentItem.getType() == Material.AIR) {
-            return;
-        }
 
         for (Map.Entry<String, Class<?>> entry : customGui.customGuiList.entrySet()) {
             if (Objects.equals(PasswordConfig.getCheckType(), entry.getKey())) {
                 try {
-                    if (currentItem.getType() == Material.GRAY_STAINED_GLASS_PANE || currentItem.getType() == Material.GREEN_STAINED_GLASS_PANE) {
-                        PLog.debug("onGuiInteract");
-                    } else {
+                    if (!event.getView().title().equals(Component.text(PasswordConfig.getGuiName()))) {
                         return;
                     }
+
 
                     DataManager dataManager = new DataManager();
                     PLog.debug("Player login test");
