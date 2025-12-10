@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+group = 'info.cho'
+version = '2.6.1'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "papermc-repo"
+        url = "https://repo.papermc.io/repository/maven-public/"
+    }
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    compileOnly("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
+
+    implementation(project(":passwords"))
+}
+
+test {
+    useJUnitPlatform()
+}

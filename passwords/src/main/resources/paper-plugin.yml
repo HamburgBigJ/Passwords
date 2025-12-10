@@ -1,0 +1,23 @@
+name: Passwords
+version: '2.6.2'
+main: info.cho.passwords.Passwords
+bootstrapper: info.cho.passwords.PasswordsBootstrap
+api-version: '1.21.5'
+authors: [ HamburgBigJ ]
+
+dependencies:
+  bootstrap:
+    DiscordSRV:
+      load: BEFORE
+      required: false
+
+permissions:
+  passwords.command.logout:
+    default: op
+    description: "Allows to use the /logout command"
+
+  passwords.command.setplayerpassword:
+    default: op
+    description: "Allows to use the /setplayerpassword command"
+
+

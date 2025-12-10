@@ -1,1 +1,4 @@
-rootProject.name = 'Passwords'
+rootProject.name = 'Passwords-Plugin'
+
+include 'passwords-api'
+include 'passwords'
