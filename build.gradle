@@ -30,7 +30,7 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
 
-    implementation("dev.jorel:commandapi-paper-shade:11.0.0")
+    implementation("dev.jorel:commandapi-paper-shade:11.1.0")
 
     // Extern Apis
     compileOnly("com.discordsrv:discordsrv:1.30.3")
