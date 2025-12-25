@@ -2,12 +2,13 @@ package info.cho.passwords;
 
 import info.cho.passwords.customGui.CustomGui;
 import info.cho.passwords.customGui.CustomGuiHandler;
-import info.cho.passwords.hook.DiscordHook;
+import info.cho.passwords.placeholder.PlayerPlaceholder;
 import info.cho.passwords.player.PasswordPlayerMode;
 import info.cho.passwords.server.PasswordNoneMode;
 import info.cho.passwords.server.PasswordPatternMode;
 import info.cho.passwords.server.PasswordServerMode;
 import info.cho.passwords.utls.PLog;
+import info.cho.passwords.utls.Placeholders;
 import info.cho.passwords.utls.PlayerInventorySave;
 import info.cho.passwordsApi.password.PasswordConfig;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,12 +20,14 @@ public class Passwords extends JavaPlugin {
     public static Passwords instance;
     public static CustomGui customGui;
     public static CustomGuiHandler customGuiHandler;
+    public static Placeholders placeholders;
     public static String version = "2.6.2";
 
     @Override
     public void onLoad() {
         instance = this;
         customGui = new CustomGui();
+        placeholders = new Placeholders();
         saveDefaultConfig();
 
     }
@@ -32,26 +35,18 @@ public class Passwords extends JavaPlugin {
     @Override
     public void onEnable() {
         customGuiHandler = new CustomGuiHandler();
-        if (PasswordConfig.isUseDiscordLogin()) {
-            if (getServer().getMinecraftVersion() == "1.21.11") return;// TODO: Fix this method so evry version under 1.21.11 still has this version
-            PLog.debug("Discord Hook");
-            DiscordHook discordHook = new DiscordHook();
-        }
 
 
         versionCheck();
-
-        /*
-        LogoutPlayerCommand logoutPlayerCommand = new LogoutPlayerCommand();
-        SetPlayerPasswordCommand setPlayerPasswordCommand = new SetPlayerPasswordCommand();
-        SetPasswordCommand setPasswordCommand = new SetPasswordCommand();
-         */
 
         // PasswordGui registration
         customGui.registerGui("server", PasswordServerMode.class);
         customGui.registerGui("player", PasswordPlayerMode.class);
         customGui.registerGui("none", PasswordNoneMode.class);
         customGui.registerGui("pattern", PasswordPatternMode.class);
+
+        // Placeholders
+        placeholders.registerPlaceholder(PlayerPlaceholder.class);
 
         if (PasswordConfig.useAutoSave()) {
             PlayerInventorySave.savePlayerInventory();

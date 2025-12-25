@@ -1,5 +1,6 @@
 package info.cho.passwordsApi;
 
+import info.cho.passwords.utls.Placeholders;
 import info.cho.passwordsApi.password.PasswordConfig;
 import info.cho.passwords.Passwords;
 import info.cho.passwords.customGui.CustomGui;
@@ -49,6 +50,14 @@ public class PasswordsApi {
      */
     public static String getConfigVersion() {
         return PasswordConfig.getVersion();
+    }
+
+    /**
+     * Get the placeholder api
+     * @return Placeholders
+     */
+    public static Placeholders getPlaceholders() {
+        return Passwords.placeholders;
     }
 
 

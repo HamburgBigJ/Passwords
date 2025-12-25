@@ -90,10 +90,6 @@ public class PasswordConfig {
     public static boolean isRemoveStaffPermissionsOnLogout() {
         return config().getBoolean("server.remove-staff-permissions-on-logout");
     }
-    // DiscordHook Settings
-    public static boolean isUseDiscordLogin() {
-        return config().getBoolean("discord.useDiscordLogin");
-    }
 
     // Server Settings
     public static String getServerPassword() {

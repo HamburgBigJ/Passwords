@@ -1,6 +1,8 @@
 version: "2.6.2"
 debug: false
 # Password dose not supports PlaceholderAPI in messages.
+# Supported placeholders are: &player& -> Player Name
+# Placeholders are only supported in messages
 
 settings:
   # check-type: server : One password for the entire server.
@@ -36,18 +38,13 @@ settings:
   blocked-passwords:
     - 1111
   # Saves the player inventory on logout and restores it on login. ( !!!!! Waring: When the data folder or the player data in the passwords folder is deleted, the player inventory will be lost !!!!! )
-  save-player-inventory: true
+  save-player-inventory: false
   # Saves the player inventory automatically
   enable-auto-save: true
   # Saves the player inventory every 5 minutes (if save-player-inventory is true)
   save-player-inventory-intervall: 10 # in minutes ( min 3 )
   # Invulnerable on login (note: this will prevent fall damage when exploited)
   invulnerable-on-login: true
-
-# Warning this feature is only supported on 1.21.10 and under
-discord:
-  # DiscordSRV linked players do not need a password on login (Experimental may not work)
-  useDiscordLogin: false
 
 server:
   # Server password (the password can be any length | for the check-type: server)

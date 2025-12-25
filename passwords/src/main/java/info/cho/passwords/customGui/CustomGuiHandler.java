@@ -39,38 +39,6 @@ public class CustomGuiHandler implements Listener {
         dataManager.addValue(event.getPlayer(), "password", "n/a");
 
         PLog.debug("onGuiOpen");
-        /*for (Map.Entry<String, Class<?>> entry : customGui.customGuiList.entrySet()) { // Wy a foor loop use a fucking the fucking Hasmap
-            if (Objects.equals(PasswordConfig.getCheckType(), entry.getKey())) {
-                try {
-                    if (event.getPlayer().isDead()) {
-                        event.getPlayer().spigot().respawn();
-                    }
-
-                    PasswordsGui passwordGui = (PasswordsGui) entry.getValue().getDeclaredConstructor().newInstance();
-                    passwordGui.openGui(event);
-
-                    if (passwordGui.getInventory(event.getPlayer()) == null) {
-                        PLog.debug("Password GUI is null, returning.");
-                        return;
-                    }
-
-                    Inventory inv = passwordGui.getInventory(event.getPlayer());
-                    if (inv != null) {
-                        if (PasswordConfig.invulnerableOnLogin()) {
-                            event.getPlayer().setInvulnerable(true);
-                        }
-
-                        event.getPlayer().openInventory(inv);
-                        PLog.debug("onGuiOpen end");
-                    } else {
-                        PLog.debug("Inventory is null, skipping openInventory.");
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }*/
 
 
         if (event.getPlayer().isDead()) {
@@ -103,32 +71,6 @@ public class CustomGuiHandler implements Listener {
     public void onGuiInteract(InventoryClickEvent event) {
         PLog.debug("onGuiInteract");
 
-        /*for (Map.Entry<String, Class<?>> entry : customGui.customGuiList.entrySet()) { // TODO: Remove
-            if (Objects.equals(PasswordConfig.getCheckType(), entry.getKey())) {
-                try {
-                    if (!event.getView().title().equals(Component.text(PasswordConfig.getGuiName()))) {
-                        return;
-                    }
-
-
-                    DataManager dataManager = new DataManager();
-                    PLog.debug("Player login test");
-                    if ((boolean) dataManager.getPlayerValue((Player) event.getWhoClicked(), "isLogin")) {
-                        PLog.debug("Player is already logged in");
-                        continue;
-                    }
-
-                    PasswordsGui passwordGui = (PasswordsGui) entry.getValue().getDeclaredConstructor().newInstance();
-                    passwordGui.interactGui(event);
-                    event.setCancelled(true);
-
-                    PLog.debug("onGuiInteract end");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }*/
-
 
         // Dot use items for cheking
         if (!event.getView().title().equals(Component.text(PasswordConfig.getGuiName()))) {
@@ -154,22 +96,7 @@ public class CustomGuiHandler implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onGuiClose(InventoryCloseEvent event) {
         PLog.debug("onGuiClose");
-        /*for (Map.Entry<String, Class<?>> entry : customGui.customGuiList.entrySet()) {
-            if (Objects.equals(PasswordConfig.getCheckType(), entry.getKey())) {
-                try {
-                    PasswordsGui passwordGui = (PasswordsGui) entry.getValue().getDeclaredConstructor().newInstance();
-                    passwordGui.closeGui(event);
 
-                    if (PasswordConfig.invulnerableOnLogin()) {
-                        event.getPlayer().setInvulnerable(false);
-                    }
-
-                    PLog.debug("onGuiClose end");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }*/
 
 
         passwordsGui.closeGui(event);
@@ -185,22 +112,7 @@ public class CustomGuiHandler implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void playerQuit(PlayerQuitEvent event) {
         PLog.debug("playerQuit");
-        /*for (Map.Entry<String, Class<?>> entry : customGui.customGuiList.entrySet()) {
-            if (Objects.equals(PasswordConfig.getCheckType(), entry.getKey())) {
-                try {
-                    DataManager dataManager = new DataManager();
-                    if (Objects.equals(dataManager.getPlayerValue(event.getPlayer(), "isLogin").toString(), "false")) {
-                        PLog.debug("Player is not logged in");
-                        return;
-                    }
-                    PasswordsGui passwordGui = (PasswordsGui) entry.getValue().getDeclaredConstructor().newInstance();
-                    passwordGui.playerQuit(event);
-                    PLog.debug("playerQuit end");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }*/
+
 
         DataManager dataManager = new DataManager();
         if (Objects.equals(dataManager.getPlayerValue(event.getPlayer(), "isLogin").toString(), "false")) {

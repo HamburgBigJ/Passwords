@@ -17,9 +17,6 @@ public class CustomGui {
         }
         customGuiList.put(name, clazz);
         PLog.debug("Custom gui registered: " + name);
-        if (!customGuiList.isEmpty()){
-            //Passwords.customGuiHandler.setCurrentMode();
-        }
     }
 
 }
