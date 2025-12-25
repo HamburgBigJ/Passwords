@@ -8,8 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class Messages {
 
-    // TODO: better placeholder api alternative
-
     public static void sendActonBar(@NotNull Player player, String message) {
         player.sendActionBar(Component.text(Passwords.placeholders.applyPlaceholder(message, player)));
     }

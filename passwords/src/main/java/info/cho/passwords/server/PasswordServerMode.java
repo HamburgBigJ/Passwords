@@ -20,8 +20,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class PasswordServerMode extends PasswordsGui {
 
-    // TODO: Fix this so not every character is written to file do it in memory
-
     @Override
     public void openGui(PlayerJoinEvent event) {
         generateStdVariables(PasswordConfig.getPasswordLength(), event.getPlayer());
