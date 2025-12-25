@@ -64,6 +64,8 @@ For developers interested in integrating or extending the Passwords plugin, Mave
 implementation files("$projectDir/lib/passwords-VERSION.jar")
 ```
 
+Public API repository coming soon.
+
 
 ## License
 
