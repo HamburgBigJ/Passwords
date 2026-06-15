@@ -1,4 +1,4 @@
-version: "2.6.2"
+version: "2.6.3"
 debug: false
 # Password dose not supports PlaceholderAPI in messages.
 # Supported placeholders are: &player& -> Player Name
@@ -61,3 +61,5 @@ server:
     - oxo
     - xxx
     - xxx
+
+skript:

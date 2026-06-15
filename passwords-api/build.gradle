@@ -8,20 +8,20 @@ version = '2.6.2'
 repositories {
     mavenCentral()
     maven {
-        name = "papermc-repo"
-        url = "https://repo.papermc.io/repository/maven-public/"
+        name = "papermc"
+        url = uri("https://repo.papermc.io/repository/maven-public/")
+    }
+    maven {
+        name = "skript"
+        url 'https://repo.skriptlang.org/releases'
     }
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.14.4')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-    compileOnly("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
-
-    implementation(project(":passwords"))
+    compileOnly("io.papermc.paper:paper-api:26.1.2.build.+")
+    implementation("com.github.SkriptLang:Skript:${sk_version}")
 }
+
 
 test {
     useJUnitPlatform()

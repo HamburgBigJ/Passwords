@@ -7,10 +7,12 @@ import info.cho.passwords.player.PasswordPlayerMode;
 import info.cho.passwords.server.PasswordNoneMode;
 import info.cho.passwords.server.PasswordPatternMode;
 import info.cho.passwords.server.PasswordServerMode;
+import info.cho.passwords.skript.SkriptModule;
 import info.cho.passwords.utls.PLog;
 import info.cho.passwords.utls.Placeholders;
 import info.cho.passwords.utls.PlayerInventorySave;
 import info.cho.passwordsApi.password.PasswordConfig;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -21,7 +23,7 @@ public class Passwords extends JavaPlugin {
     public static CustomGui customGui;
     public static CustomGuiHandler customGuiHandler;
     public static Placeholders placeholders;
-    public static String version = "2.6.2";
+    public static String version = "2.6.3";
 
     @Override
     public void onLoad() {
@@ -29,6 +31,7 @@ public class Passwords extends JavaPlugin {
         customGui = new CustomGui();
         placeholders = new Placeholders();
         saveDefaultConfig();
+        new SkriptModule();
 
     }
 
@@ -50,6 +53,12 @@ public class Passwords extends JavaPlugin {
 
         if (PasswordConfig.useAutoSave()) {
             PlayerInventorySave.savePlayerInventory();
+        }
+
+        // Skript
+        if (Bukkit.getPluginManager().isPluginEnabled("Skript")) {
+            // Init and entry
+            SkriptModule.INSTANCE.initSkriptModule();
         }
 
     }

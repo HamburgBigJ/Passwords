@@ -1,5 +1,5 @@
 name: Passwords
-version: '2.6.2'
+version: '2.6.3'
 main: info.cho.passwords.Passwords
 bootstrapper: info.cho.passwords.PasswordsBootstrap
 api-version: '1.21.5'

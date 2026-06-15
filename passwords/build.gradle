@@ -5,27 +5,35 @@ plugins {
 }
 
 group = 'info.cho'
-version = '2.6.2'
+version = '2.6.3'
 
 repositories {
     mavenCentral()
     maven {
-        name = "papermc-repo"
-        url = "https://repo.papermc.io/repository/maven-public/"
+        name = "papermc"
+        url = uri("https://repo.papermc.io/repository/maven-public/")
+    }
+    maven {
+        name = "skript"
+        url 'https://repo.skriptlang.org/releases'
     }
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:26.1.2.build.+")
+    implementation("com.github.SkriptLang:Skript:${sk_version}")
 }
 
 tasks {
-    shadowJar {
+    /*shadowJar {
         relocate("dev.jorel.commandapi", "info.cho.libs.commandapi")
-    }
+    }*/
 
     runServer {
-        minecraftVersion("1.21.11")
+        downloadPlugins {
+            modrinth("skript", "${sk_version}")
+        }
+        minecraftVersion("26.1.2") // Testing version
     }
 
     build {
@@ -33,7 +41,7 @@ tasks {
     }
 }
 
-def targetJavaVersion = 21
+def targetJavaVersion = 25
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion

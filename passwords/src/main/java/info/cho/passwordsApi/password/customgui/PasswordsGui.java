@@ -70,6 +70,11 @@ public abstract class PasswordsGui {
      * @param slots Number of slots
      * @param player Player
      */
+    /*
+    WTF what did I think when writing this shit!
+    Just plan to remove,
+    Maybe just do it with a var in the abstract class or a state.
+     */
     public void generateStdVariables(int slots, Player player) {
         dataManager.addValue(player, "charLocation", 1);
         dataManager.setPlayerValue(player, "charLocation", 1);
