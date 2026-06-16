@@ -69,7 +69,7 @@ public class PasswordPlayerMode extends PasswordsGui {
 
             if (!hasPassword) {
                 getDataManager().setPlayerValue(player, "password", password.toString());
-                getDataManager().setPlayerValue(player, "isLogin", true);
+                loginPlayer(player);
                 player.closeInventory();
 
                 welcomeMessage(player);
@@ -80,7 +80,7 @@ public class PasswordPlayerMode extends PasswordsGui {
             }
 
             if (getDataManager().getPlayerValue(player, "password").equals(password.toString())) {
-                getDataManager().setPlayerValue(player, "isLogin", true);
+                loginPlayer(player);
                 player.closeInventory();
 
                 welcomeMessage(player);

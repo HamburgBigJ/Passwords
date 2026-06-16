@@ -14,7 +14,7 @@ public class PasswordNoneMode extends PasswordsGui {
     @Override
     public void openGui(PlayerJoinEvent event) {
         PLog.debug("Opening Passwords GUI none");
-        getDataManager().setPlayerValue(event.getPlayer(), "isLogin", true);
+        loginPlayer(event.getPlayer());
         loadPlayerInventory(event.getPlayer());
 
     }

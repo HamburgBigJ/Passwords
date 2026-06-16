@@ -63,3 +63,5 @@ server:
     - xxx
 
 skript:
+  # Executest the event for Example
+  behavior: "Example"

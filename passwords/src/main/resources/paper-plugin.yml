@@ -5,12 +5,6 @@ bootstrapper: info.cho.passwords.PasswordsBootstrap
 api-version: '1.21.5'
 authors: [ HamburgBigJ ]
 
-dependencies:
-  bootstrap:
-    DiscordSRV:
-      load: BEFORE
-      required: false
-
 permissions:
   passwords.command.logout:
     default: op

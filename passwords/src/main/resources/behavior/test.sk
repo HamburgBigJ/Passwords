@@ -1,9 +1,0 @@
-passwords-behavior:
-    name: "TestBehavior" // key value for the config
-
-    login_success:
-        // skript code here for acces to the player
-
-    login_fail:
-
-    pin_enter: // just when number is pressed

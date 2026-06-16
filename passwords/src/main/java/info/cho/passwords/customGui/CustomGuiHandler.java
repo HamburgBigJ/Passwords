@@ -89,6 +89,8 @@ public class CustomGuiHandler implements Listener {
         passwordsGui.interactGui(event);
         event.setCancelled(true);
 
+        CustomGui.EventPasswordClick((Player) event.getWhoClicked(), event.getSlot());
+
         PLog.debug("onGuiInteract end");
 
     }

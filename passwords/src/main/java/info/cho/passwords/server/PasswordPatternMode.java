@@ -82,7 +82,7 @@ public class PasswordPatternMode extends PasswordsGui {
             getDataManager().setPlayerValue(player, "pattern", playerPattern);
 
             if (PasswordConfig.getServerPatternList().equals(playerPattern)) {
-                getDataManager().setPlayerValue(player, "isLogin", true);
+                loginPlayer(player);
                 player.closeInventory();
 
                 welcomeMessage(player);

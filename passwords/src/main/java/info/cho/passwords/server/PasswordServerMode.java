@@ -62,7 +62,7 @@ public class PasswordServerMode extends PasswordsGui {
             }
 
             if (PasswordConfig.getServerPassword().equals(password.toString())) {
-                getDataManager().setPlayerValue(player, "isLogin", true);
+                loginPlayer(player);
                 player.closeInventory();
 
                 welcomeMessage(player);
@@ -73,7 +73,7 @@ public class PasswordServerMode extends PasswordsGui {
 
 
             } else if (PasswordConfig.getStaffPassword().equals(password.toString())) {
-                getDataManager().setPlayerValue(player, "isLogin", true);
+                loginPlayer(player);
                 player.closeInventory();
 
                 welcomeMessage(player);
