@@ -9,9 +9,13 @@ import info.cho.passwords.server.PasswordPatternMode;
 import info.cho.passwords.server.PasswordServerMode;
 import info.cho.passwords.skript.SkriptModule;
 import info.cho.passwords.utls.PLog;
+import info.cho.passwords.utls.DataManager;
 import info.cho.passwords.utls.Placeholders;
 import info.cho.passwords.utls.PlayerInventorySave;
+import info.cho.passwordsApi.PasswordsApi;
 import info.cho.passwordsApi.password.PasswordConfig;
+import io.papermc.paper.ServerBuildInfo;
+import net.kyori.adventure.key.Key;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,6 +24,11 @@ import java.util.Objects;
 public class Passwords extends JavaPlugin {
 
     public static Passwords instance;
+    private DataManager dataManager;
+
+    public DataManager getDataManager() {
+        return dataManager;
+    }
     public static CustomGui customGui;
     public static CustomGuiHandler customGuiHandler;
     public static Placeholders placeholders;
@@ -28,11 +37,10 @@ public class Passwords extends JavaPlugin {
     @Override
     public void onLoad() {
         instance = this;
+        dataManager = new DataManager();
         customGui = new CustomGui();
         placeholders = new Placeholders();
         saveDefaultConfig();
-        new SkriptModule();
-
     }
 
     @Override
@@ -56,10 +64,13 @@ public class Passwords extends JavaPlugin {
         }
 
         // Skript
-        if (Bukkit.getPluginManager().isPluginEnabled("Skript")) {
+        if (Bukkit.getPluginManager().isPluginEnabled("Skript") & !isFolia()) {
             // Init and entry
-            SkriptModule.INSTANCE.initSkriptModule();
+            // new SkriptModule();
+            // SkriptModule.INSTANCE.initSkriptModule(); next update
         }
+
+        PasswordsApi.getCustomGuiHandler().updateCurrentMode();
 
     }
 
@@ -82,10 +93,15 @@ public class Passwords extends JavaPlugin {
 
             PLog.debug("!!!!!!!!------------------------ This is not an Error -------------------------------------!!!!!!!!");
             PLog.debug("Your version: " + version);
+            if (isFolia()) { PLog.debug("Version: Folia"); }
+            else { PLog.debug("Version: Paper"); }
             PLog.debug("Config version: " + PasswordConfig.getVersion());
             PLog.debug("!!!!!!!!-----------------------------------------------------------------------------------!!!!!!!!");
 
         }
     }
 
+    public static boolean isFolia() {
+        return ServerBuildInfo.buildInfo().isBrandCompatible(Key.key("papermc", "folia"));
+    }
 }

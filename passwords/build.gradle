@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:26.1.2.build.+")
+    compileOnly("io.papermc.paper:paper-api:26.2.build.+")
     implementation("com.github.SkriptLang:Skript:${sk_version}")
 }
 
@@ -29,15 +29,18 @@ tasks {
         relocate("dev.jorel.commandapi", "info.cho.libs.commandapi")
     }*/
 
+
+
     runServer {
         downloadPlugins {
             modrinth("skript", "${sk_version}")
         }
-        minecraftVersion("26.1.2") // Testing version
+        minecraftVersion("26.2") // Testing version
     }
 
     build {
-        dependsOn shadowJar
+        //dependsOn shadowJar
+        runPaper.folia.registerTask();
     }
 }
 

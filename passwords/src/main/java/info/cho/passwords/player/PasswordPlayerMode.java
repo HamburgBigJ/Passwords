@@ -22,7 +22,7 @@ public class PasswordPlayerMode extends PasswordsGui {
 
     @Override
     public void openGui(PlayerJoinEvent event) {
-        generateStdVariables(PasswordConfig.getPasswordLength(), event.getPlayer());
+        generateStdVariables(PasswordConfig.getPlayerPasswordLength(), event.getPlayer());
 
     }
 

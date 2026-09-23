@@ -20,6 +20,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class PasswordServerMode extends PasswordsGui {
 
+    /*
+    TODO: In player inventory set a row of glass poanels as the password so you can see and submit and edit or delet a cahr or so.
+     */
+
     @Override
     public void openGui(PlayerJoinEvent event) {
         generateStdVariables(PasswordConfig.getPasswordLength(), event.getPlayer());

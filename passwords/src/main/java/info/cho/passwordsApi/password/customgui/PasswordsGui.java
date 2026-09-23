@@ -25,7 +25,7 @@ public abstract class PasswordsGui {
     private final DataManager dataManager;
 
     public PasswordsGui() {
-        this.dataManager = new DataManager();
+        this.dataManager = Passwords.instance.getDataManager();
     }
 
     /**

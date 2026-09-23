@@ -62,6 +62,8 @@ server:
     - xxx
     - xxx
 
+# Currently Under development not working !!!!
+# Not working on Folia
 skript:
   # Executest the event for Example
   behavior: "Example"

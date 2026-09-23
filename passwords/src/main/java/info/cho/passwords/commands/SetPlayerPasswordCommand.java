@@ -1,7 +1,8 @@
 package info.cho.passwords.commands;
 
+import info.cho.passwords.Passwords;
 import com.mojang.brigadier.Command;
-import com.mojang.brigadier.arguments.StringArgumentType;
+import info.cho.passwords.commands.argument.PasswordArgument;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import info.cho.passwords.utls.DataManager;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -22,7 +23,7 @@ public class SetPlayerPasswordCommand {
         return Commands.literal("setplayerpassword")
                 .requires(src -> src.getSender().hasPermission("passwords.command.setplayerpassword"))
                 .then(Commands.argument("player", ArgumentTypes.player())
-                        .then(Commands.argument("password", StringArgumentType.word())
+                        .then(Commands.argument("password", new PasswordArgument())
                                 .executes(ctx -> {
 
 
@@ -30,10 +31,10 @@ public class SetPlayerPasswordCommand {
                                             ctx.getArgument("player", PlayerSelectorArgumentResolver.class);
 
                                     final Player player = resolver.resolve(ctx.getSource()).getFirst();
-                                    final String password = StringArgumentType.getString(ctx, "password");
+                                    final String password = ctx.getArgument("password", String.class);
 
 
-                                    final DataManager dataManager = new DataManager();
+                                    final DataManager dataManager = Passwords.instance.getDataManager();
                                     dataManager.setPlayerValue(player, "password", password);
 
                                     player.kick(Component.text("Password set successfully!", NamedTextColor.DARK_GREEN));

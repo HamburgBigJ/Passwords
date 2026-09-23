@@ -1,6 +1,7 @@
 package info.cho.passwords;
 
 import info.cho.passwords.commands.LogoutPlayerCommand;
+import info.cho.passwords.commands.ReloadPasswordCommand;
 import info.cho.passwords.commands.SetPasswordCommand;
 import info.cho.passwords.commands.SetPlayerPasswordCommand;
 import io.papermc.paper.plugin.bootstrap.BootstrapContext;
@@ -16,7 +17,10 @@ public class PasswordsBootstrap implements PluginBootstrap {
             register.register(SetPlayerPasswordCommand.build());
             register.register(SetPasswordCommand.build());
             register.register(LogoutPlayerCommand.build());
+            register.register(ReloadPasswordCommand.build());
 
+            // Bootstrap runs before the plugin instance and its config are available.
+            context.getLogger().info("Registered Passwords commands.");
 
         });
     }

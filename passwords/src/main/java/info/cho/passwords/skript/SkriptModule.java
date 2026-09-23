@@ -12,12 +12,15 @@ import org.skriptlang.skript.bukkit.lang.eventvalue.EventValueRegistry;
 
 public class SkriptModule {
 
+    // TODO: Fix this mess
+
     public static SkriptModule INSTANCE;
 
     private final SkriptAddon skAddon;
 
     public SkriptModule() {
         this.skAddon = Skript.instance().registerAddon(Passwords.instance.getClass(), "Passwords");
+        // this curetnyl broken
         INSTANCE = this;
     }
 
