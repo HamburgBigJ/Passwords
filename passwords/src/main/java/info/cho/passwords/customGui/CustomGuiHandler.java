@@ -30,10 +30,9 @@ public class CustomGuiHandler implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onGuiOpen(PlayerJoinEvent event) {
-        setCurrentMode();
 
         // Basic Variables
-        DataManager dataManager = new DataManager();
+        DataManager dataManager = Passwords.instance.getDataManager();
         dataManager.addValue(event.getPlayer(), "isLogin", false);
         dataManager.setPlayerValue(event.getPlayer(), "isLogin", false);
         dataManager.addValue(event.getPlayer(), "password", "n/a");
@@ -80,7 +79,7 @@ public class CustomGuiHandler implements Listener {
         }
 
 
-        DataManager dataManager = new DataManager();
+        DataManager dataManager = Passwords.instance.getDataManager();
         PLog.debug("Player login test");
         if ((boolean) dataManager.getPlayerValue((Player) event.getWhoClicked(), "isLogin")) {
             PLog.debug("Player is already logged in");
@@ -88,6 +87,8 @@ public class CustomGuiHandler implements Listener {
 
         passwordsGui.interactGui(event);
         event.setCancelled(true);
+
+        CustomGui.EventPasswordClick((Player) event.getWhoClicked(), event.getSlot());
 
         PLog.debug("onGuiInteract end");
 
@@ -114,7 +115,7 @@ public class CustomGuiHandler implements Listener {
         PLog.debug("playerQuit");
 
 
-        DataManager dataManager = new DataManager();
+        DataManager dataManager = Passwords.instance.getDataManager();
         if (Objects.equals(dataManager.getPlayerValue(event.getPlayer(), "isLogin").toString(), "false")) {
             PLog.debug("Player is not logged in");
             return;
@@ -123,8 +124,9 @@ public class CustomGuiHandler implements Listener {
         PLog.debug("playerQuit end");
     }
 
-    public void setCurrentMode() {
+    public void updateCurrentMode() {
         try {
+            PLog.debug("Setting mode: " + PasswordConfig.getCheckType());
             passwordsGui = (PasswordsGui) customGui.customGuiList.get(PasswordConfig.getCheckType()).getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new RuntimeException(e);

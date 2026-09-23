@@ -1,5 +1,6 @@
 package info.cho.passwordsApi.password.customgui;
 
+import info.cho.passwords.customGui.CustomGui;
 import info.cho.passwordsApi.password.PasswordConfig;
 import info.cho.passwords.Passwords;
 import info.cho.passwords.utls.DataManager;
@@ -24,7 +25,7 @@ public abstract class PasswordsGui {
     private final DataManager dataManager;
 
     public PasswordsGui() {
-        this.dataManager = new DataManager();
+        this.dataManager = Passwords.instance.getDataManager();
     }
 
     /**
@@ -69,6 +70,11 @@ public abstract class PasswordsGui {
      * Generate the variables for the player.
      * @param slots Number of slots
      * @param player Player
+     */
+    /*
+    WTF what did I think when writing this shit!
+    Just plan to remove,
+    Maybe just do it with a var in the abstract class or a state.
      */
     public void generateStdVariables(int slots, Player player) {
         dataManager.addValue(player, "charLocation", 1);
@@ -131,6 +137,7 @@ public abstract class PasswordsGui {
         player.kick(Component.text(
                 PasswordConfig.getFailMessage()
         ).color(NamedTextColor.RED));
+        CustomGui.EventPasswordFail(player);
     }
 
     /**
@@ -189,7 +196,15 @@ public abstract class PasswordsGui {
                 PLog.debug("Slot " + i + " is empty.");
             }
         }
+    }
 
+    /**
+     * Sets isLogin to Ture
+     * @param player Player
+     */
+    public void loginPlayer(Player player) {
+        getDataManager().setPlayerValue(player, "isLogin", true);
+        CustomGui.EventPasswordSuccess(player);
     }
 }
 

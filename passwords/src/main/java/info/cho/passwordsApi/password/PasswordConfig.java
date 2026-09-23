@@ -14,7 +14,7 @@ public class PasswordConfig {
     // General Settings
     @Deprecated
     public static boolean isEnabled() {
-        return false;
+        return true;
     }
 
     public static String getVersion() {
@@ -119,5 +119,10 @@ public class PasswordConfig {
 
     public static boolean useAutoSave() {
         return config().getBoolean("settings.enable-auto-save");
+    }
+
+    // Skript
+    public static String getSkiptBehaviour() {
+        return config().getString("skript.behavior");
     }
 }

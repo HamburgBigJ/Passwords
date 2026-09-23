@@ -1,5 +1,6 @@
 package info.cho.passwordsApi;
 
+import info.cho.passwords.customGui.CustomGuiHandler;
 import info.cho.passwords.utls.Placeholders;
 import info.cho.passwordsApi.password.PasswordConfig;
 import info.cho.passwords.Passwords;
@@ -9,7 +10,7 @@ import info.cho.passwords.utls.DataManager;
 public class PasswordsApi {
 
     public static Passwords passwords = Passwords.instance;
-    public static DataManager dataManager = new DataManager();
+    public static DataManager dataManager = Passwords.instance.getDataManager();
 
     /**
      * Get the plugin
@@ -43,6 +44,12 @@ public class PasswordsApi {
     public static String getPluginVersion() {
         return Passwords.version;
     }
+
+    /**
+     * Get the handler for customGuis
+     * @return CustomGuiHandler
+     */
+    public static CustomGuiHandler getCustomGuiHandler() { return Passwords.customGuiHandler; }
 
     /**
      * Get the version of the config

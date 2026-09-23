@@ -1,0 +1,23 @@
+# plugins/Skript/scripts/passwords.sk
+
+on passwords pin enter:
+    send "You clicked number %event-number%" to player
+
+on passwords login success:
+    send "&aCorrect password!" to player
+
+on passwords login fail:
+    send "&cWrong password!" to player
+
+
+on passwords pin enter:
+    if event-string is "TestBehavior":
+        send "PIN button: %event-number%" to player
+
+on passwords login success:
+    if event-string is "TestBehavior":
+        send "&aLogin success!" to player
+
+on passwords login fail:
+    if event-string is "TestBehavior":
+        kick player due to "&cWrong password!"

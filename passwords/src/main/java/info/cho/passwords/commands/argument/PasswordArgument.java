@@ -14,7 +14,6 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 public final class PasswordArgument implements CustomArgumentType<String, String> {
 
-    private static final int MIN_LENGTH = 1;
     private static final String ALLOWED_CHARACTERS = "123456789";
 
     private static final SimpleCommandExceptionType ERROR_BLOCKED =
@@ -39,19 +38,19 @@ public final class PasswordArgument implements CustomArgumentType<String, String
 
     private String parsePassword(final StringReader reader) throws CommandSyntaxException {
         final String password = reader.readUnquotedString();
-        final int max = PasswordConfig.getPasswordLength();
+        final int requiredLength = PasswordConfig.getPlayerPasswordLength();
 
         if (PasswordConfig.getBlockedPasswordList().contains(password)) {
             throw ERROR_BLOCKED.create();
         }
-        if (!isValidPassword(password, max)) {
+        if (!isValidPassword(password, requiredLength)) {
             throw ERROR_FORMAT.create();
         }
         return password;
     }
 
-    private boolean isValidPassword(final String password, final int maxLen) {
-        if (password.length() < MIN_LENGTH || password.length() > maxLen) return false;
+    private boolean isValidPassword(final String password, final int requiredLength) {
+        if (requiredLength < 1 || password.length() != requiredLength) return false;
 
         for (char c : password.toCharArray()) {
             if (ALLOWED_CHARACTERS.indexOf(c) == -1) return false;

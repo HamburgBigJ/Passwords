@@ -1,5 +1,6 @@
 package info.cho.passwords.commands;
 
+import info.cho.passwords.Passwords;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import info.cho.passwords.commands.argument.PasswordPlayerArgument;
@@ -27,7 +28,7 @@ public final class LogoutPlayerCommand {
                                     ctx.getArgument("player", PlayerSelectorArgumentResolver.class);
                             final Player target = targetResolver.resolve(ctx.getSource()).getFirst();
 
-                            final DataManager dataManager = new DataManager();
+                            final DataManager dataManager = Passwords.instance.getDataManager();
                             dataManager.setPlayerValue(target, "isLogin", false);
 
                             target.kick(Component.text(ctx.getSource().getSender().getName() + " has logged you out!", NamedTextColor.RED));

@@ -1,5 +1,6 @@
 package info.cho.passwords.commands;
 
+import info.cho.passwords.Passwords;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import info.cho.passwords.commands.argument.PasswordArgument;
@@ -24,7 +25,7 @@ public final class SetPasswordCommand {
                             final Player player = (Player) ctx.getSource().getSender();
                             final String password = ctx.getArgument("password", String.class);
 
-                            final DataManager dataManager = new DataManager();
+                            final DataManager dataManager = Passwords.instance.getDataManager();
                             dataManager.setPlayerValue(player, "password", password);
 
                             player.kick(Component.text("Password changed!", NamedTextColor.DARK_GREEN));
