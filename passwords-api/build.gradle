@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:26.3.build.181.+")
+    compileOnly("io.papermc.paper:paper-api:26.3.build.194.+")
     implementation("com.github.SkriptLang:Skript:${sk_version}")
 }
 
